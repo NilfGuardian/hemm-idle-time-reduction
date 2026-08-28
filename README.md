@@ -6,6 +6,8 @@ idle time.
 
 **Live dashboard:** [optihaul.streamlit.app](https://optihaul.streamlit.app)
 
+**Desktop app:** [Download OptiHaul-Setup.exe](https://github.com/NilfGuardian/hemm-idle-time-reduction/releases/latest/download/OptiHaul-Setup.exe) (Windows 10/11, no Python required)
+
 **Source code:** [github.com/NilfGuardian/hemm-idle-time-reduction](https://github.com/NilfGuardian/hemm-idle-time-reduction)
 
 **The problem in one line:** across July 2026 the 69-dumper fleet lost roughly
@@ -22,7 +24,14 @@ Open the live dashboard link above in any browser. All data and the trained
 model are bundled in the repository, so the app works immediately with no
 coding or installation required.
 
-### Option B — Run locally
+### Option B — Download the desktop app (no Python needed)
+
+Download [OptiHaul-Setup.exe](https://github.com/NilfGuardian/hemm-idle-time-reduction/releases/latest/download/OptiHaul-Setup.exe)
+(~275 MB), double-click to install, and launch from the desktop shortcut.
+The installer uses a retro-terminal industrial theme and handles everything —
+no Python, no dependencies, no terminal required.
+
+### Option C — Run locally
 
 Python 3.10+ is required.
 
@@ -235,6 +244,16 @@ data/raw/                  Raw FMS CSV exports (committed for deployment)
 data/processed/            Generated parquet tables + provenance.json
 models/base_model.pkl      Trained bundle (compressed, well under 100 MB)
 static/                    Three.js animations and CSS
+desktop_app.py             Pywebview launcher (streamlit.web.bootstrap in-process)
+installer/
+    setup_installer.py     Themed installer: extract, shortcuts, registry
+    installer_ui.html      Retro terminal UI (black/lime, ASCII, CRT animations)
+build/
+    desktop.spec           PyInstaller spec — Phase 1 (onedir app bundle)
+    installer.spec         PyInstaller spec — Phase 2 (onefile installer)
+    build_installer.bat    One-click build script (Phase 1 + Phase 2)
+    README.md              Build instructions and notes
+requirements-build.txt     Build-time deps (pywebview, pyinstaller)
 ```
 
 ---
@@ -341,4 +360,31 @@ FMS exports are SSRS reports saved as CSV, which means:
    value and then the sensitivity table, making clear which numbers are
    measured and which assumed.
 8. **Export → Reports & exports** — download the management summary and open
-   the model card.
+   the model card. The **Desktop app** tab has a one-click download link for the
+   standalone Windows installer.
+
+---
+
+## Desktop app (standalone Windows installer)
+
+A self-contained Windows installer is built from the same codebase using
+PyInstaller and pywebview. The client experience is:
+
+1. Download `OptiHaul-Setup.exe` from the
+   [GitHub Release](https://github.com/NilfGuardian/hemm-idle-time-reduction/releases/latest/download/OptiHaul-Setup.exe).
+2. Double-click → retro-terminal installer UI appears.
+3. Click **[ Install ]** → app extracted to `%LOCALAPPDATA%\OptiHaul`.
+4. Click **[ Launch OptiHaul ]** → dashboard opens in a native window.
+
+No Python, no pip, no terminal. The installer creates desktop and Start Menu
+shortcuts and registers an uninstaller in Add or Remove Programs.
+
+### Building the installer
+
+```bash
+pip install -r requirements-build.txt
+pip install -r requirements.txt   # app deps must be installed too
+build\build_installer.bat         # produces dist\OptiHaul-Setup.exe
+```
+
+See [`build/README.md`](build/README.md) for details.
