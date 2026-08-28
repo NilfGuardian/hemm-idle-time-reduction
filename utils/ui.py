@@ -573,7 +573,7 @@ def sidebar_model_panel() -> None:
             f"MAE {bundle.metrics['mae']:.0f} min · trained {bundle.trained_at:%d %b %H:%M}"
         )
 
-    if st.sidebar.button("Retrain model", icon=":material/refresh:", width="stretch"):
+    if st.sidebar.button("Retrain model", use_container_width=True):
         tables = load_processed()
         shifts = tables.get("shifts", pd.DataFrame())
         if shifts.empty:
@@ -589,7 +589,6 @@ def sidebar_model_panel() -> None:
         st.cache_data.clear()
         st.toast(
             f"Retrained: {new_bundle.model_name}, R² {new_bundle.metrics['r2']:.3f}",
-            icon=":material/check:",
         )
         st.rerun()
 
@@ -665,8 +664,7 @@ def _sidebar_upload_panel() -> None:
         )
         if st.sidebar.button(
             "Add to dataset & retrain",
-            icon=":material/model_training:",
-            width="stretch",
+            use_container_width=True,
         ):
             with st.spinner("Merging new data and rebuilding tables..."):
                 try:
@@ -680,7 +678,6 @@ def _sidebar_upload_panel() -> None:
             st.toast(
                 f"Retrained on {len(tables['shifts']):,} shifts: "
                 f"{new_bundle.model_name}, R² {new_bundle.metrics['r2']:.3f}",
-                icon=":material/check:",
             )
             st.rerun()
     else:
