@@ -100,7 +100,7 @@ def _auto_insights(
         if not loader_summary.empty:
             worst_loader = loader_summary.iloc[0]
             insights.append(
-                f"Shovel **{worst_loader['Equipment_ID']}** has the highest associated idle: "
+                f"Shovel **{worst_loader['Loading_Unit']}** has the highest associated idle: "
                 f"**{worst_loader['Idle h per shift']:.1f} h per dumper-shift** assigned to it"
             )
 
