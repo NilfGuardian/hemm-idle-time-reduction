@@ -134,8 +134,7 @@ def main() -> None:
             )
             if selected:
                 st.plotly_chart(
-                    charts.reason_hour_heatmap(dumper_delays, selected),
-                    theme=None,
+                    charts.reason_hour_heatmap(dumper_delays, selected)
                 )
 
             st.markdown("#### Reason mix by shift")

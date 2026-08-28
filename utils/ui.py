@@ -37,13 +37,7 @@ PROCESSED_TABLES = (
 # --------------------------------------------------------------------------- #
 _CSS = f"""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-
-@font-face {{
-    font-family: 'Headline';
-    src: local('Trebuchet MS'), local('Geneva'), local('Verdana');
-    font-weight: 700;
-}}
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap');
 
 * {{
     -webkit-font-smoothing: antialiased !important;
@@ -62,7 +56,7 @@ _CSS = f"""
     --accent-light: {config.LIME_LIGHT};
     --accent-glow: {config.LIME_GLOW};
     --danger: {config.DANGER};
-    --font-display: "Headline", "Trebuchet MS", "Geneva", "Verdana", "Lucida Grande", sans-serif;
+    --font-display: "Bebas Neue", Impact, sans-serif;
     --font-mono: "Inter", "Segoe UI", sans-serif;
 }}
 
@@ -92,7 +86,7 @@ _CSS = f"""
 h1, h2, h3, h4, h5, h6 {{
     font-family: var(--font-display);
     text-transform: uppercase;
-    letter-spacing: .03em;
+    letter-spacing: .02em;
     color: var(--text) !important;
     font-weight: 700;
 }}
