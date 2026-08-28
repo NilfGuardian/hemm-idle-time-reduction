@@ -37,7 +37,7 @@ PROCESSED_TABLES = (
 # --------------------------------------------------------------------------- #
 _CSS = f"""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap');
 
 * {{
     -webkit-font-smoothing: antialiased !important;
@@ -57,7 +57,7 @@ _CSS = f"""
     --accent-glow: {config.LIME_GLOW};
     --danger: {config.DANGER};
     --font-display: "Bebas Neue", Impact, sans-serif;
-    --font-mono: "JetBrains Mono", "IBM Plex Mono", monospace;
+    --font-mono: "Inter", "Segoe UI", sans-serif;
 }}
 
 /* Root app shell */

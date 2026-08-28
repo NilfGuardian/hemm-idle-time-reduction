@@ -12,7 +12,7 @@ import plotly.graph_objects as go
 import config
 from utils.helpers import safe_shift_label
 
-FONT = dict(family="JetBrains Mono, IBM Plex Mono, monospace", size=12, color=config.TEXT_LIGHT)
+FONT = dict(family="Inter, Segoe UI, sans-serif", size=12, color=config.TEXT_LIGHT)
 
 
 def _style(figure: go.Figure, height: int = 340, legend: bool = True) -> go.Figure:

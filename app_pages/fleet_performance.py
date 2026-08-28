@@ -157,7 +157,7 @@ def main() -> None:
                 f'<div style="text-align:center; padding:10px 0; margin:5px 0 15px 0;">'
                 f'<div style="font-size:13px; color:{config.TEXT_MUTED};">Fleet percentile (idle hours)</div>'
                 f'<div style="font-size:28px; font-weight:700; color:{rank_color}; '
-                f'font-family:JetBrains Mono, monospace; margin:4px 0;">'
+                f'font-family:Inter, sans-serif; margin:4px 0;">'
                 f'{percentile:.0f}th percentile</div>'
                 f'<div style="font-size:14px; color:{rank_color};">{rank_label}</div>'
                 f'</div>',

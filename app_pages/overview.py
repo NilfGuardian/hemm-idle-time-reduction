@@ -162,7 +162,7 @@ def main() -> None:
             f'<div style="font-size:14px; color:{config.TEXT_MUTED}; letter-spacing:2px; '
             f'text-transform:uppercase;">Addressable savings in this period</div>'
             f'<div style="font-size:42px; font-weight:700; color:{config.LIME}; '
-            f'font-family:JetBrains Mono, monospace; margin:8px 0;">'
+            f'font-family:Inter, sans-serif; margin:8px 0;">'
             f'<span class="counter" data-target="{hero_value:,.0f}" data-decimals="0" '
             f'data-prefix="&#8377;" data-sign="" data-suffix="">&#8377;0</span></div>'
             f'<div style="font-size:13px; color:{config.TEXT_MUTED};">'
