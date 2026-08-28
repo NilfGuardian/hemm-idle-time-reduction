@@ -23,3 +23,7 @@ Thumbs.db
 .venv/
 venv/
 env/
+
+# PyInstaller build artifacts
+dist/
+*.spec.bak

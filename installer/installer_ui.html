@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OptiHaul Setup</title>
+<style>
+  @font-face { font-family: 'JetBrains Mono'; src: local('JetBrains Mono'), local('Consolas'); }
+
+  :root {
+    --bg: #050505;
+    --bg-card: #0D0D0D;
+    --lime: #00FF00;
+    --lime-dim: #7CFC00;
+    --white: #FFFFFF;
+    --border: #00FF00;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--lime);
+    font-family: 'JetBrains Mono', 'Consolas', 'Courier New', monospace;
+    font-size: 13px;
+    overflow: hidden;
+    user-select: none;
+    height: 100vh;
+  }
+
+  /* CRT scan line overlay */
+  .crt-scan {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, rgba(0,255,0,0.4), transparent);
+    z-index: 100;
+    pointer-events: none;
+    animation: scan 4s linear infinite;
+  }
+  @keyframes scan {
+    0%   { top: 0; }
+    100% { top: 100vh; }
+  }
+
+  /* Faint CRT flicker on the whole window */
+  .flicker { animation: flicker 6s infinite; }
+  @keyframes flicker {
+    0%, 96%, 100%   { opacity: 1; }
+    97%             { opacity: 0.92; }
+    98%             { opacity: 1; }
+    99%             { opacity: 0.95; }
+  }
+
+  #app {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    padding: 20px 28px;
+    gap: 12px;
+  }
+
+  /* ASCII logo */
+  .logo {
+    text-align: center;
+    white-space: pre;
+    font-size: 10px;
+    line-height: 1.15;
+    color: var(--lime);
+    text-shadow: 0 0 6px rgba(0,255,0,0.3);
+  }
+
+  .header {
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 10px;
+  }
+  .header h1 {
+    font-size: 22px;
+    font-weight: bold;
+    letter-spacing: 4px;
+    color: var(--lime);
+    text-shadow: 0 0 8px rgba(0,255,0,0.4);
+  }
+  .header .subtitle {
+    font-size: 10px;
+    color: var(--lime-dim);
+    margin-top: 4px;
+    letter-spacing: 1px;
+  }
+  .header .tagline {
+    font-size: 11px;
+    color: var(--white);
+    margin-top: 6px;
+  }
+
+  /* Screens */
+  .screen { display: none; flex: 1; flex-direction: column; gap: 14px; }
+  .screen.active { display: flex; }
+
+  /* Terminal log */
+  .terminal {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    padding: 12px 16px;
+    flex: 1;
+    overflow-y: auto;
+    font-size: 12px;
+    line-height: 1.6;
+  }
+  .terminal .line { color: var(--lime); }
+  .terminal .line .prompt { color: var(--lime-dim); }
+  .terminal .cursor {
+    display: inline-block;
+    width: 8px;
+    height: 14px;
+    background: var(--lime);
+    vertical-align: text-bottom;
+    animation: blink 1s step-end infinite;
+  }
+  @keyframes blink {
+    0%, 50%   { opacity: 1; }
+    51%, 100% { opacity: 0; }
+  }
+
+  /* Progress bar */
+  .progress-container {
+    border: 1px solid var(--border);
+    padding: 2px;
+    height: 22px;
+    position: relative;
+  }
+  .progress-bar {
+    height: 100%;
+    background: var(--lime);
+    width: 0%;
+    transition: width 0.3s ease;
+    position: relative;
+  }
+  .progress-bar::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 6px,
+      rgba(5,5,5,0.3) 6px,
+      rgba(5,5,5,0.3) 8px
+    );
+    animation: progress-stripes 0.5s linear infinite;
+  }
+  @keyframes progress-stripes {
+    0%   { background-position: 0 0; }
+    100% { background-position: 8px 0; }
+  }
+  .progress-text {
+    text-align: center;
+    font-size: 11px;
+    color: var(--lime-dim);
+    margin-top: 2px;
+  }
+
+  /* Rotating gear */
+  .gear {
+    text-align: center;
+    font-size: 16px;
+    color: var(--lime);
+    animation: spin 2s linear infinite;
+    display: inline-block;
+  }
+  @keyframes spin {
+    0%   { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  /* Buttons */
+  .btn-row {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    padding-top: 8px;
+  }
+  .btn {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--lime);
+    padding: 10px 28px;
+    font-family: inherit;
+    font-size: 13px;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: all 0.15s ease;
+  }
+  .btn:hover {
+    background: var(--lime);
+    color: var(--bg);
+    text-shadow: none;
+  }
+  .btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+  .btn-primary {
+    border-color: var(--lime);
+    text-shadow: 0 0 4px rgba(0,255,0,0.3);
+  }
+
+  /* Info text */
+  .info {
+    font-size: 11px;
+    color: var(--lime-dim);
+    text-align: center;
+    line-height: 1.6;
+  }
+  .info .label { color: var(--lime-dim); }
+  .info .value { color: var(--white); }
+
+  /* Error */
+  .error {
+    color: #FF4D4D;
+    font-size: 11px;
+    text-align: center;
+    padding: 8px;
+    border: 1px solid #FF4D4D;
+    background: rgba(255,77,77,0.05);
+    display: none;
+  }
+  .error.show { display: block; }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    font-size: 9px;
+    color: var(--lime-dim);
+    opacity: 0.6;
+    border-top: 1px solid rgba(0,255,0,0.2);
+    padding-top: 8px;
+  }
+</style>
+</head>
+<body>
+<div class="crt-scan"></div>
+<div class="flicker" style="height:100vh;">
+
+<div id="app">
+
+  <!-- ASCII industrial logo + header -->
+  <div class="logo">
+        __
+   ____/ /___  ____  ________  _____
+  / __  / __ \/ __ \/ ___/ _ \/ ___/
+ / /_/ / /_/ / / / / /__/  __/ /__
+ \__,_/\____/_/ /_/\___/\___/\___/
+   ____  ___   ____ _________ _      _____
+  / __ \/   | / __  / ___/ __ \ | /| / / _ \
+ / /_/ / /| |/ /_/ / /__/ /_/ / |/ |/ /  __/
+ \____/_/ |_|\__,_/\___/\____/|__/|__/\___/
+  </div>
+
+  <div class="header">
+    <h1>OPTiHAUL</h1>
+    <div class="subtitle">IDLE TIME REDUCTION / TSL QSE QAB JULY 2026</div>
+    <div class="tagline">&gt; reduce idle. move more tonnes.</div>
+  </div>
+
+  <!-- WELCOME SCREEN -->
+  <div class="screen active" id="screen-welcome">
+    <div class="info">
+      <div>Standalone desktop application — no Python or dependencies required.</div>
+      <div style="margin-top:8px;">
+        <span class="label">Install location:</span>
+        <span class="value" id="install-dir">C:\Users\...\AppData\Local\OptiHaul</span>
+      </div>
+      <div style="margin-top:4px;">
+        <span class="label">Requires:</span>
+        <span class="value">Windows 10/11 · ~100MB disk space</span>
+      </div>
+    </div>
+    <div class="error" id="error-welcome"></div>
+    <div style="flex:1;"></div>
+    <div class="btn-row">
+      <button class="btn btn-primary" id="btn-install" onclick="startInstall()">[ Install ]</button>
+    </div>
+  </div>
+
+  <!-- INSTALLING SCREEN -->
+  <div class="screen" id="screen-installing">
+    <div class="terminal" id="terminal-log">
+      <div class="line"><span class="prompt">&gt;</span> initializing installer...</div>
+    </div>
+    <div class="progress-container">
+      <div class="progress-bar" id="progress-bar"></div>
+    </div>
+    <div class="progress-text" id="progress-text">0%</div>
+    <div style="text-align:center;"><span class="gear">&#9881;</span></div>
+  </div>
+
+  <!-- COMPLETE SCREEN -->
+  <div class="screen" id="screen-complete">
+    <div class="terminal">
+      <div class="line"><span class="prompt">&gt;</span> installation complete.</div>
+      <div class="line"><span class="prompt">&gt;</span> shortcuts created on desktop and start menu.</div>
+      <div class="line"><span class="prompt">&gt;</span> ready to launch.</div>
+      <div class="line" style="margin-top:8px;"><span class="prompt">&gt;</span> <span id="install-path-display"></span></div>
+    </div>
+    <div class="error" id="error-complete"></div>
+    <div style="flex:1;"></div>
+    <div class="btn-row">
+      <button class="btn btn-primary" id="btn-launch" onclick="launchApp()">[ Launch OptiHaul ]</button>
+      <button class="btn" onclick="closeWindow()">[ Close ]</button>
+    </div>
+  </div>
+
+  <div class="footer">OptiHaul v1.0.0 · Tata Steel West Bokaro · QSE/QAB Sections</div>
+
+</div>
+</div>
+
+<script>
+  // ---- pywebview API ready ----
+  let api = null;
+
+  function waitForApi() {
+    if (window.pywebview && window.pywebview.api) {
+      api = window.pywebview.api;
+      api.get_install_dir().then(function(dir) {
+        document.getElementById('install-dir').textContent = dir;
+      });
+    } else {
+      setTimeout(waitForApi, 100);
+    }
+  }
+
+  window.addEventListener('pywebviewready', function() {
+    api = window.pywebview.api;
+    api.get_install_dir().then(function(dir) {
+      document.getElementById('install-dir').textContent = dir;
+    });
+  });
+
+  // Fallback polling
+  waitForApi();
+
+  // ---- Screen switching ----
+  function showScreen(id) {
+    document.querySelectorAll('.screen').forEach(function(s) {
+      s.classList.remove('active');
+    });
+    document.getElementById(id).classList.add('active');
+  }
+
+  // ---- Terminal log ----
+  function logLine(text) {
+    var term = document.getElementById('terminal-log');
+    var line = document.createElement('div');
+    line.className = 'line';
+    line.innerHTML = '<span class="prompt">&gt;</span> ' + text;
+    term.appendChild(line);
+    term.scrollTop = term.scrollHeight;
+  }
+
+  // ---- Progress ----
+  function setProgress(pct) {
+    document.getElementById('progress-bar').style.width = pct + '%';
+    document.getElementById('progress-text').textContent = Math.round(pct) + '%';
+  }
+
+  // ---- Install flow ----
+  function startInstall() {
+    showScreen('screen-installing');
+    document.getElementById('btn-install').disabled = true;
+
+    logLine('extracting app payload...');
+
+    // Animate progress while install runs
+    var fakePct = 5;
+    var fakeTimer = setInterval(function() {
+      if (fakePct < 85) {
+        fakePct += Math.random() * 8;
+        setProgress(Math.min(fakePct, 85));
+      }
+    }, 200);
+
+    api.install().then(function(result) {
+      clearInterval(fakeTimer);
+
+      if (!result.ok) {
+        logLine('ERROR: ' + result.error);
+        setProgress(0);
+        showScreen('screen-welcome');
+        var err = document.getElementById('error-welcome');
+        err.textContent = 'Install failed: ' + result.error;
+        err.classList.add('show');
+        document.getElementById('btn-install').disabled = false;
+        return;
+      }
+
+      setProgress(90);
+      logLine('copying data/processed/*.parquet');
+      logLine('copying models/base_model.pkl');
+      logLine('creating shortcuts...');
+
+      api.create_shortcuts().then(function(scResult) {
+        setProgress(100);
+        if (scResult.ok) {
+          logLine('shortcuts created.');
+          logLine('done.');
+        } else {
+          logLine('WARNING: shortcut creation failed — ' + scResult.error);
+        }
+
+        document.getElementById('install-path-display').textContent = result.path;
+
+        setTimeout(function() {
+          showScreen('screen-complete');
+        }, 600);
+      });
+    });
+  }
+
+  function launchApp() {
+    if (!api) return;
+    api.launch_app().then(function(result) {
+      if (result.ok) {
+        closeWindow();
+      } else {
+        var err = document.getElementById('error-complete');
+        err.textContent = 'Launch failed: ' + result.error;
+        err.classList.add('show');
+      }
+    });
+  }
+
+  function closeWindow() {
+    if (window.pywebview) {
+      window.pywebview.api = null;
+    }
+    window.close();
+  }
+</script>
+</body>
+</html>

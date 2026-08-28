@@ -247,8 +247,8 @@ def main() -> None:
 
     summary = ui.summarise_idle(shifts, filters)
 
-    tab_summary, tab_export, tab_model, tab_method = st.tabs(
-        ["Management summary", "Data export", "Model card", "Method & limitations"]
+    tab_summary, tab_export, tab_model, tab_method, tab_desktop = st.tabs(
+        ["Management summary", "Data export", "Model card", "Method & limitations", "Desktop app"]
     )
 
     with tab_summary:
@@ -543,6 +543,35 @@ def main() -> None:
             "python scripts/ingest.py      # parse, aggregate, train\n"
             "streamlit run app.py          # launch the dashboard",
             language="text",
+        )
+
+    with tab_desktop:
+        st.markdown("#### Standalone desktop app")
+        st.markdown(
+            f"""
+            <div style="border:1px solid {config.BORDER_MUTED}; border-left:3px solid {config.LIME};
+                        padding:16px; margin:12px 0; background:{config.BG_CARD};">
+                <p style="color:{config.TEXT_LIGHT}; font-size:14px; margin:0 0 8px 0;">
+                    <b>Prefer a desktop app?</b> Download the standalone version — no Python,
+                    no dependencies, no terminal required. Just download, double-click, and install
+                    like any other Windows application.
+                </p>
+                <p style="color:{config.TEXT_MUTED}; font-size:12px; margin:0;">
+                    Includes the current July 2026 dataset. Upload new FMS data within the app
+                    to refresh the analysis.
+                </p>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+        st.link_button(
+            ":material/download: Download OptiHaul Desktop Installer",
+            "https://github.com/NilfGuardian/hemm-idle-time-reduction/releases/latest/download/OptiHaul-Setup.exe",
+            help="Downloads OptiHaul-Setup.exe (~100MB). Double-click to install.",
+        )
+        st.caption(
+            "**System requirements:** Windows 10/11 · ~100MB disk space · "
+            "Edge WebView2 (pre-installed on Windows 10/11)"
         )
 
 

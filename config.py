@@ -8,17 +8,24 @@ Everything in this file is tuned around the single project goal:
 """
 from __future__ import annotations
 
+import sys
 from pathlib import Path
 
 PROJECT_NAME = "Idle Time Reduction in HEMM"
 PROJECT_SUBTITLE = "Tata Steel West Bokaro | QSE / QAB Sections | July 2026"
 VERSION = "1.0.0"
 
-ROOT = Path(__file__).resolve().parent
+if getattr(sys, "frozen", False):
+    BUNDLE_ROOT = Path(sys._MEIPASS)
+    ROOT = Path(sys.executable).resolve().parent
+else:
+    BUNDLE_ROOT = ROOT = Path(__file__).resolve().parent
+
 RAW_DIR = ROOT / "data" / "raw"
-PROCESSED_DIR = ROOT / "data" / "processed"
-MODEL_DIR = ROOT / "models"
-COLUMN_MAPPING_PATH = ROOT / "column_mapping.json"
+PROCESSED_DIR = BUNDLE_ROOT / "data" / "processed"
+WRITABLE_PROCESSED_DIR = ROOT / "data" / "processed"
+MODEL_DIR = BUNDLE_ROOT / "models"
+COLUMN_MAPPING_PATH = BUNDLE_ROOT / "column_mapping.json"
 
 MODEL_PATH = MODEL_DIR / "base_model.pkl"
 
@@ -351,5 +358,5 @@ IDLE_SCALE = [[0.0, "#2A292D"], [0.5, "#5F5E62"], [1.0, LIME]]
 
 def ensure_dirs() -> None:
     """Create the data/model folders if they do not already exist."""
-    for path in (RAW_DIR, PROCESSED_DIR, MODEL_DIR):
+    for path in (RAW_DIR, PROCESSED_DIR, WRITABLE_PROCESSED_DIR, MODEL_DIR):
         path.mkdir(parents=True, exist_ok=True)

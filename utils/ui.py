@@ -285,7 +285,7 @@ _NUM_RE = re.compile(r"([\d,]+(?:\.\d+)?%?)")
 
 def _load_static_css() -> str:
     """Load the shared animation / 3D theme stylesheet."""
-    path = config.ROOT / "static" / "animations.css"
+    path = config.BUNDLE_ROOT / "static" / "animations.css"
     return path.read_text(encoding="utf-8") if path.exists() else ""
 
 
@@ -299,7 +299,7 @@ def _three_html() -> str:
     files = ["cursor.js", "interactions.js", "three_setup.js"]
     parts = []
     for name in files:
-        path = config.ROOT / "static" / name
+        path = config.BUNDLE_ROOT / "static" / name
         if not path.exists():
             return ""
         parts.append(f"<script>{path.read_text(encoding='utf-8')}</script>")
@@ -387,12 +387,24 @@ def note(text: str) -> None:
 # --------------------------------------------------------------------------- #
 # Data loading
 # --------------------------------------------------------------------------- #
+def _resolve_data_path(filename: str) -> Path:
+    """Return the first existing path for *filename*, checking writable then bundled."""
+    writable = config.WRITABLE_PROCESSED_DIR / filename
+    if writable.exists():
+        return writable
+    return config.PROCESSED_DIR / filename
+
+
 @st.cache_data(show_spinner=False)
 def load_processed() -> dict[str, pd.DataFrame]:
-    """Load every processed parquet table, returning empty frames when missing."""
+    """Load every processed parquet table, returning empty frames when missing.
+
+    Checks the writable directory (user uploads) first, then falls back to the
+    bundled read-only directory.
+    """
     tables: dict[str, pd.DataFrame] = {}
     for name in PROCESSED_TABLES:
-        path = config.PROCESSED_DIR / f"{name}.parquet"
+        path = _resolve_data_path(f"{name}.parquet")
         try:
             tables[name] = pd.read_parquet(path) if path.exists() else pd.DataFrame()
         except Exception as exc:
@@ -404,7 +416,7 @@ def load_processed() -> dict[str, pd.DataFrame]:
 @st.cache_data(show_spinner=False)
 def load_provenance() -> dict:
     """Load the ingest provenance record."""
-    path = config.PROCESSED_DIR / "provenance.json"
+    path = _resolve_data_path("provenance.json")
     if not path.exists():
         return {}
     try:
@@ -440,7 +452,7 @@ def scored_shifts(_bundle_id: str) -> pd.DataFrame:
 
 def data_is_ready() -> bool:
     """True when the processed tables exist; otherwise show setup instructions."""
-    shifts = config.PROCESSED_DIR / "shifts.parquet"
+    shifts = _resolve_data_path("shifts.parquet")
     if shifts.exists():
         return True
     st.error("No processed data found.")

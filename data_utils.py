@@ -2444,7 +2444,10 @@ def retrain_model(
         segment_metrics=segment_metrics or None,
     )
 
-    save_path = save_path or config.MODEL_PATH
+    if save_path is None:
+        writable_model = config.ROOT / "models" / "base_model.pkl"
+        writable_model.parent.mkdir(parents=True, exist_ok=True)
+        save_path = writable_model
     save_model(bundle, save_path)
     return bundle
 
@@ -2460,10 +2463,20 @@ def save_model(bundle: ModelBundle, path: Path | None = None) -> Path:
 
 
 def load_model(path: Path | None = None) -> ModelBundle | None:
-    """Load a saved bundle, returning ``None`` if it is missing or unreadable."""
+    """Load a saved bundle, returning ``None`` if it is missing or unreadable.
+
+    Checks the writable model directory first (user retrained models), then
+    falls back to the bundled read-only model.
+    """
     import joblib
 
-    path = Path(path or config.MODEL_PATH)
+    if path is None:
+        writable = config.ROOT / "models" / "base_model.pkl"
+        if writable.exists():
+            path = writable
+        else:
+            path = config.MODEL_PATH
+    path = Path(path)
     if not path.exists():
         return None
     try:

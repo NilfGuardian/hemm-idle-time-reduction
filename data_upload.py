@@ -334,6 +334,12 @@ def _load_existing_raw_table(name: str) -> pd.DataFrame:
     standardised), not raw CSVs.  This is safe because all cleaning functions
     are idempotent — re-applying them to already-clean data is a no-op.
     """
+    path = config.WRITABLE_PROCESSED_DIR / f"{name}.parquet"
+    if path.exists():
+        try:
+            return pd.read_parquet(path)
+        except Exception:
+            pass
     path = config.PROCESSED_DIR / f"{name}.parquet"
     if path.exists():
         try:
@@ -452,11 +458,11 @@ def append_and_rebuild(raw_tables: dict[str, pd.DataFrame]) -> dict[str, pd.Data
     for name, frame in outputs.items():
         if frame is None or frame.empty:
             continue
-        path = config.PROCESSED_DIR / f"{name}.parquet"
+        path = config.WRITABLE_PROCESSED_DIR / f"{name}.parquet"
         frame.to_parquet(path, index=False)
 
     # Update provenance with the upload event.
-    provenance_path = config.PROCESSED_DIR / "provenance.json"
+    provenance_path = config.WRITABLE_PROCESSED_DIR / "provenance.json"
     provenance: dict[str, Any] = {}
     if provenance_path.exists():
         try:
