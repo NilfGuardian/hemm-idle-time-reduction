@@ -210,12 +210,18 @@ p {{ margin: 6px 0; }}
 
 
 def _build_pdf(html_content: str) -> bytes:
-    """Convert print-ready HTML to PDF bytes using xhtml2pdf (pure Python)."""
-    from xhtml2pdf import pisa
+    """Convert print-ready HTML to PDF bytes using xhtml2pdf (pure Python).
+
+    Returns empty bytes if xhtml2pdf is not installed or fails, so the
+    caller can fall back to an HTML download.
+    """
+    try:
+        from xhtml2pdf import pisa
+    except ImportError:
+        return b""
     result = io.BytesIO()
     pisa_status = pisa.CreatePDF(io.BytesIO(html_content.encode("utf-8")), dest=result)
     if pisa_status.err:
-        st.error("PDF generation failed — falling back to HTML download.")
         return b""
     return result.getvalue()
 
