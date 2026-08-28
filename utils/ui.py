@@ -14,6 +14,7 @@ from pathlib import Path
 
 import pandas as pd
 import streamlit as st
+import streamlit.components.v1 as components
 
 import config
 import data_upload as upload
@@ -332,7 +333,7 @@ def configure_app() -> None:
     apply_theme()
     three_html = _three_html()
     if three_html:
-        st.html(three_html, unsafe_allow_javascript=True)
+        components.html(three_html, height=0, width=0)
 
 
 def hero(title: str, subtitle: str) -> None:

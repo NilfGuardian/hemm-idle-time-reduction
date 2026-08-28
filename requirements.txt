@@ -1,6 +1,6 @@
 # Idle Time Reduction in HEMM - proof of concept
 # Pinned for reproducibility on Streamlit Community Cloud (Python 3.12).
-streamlit==1.44.1
+streamlit==1.40.1
 pandas==2.2.3
 numpy==1.26.4
 scikit-learn==1.5.2
