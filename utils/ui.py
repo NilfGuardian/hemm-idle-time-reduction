@@ -37,7 +37,13 @@ PROCESSED_TABLES = (
 # --------------------------------------------------------------------------- #
 _CSS = f"""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Rajdhani:wght@500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+@font-face {{
+    font-family: 'Headline';
+    src: local('Trebuchet MS'), local('Geneva'), local('Verdana');
+    font-weight: 700;
+}}
 
 * {{
     -webkit-font-smoothing: antialiased !important;
@@ -56,7 +62,7 @@ _CSS = f"""
     --accent-light: {config.LIME_LIGHT};
     --accent-glow: {config.LIME_GLOW};
     --danger: {config.DANGER};
-    --font-display: "Rajdhani", "Inter", sans-serif;
+    --font-display: "Headline", "Trebuchet MS", "Geneva", "Verdana", "Lucida Grande", sans-serif;
     --font-mono: "Inter", "Segoe UI", sans-serif;
 }}
 
