@@ -192,10 +192,11 @@ def reason_class_donut(reasons: pd.DataFrame) -> go.Figure:
         title="Who controls the lost time",
     )
     figure.update_traces(
-        textinfo="percent+label", textposition="outside",
-        textfont=dict(size=9, family="Inter, sans-serif"), automargin=True,
+        textinfo="percent", textposition="inside",
+        textfont=dict(size=11, family="Inter, sans-serif", color="#fff"),
+        insidetextorientation="radial",
     )
-    return _style(figure, height=360, legend=False)
+    return _style(figure, height=360, legend=True)
 
 
 def equipment_ranking(equipment: pd.DataFrame, metric: str, label: str, top: int = 20) -> go.Figure:
