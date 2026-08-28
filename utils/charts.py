@@ -17,7 +17,7 @@ FONT = dict(family="Inter, Segoe UI, sans-serif", size=12, color=config.TEXT_LIG
 _INTER_TEMPLATE = go.layout.Template(
     layout=go.Layout(
         font=FONT,
-        title_font=dict(size=13, color=config.LIME, family="Bebas Neue, sans-serif"),
+        title_font=dict(size=13, color=config.LIME, family="Inter, sans-serif"),
         legend=dict(font=dict(color=config.TEXT_LIGHT, family="Inter, sans-serif")),
         xaxis=dict(tickfont=dict(family="Inter, sans-serif"), title_font=dict(family="Inter, sans-serif")),
         yaxis=dict(tickfont=dict(family="Inter, sans-serif"), title_font=dict(family="Inter, sans-serif")),
@@ -36,7 +36,7 @@ def _style(figure: go.Figure, height: int = 340, legend: bool = True) -> go.Figu
         plot_bgcolor=config.BG_DARK,
         paper_bgcolor=config.BG_DARK,
         margin=dict(l=50, r=50, t=80, b=40),
-        title_font=dict(size=13, color=config.LIME, family="Bebas Neue, sans-serif"),
+        title_font=dict(size=13, color=config.LIME, family="Inter, sans-serif"),
         title=dict(x=0.0, xanchor="left", y=0.97, yanchor="top"),
         showlegend=legend,
         legend=dict(
