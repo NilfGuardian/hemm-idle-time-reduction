@@ -78,13 +78,14 @@ hiddenimports = [
     'reportlab',
     'PIL',
     'PIL._tkinter_finder',
-    'pywebview',
-    'pywebview.platforms.winforms',
+    'webview',
+    'webview.platforms.winforms',
 ]
 
 # Collect all submodules for packages with dynamic imports
 hiddenimports += collect_submodules('streamlit')
 hiddenimports += collect_submodules('xhtml2pdf')
+hiddenimports += collect_submodules('webview')
 
 a = Analysis(
     [os.path.join(ROOT, 'desktop_app.py')],

@@ -41,12 +41,14 @@ else:
 
 # --- Hidden imports ---
 hiddenimports = [
-    'pywebview',
-    'pywebview.platforms.winforms',
+    'webview',
+    'webview.platforms.winforms',
     'winreg',
+    'pythonnet',
+    'clr_loader',
 ]
 
-hiddenimports += collect_submodules('pywebview')
+hiddenimports += collect_submodules('webview')
 
 a = Analysis(
     [os.path.join(ROOT, 'installer', 'setup_installer.py')],
@@ -57,7 +59,7 @@ a = Analysis(
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
-    excludes=['streamlit', 'sklearn', 'plotly', 'pyarrow', 'pandas', 'numpy'],
+    excludes=['streamlit', 'sklearn', 'plotly', 'pyarrow', 'pandas', 'numpy', 'scipy', 'tensorflow', 'geopandas', 'shapely', 'pyproj', 'folium', 'branca', 'xyzservices'],
     noarchive=False,
     cipher=block_cipher,
 )

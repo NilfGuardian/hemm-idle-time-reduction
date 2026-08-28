@@ -13,9 +13,6 @@ echo   OptiHaul Build — Phase 1: Desktop App
 echo  ============================================
 echo.
 
-REM Install build dependencies
-pip install pywebview pyinstaller --quiet
-
 REM Phase 1: Build the desktop app (onedir)
 pyinstaller build\desktop.spec --noconfirm
 if errorlevel 1 (
