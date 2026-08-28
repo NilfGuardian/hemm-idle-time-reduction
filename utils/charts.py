@@ -367,14 +367,14 @@ def dumper_timeline(shifts: pd.DataFrame, dumper_id: str) -> go.Figure:
         fig.update_layout(title=f"No shifts found for {dumper_id}")
         return _style(fig, height=300, legend=False)
 
-    d["Shift_Label"] = d["Shift_Date"].dt.strftime("%d %b") + " S" + d["Shift"].astype(int).astype(str)
+    d["Shift_Label"] = d["Shift_Date"].dt.strftime("%d %b") + " S" + d["Shift"].fillna(0).astype(int).astype(str)
     d["Idle_Hours"] = d["Total_Idle_Min"] / 60
     d = d.sort_values(["Shift_Date", "Shift"])
     d["Rolling_Avg"] = d["Idle_Hours"].rolling(5, min_periods=1).mean()
 
     shift_colors = {1: config.LIME, 2: config.TEXT_LIGHT, 3: config.TEXT_MUTED}
     fig = go.Figure()
-    for shift_num in sorted(d["Shift"].unique()):
+    for shift_num in sorted(d["Shift"].dropna().unique()):
         subset = d[d["Shift"] == shift_num]
         fig.add_trace(go.Bar(
             x=subset["Shift_Label"], y=subset["Idle_Hours"],

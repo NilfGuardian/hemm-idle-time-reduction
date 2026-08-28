@@ -127,10 +127,11 @@ def main() -> None:
                     f"fleet avg: {shifts['Total_Idle_Min'].mean() / 60:.1f} h",
                 )
             with dc3:
+                worst_idx = d_shifts["Total_Idle_Min"].idxmax()
                 ui.kpi_card(
                     "Worst shift",
-                    f"{d_shifts['Total_Idle_Min'].max() / 60:.1f} h",
-                    str(d_shifts.loc[d_shifts['Total_Idle_Min'].idxmax(), 'Shift_Date'].date()),
+                    f"{d_shifts.loc[worst_idx, 'Total_Idle_Min'] / 60:.1f} h",
+                    str(d_shifts.loc[worst_idx, "Shift_Date"].date()),
                 )
             with dc4:
                 ui.kpi_card(
@@ -144,26 +145,30 @@ def main() -> None:
             drill_left, drill_right = st.columns([3, 2], gap="large")
             with drill_left:
                 st.markdown("**Shift-by-shift detail**")
-                detail = d_shifts[[
-                    "Shift_Date", "Shift", "Loading_Unit", "Cycles",
-                    "Total_Idle_Min", "Cycle_Idle_Min", "Delay_Min",
-                ]].copy()
+                detail_cols = ["Shift_Date", "Shift", "Loading_Unit", "Cycles", "Total_Idle_Min"]
+                for c in ("Cycle_Idle_Min", "Delay_Min"):
+                    if c in d_shifts.columns:
+                        detail_cols.append(c)
+                detail = d_shifts[detail_cols].copy()
                 detail["Idle_Hours"] = (detail["Total_Idle_Min"] / 60).round(2)
-                detail["Shift"] = detail["Shift"].astype(int)
-                st.dataframe(
-                    detail[["Shift_Date", "Shift", "Loading_Unit", "Cycles",
-                            "Idle_Hours", "Cycle_Idle_Min", "Delay_Min"]],
-                    hide_index=True,
-                    column_config={
-                        "Shift_Date": st.column_config.DateColumn("Date", format="DD MMM"),
-                        "Shift": st.column_config.NumberColumn(format="%d"),
-                        "Loading_Unit": "Shovel",
-                        "Cycles": st.column_config.NumberColumn(format="%d"),
-                        "Idle_Hours": st.column_config.NumberColumn("Idle h", format="%.2f"),
-                        "Cycle_Idle_Min": st.column_config.NumberColumn("Cycle idle", format="%.0f"),
-                        "Delay_Min": st.column_config.NumberColumn("Delay", format="%.0f"),
-                    },
-                )
+                detail["Shift"] = detail["Shift"].fillna(0).astype(int)
+                show_cols = ["Shift_Date", "Shift", "Loading_Unit", "Cycles", "Idle_Hours"]
+                if "Cycle_Idle_Min" in detail.columns:
+                    show_cols.append("Cycle_Idle_Min")
+                if "Delay_Min" in detail.columns:
+                    show_cols.append("Delay_Min")
+                col_cfg = {
+                    "Shift_Date": st.column_config.DateColumn("Date", format="DD MMM"),
+                    "Shift": st.column_config.NumberColumn(format="%d"),
+                    "Loading_Unit": "Shovel",
+                    "Cycles": st.column_config.NumberColumn(format="%d"),
+                    "Idle_Hours": st.column_config.NumberColumn("Idle h", format="%.2f"),
+                }
+                if "Cycle_Idle_Min" in detail.columns:
+                    col_cfg["Cycle_Idle_Min"] = st.column_config.NumberColumn("Cycle idle", format="%.0f")
+                if "Delay_Min" in detail.columns:
+                    col_cfg["Delay_Min"] = st.column_config.NumberColumn("Delay", format="%.0f")
+                st.dataframe(detail[show_cols], hide_index=True, column_config=col_cfg)
             with drill_right:
                 if not d_delays.empty:
                     st.plotly_chart(
