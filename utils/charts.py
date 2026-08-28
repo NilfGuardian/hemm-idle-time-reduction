@@ -14,10 +14,23 @@ from utils.helpers import safe_shift_label
 
 FONT = dict(family="Inter, Segoe UI, sans-serif", size=12, color=config.TEXT_LIGHT)
 
+_INTER_TEMPLATE = go.layout.Template(
+    layout=go.Layout(
+        font=FONT,
+        title_font=dict(size=13, color=config.LIME, family="Bebas Neue, sans-serif"),
+        legend=dict(font=dict(color=config.TEXT_LIGHT, family="Inter, sans-serif")),
+        xaxis=dict(tickfont=dict(family="Inter, sans-serif"), title_font=dict(family="Inter, sans-serif")),
+        yaxis=dict(tickfont=dict(family="Inter, sans-serif"), title_font=dict(family="Inter, sans-serif")),
+        hoverlabel=dict(font=dict(family="Inter, sans-serif")),
+        coloraxis=dict(colorbar=dict(tickfont=dict(family="Inter, sans-serif"))),
+    )
+)
+
 
 def _style(figure: go.Figure, height: int = 340, legend: bool = True) -> go.Figure:
     """Apply the shared dark/technical layout to any figure."""
     figure.update_layout(
+        template=_INTER_TEMPLATE,
         height=height,
         font=FONT,
         plot_bgcolor=config.BG_DARK,
