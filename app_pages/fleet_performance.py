@@ -77,12 +77,12 @@ def main() -> None:
         )
         chart, table = st.columns([2, 3], gap="large")
         with chart:
-            st.plotly_chart((
+            st.plotly_chart(
                 charts.equipment_ranking(
                     dumpers.rename(columns={metric: "value"}), "value", metric, top=18
                 ),
                 use_container_width=True,
-            , theme=None)
+            theme=None)
         with table:
             columns = ["Equipment_ID"] + DISPLAY_COLUMNS
             if "Litres per tonne" in dumpers.columns:
@@ -136,7 +136,7 @@ def main() -> None:
                     f"{d_delays['Delay_Min'].sum() / 60:.0f} h total" if not d_delays.empty else "none",
                 )
 
-            st.plotly_chart((charts.dumper_timeline(shifts, selected_dumper), use_container_width=True, theme=None)
+            st.plotly_chart(charts.dumper_timeline(shifts, selected_dumper), use_container_width=True, theme=None)
 
             fleet_idle = shifts.groupby("Equipment_ID")["Total_Idle_Min"].sum() / 60
             dumper_total = float(fleet_idle.get(selected_dumper, 0))
@@ -193,10 +193,10 @@ def main() -> None:
                 st.dataframe(detail[show_cols], hide_index=True, column_config=col_cfg)
             with drill_right:
                 if not d_delays.empty:
-                    st.plotly_chart((
+                    st.plotly_chart(
                         charts.dumper_reason_bar(d_delays, selected_dumper),
                         use_container_width=True,
-                    , theme=None)
+            theme=None)
                 else:
                     st.info("No delay events for this dumper in the selected period.")
 
@@ -247,7 +247,7 @@ def main() -> None:
 
             left, right = st.columns([3, 2], gap="large")
             with left:
-                st.plotly_chart((charts.residual_scatter(shifts), theme=None)
+                st.plotly_chart(charts.residual_scatter(shifts), theme=None)
                 st.caption(
                     "Exact-minute estimate vs actual. Useful for ranking, not for reading off "
                     "a precise number."
@@ -257,7 +257,7 @@ def main() -> None:
                     bundle.risk_importances if bundle.risk_importances is not None
                     else bundle.importances
                 )
-                st.plotly_chart((charts.importance_bar(importances), theme=None)
+                st.plotly_chart(charts.importance_bar(importances), theme=None)
                 st.caption("What the risk classifier leans on.")
 
             st.markdown("#### Shifts flagged as high risk this period")
@@ -405,10 +405,10 @@ def main() -> None:
                     )
                     merged["shovel_idle_h"] = merged["Available_Hours"] - merged["Run_Hours"]
                     merged = merged[merged["shovel_idle_h"] >= 0]
-                    st.plotly_chart((
+                    st.plotly_chart(
                         charts.shovel_starvation_scatter(merged),
                         use_container_width=True,
-                    , theme=None)
+            theme=None)
                     ui.note(
                         "The weak correlation (r ≈ −0.08) shows that <b>adding trucks alone does "
                         "not linearly reduce shovel idle time</b>. Shovel idle is driven by "
@@ -523,10 +523,10 @@ def main() -> None:
                                 f"@ ₹{filters.idle_cost_per_hour:,.0f}/h (assumption)")
 
                 st.markdown("#### Dumpers ranked by breakdown / down hours")
-                st.plotly_chart((
+                st.plotly_chart(
                     charts.breakdown_ranking(per_dumper, median_hours),
                     use_container_width=True,
-                , theme=None)
+            theme=None)
 
                 st.dataframe(
                     per_dumper,

@@ -127,10 +127,10 @@ def main() -> None:
                     f"at {summary.tonnes_per_operating_hour:,.0f} t per operating hour")
 
     st.markdown("")
-    st.plotly_chart((
+    st.plotly_chart(
         charts.savings_waterfall(plan.to_dict("records"), summary.total_idle_hours),
         use_container_width=True,
-    , theme=None)
+            theme=None)
 
     left, right = st.columns([3, 2], gap="large")
     with left:

@@ -78,9 +78,9 @@ def main() -> None:
     with tab_pareto:
         left, right = st.columns([3, 2], gap="large")
         with left:
-            st.plotly_chart((charts.reason_pareto(reasons), theme=None)
+            st.plotly_chart(charts.reason_pareto(reasons), theme=None)
         with right:
-            st.plotly_chart((charts.reason_class_donut(reasons), theme=None)
+            st.plotly_chart(charts.reason_class_donut(reasons), theme=None)
 
         st.markdown("#### Full reason table")
         display = reasons.copy()
@@ -133,9 +133,10 @@ def main() -> None:
                 default=[r for r in choices[:5]],
             )
             if selected:
-                st.plotly_chart((
-                    charts.reason_hour_heatmap(dumper_delays, selected)
-                , theme=None)
+                st.plotly_chart(
+                    charts.reason_hour_heatmap(dumper_delays, selected),
+                    theme=None,
+                )
 
             st.markdown("#### Reason mix by shift")
             mix = (
