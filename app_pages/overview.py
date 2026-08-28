@@ -198,10 +198,10 @@ def main() -> None:
     st.markdown("")
     left, right = st.columns([3, 2], gap="large")
     with left:
-        st.plotly_chart(charts.cycle_breakdown_bar(shifts))
+        st.plotly_chart((charts.cycle_breakdown_bar(shifts), theme=None)
     with right:
         if not reasons.empty:
-            st.plotly_chart(charts.reason_class_donut(reasons))
+            st.plotly_chart((charts.reason_class_donut(reasons), theme=None)
 
     st.divider()
 
@@ -243,10 +243,10 @@ def main() -> None:
     with st.expander("Trends & hourly profile"):
         trend, profile = st.columns(2, gap="large")
         with trend:
-            st.plotly_chart(charts.idle_trend(shifts))
+            st.plotly_chart((charts.idle_trend(shifts), theme=None)
         with profile:
             if not hourly.empty:
-                st.plotly_chart(charts.hour_of_day_profile(hourly))
+                st.plotly_chart((charts.hour_of_day_profile(hourly), theme=None)
             else:
                 st.info("No hourly idle data in the current selection.")
 

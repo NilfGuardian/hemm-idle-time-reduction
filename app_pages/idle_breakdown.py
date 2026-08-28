@@ -71,7 +71,7 @@ def main() -> None:
     with tab_cycle:
         left, right = st.columns([3, 2], gap="large")
         with left:
-            st.plotly_chart(charts.cycle_breakdown_bar(shifts))
+            st.plotly_chart((charts.cycle_breakdown_bar(shifts), theme=None)
         with right:
             frame = bucket_table(shifts)
             st.dataframe(
@@ -97,15 +97,15 @@ def main() -> None:
     with tab_when:
         top = st.columns(2, gap="large")
         with top[0]:
-            st.plotly_chart(charts.idle_by_shift(shifts))
+            st.plotly_chart((charts.idle_by_shift(shifts), theme=None)
         with top[1]:
-            st.plotly_chart(charts.idle_trend(shifts))
+            st.plotly_chart((charts.idle_trend(shifts), theme=None)
 
-        st.plotly_chart(charts.idle_heatmap(shifts))
+        st.plotly_chart((charts.idle_heatmap(shifts), theme=None)
 
         with st.expander("Hour-of-day profile & weekday breakdown"):
             if not hourly.empty:
-                st.plotly_chart(charts.hour_of_day_profile(hourly))
+                st.plotly_chart((charts.hour_of_day_profile(hourly), theme=None)
                 peak = (
                     hourly.groupby("Hour")["Idle_Min"].sum().div(60).sort_values(ascending=False)
                 )
