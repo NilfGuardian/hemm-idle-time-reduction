@@ -1,0 +1,250 @@
+{
+  "canonical": {
+    "Equipment_ID": [
+      "HAULING_UNIT_IDENT",
+      "EQUIP_IDENT",
+      "EquipmentNo",
+      "Equipment No",
+      "DUMPER NO.",
+      "DUMPER_NO",
+      "NAME",
+      "NAME2",
+      "DUMPER NO",
+      "SHOVEL NO",
+      "EQUIP_IDENT1",
+      "HAULING_UNIT_IDENT1",
+      "equip_ident"
+    ],
+    "Loading_Unit": [
+      "LOADING_UNIT_IDENT",
+      "Loading_Unit"
+    ],
+    "Operator": [
+      "HAULING_UNIT_OPERATOR_NAME",
+      "Operator",
+      "Operator Name",
+      "OPERATOR_NAME"
+    ],
+    "Fleet": [
+      "FLEET_IDENT",
+      "FLEET_IDENT1",
+      "FLT_DESC1",
+      "FLT_DESC2",
+      "Fleet"
+    ],
+    "Shift": [
+      "SHIFT_IDENT",
+      "SHIFT_IDENT_SINGLE",
+      "Shift",
+      "Load_Start_Shift_Ident",
+      "SHIFT_IDENT1",
+      "SHIFT"
+    ],
+    "Shift_Date": [
+      "SHIFT_DATE1",
+      "SHIFT_DATE",
+      "LOAD_START_SHIFT_DATE",
+      "START_SHIFT_DATE",
+      "END_SHIFT_DATE",
+      "LOAD_START_SHIFT_DATE"
+    ],
+    "Start_Timestamp": [
+      "START_TIMESTAMP",
+      "HC_LOAD_START_TIMESTAMP",
+      "Time Start",
+      "Start Timestamp",
+      "Start Time"
+    ],
+    "End_Timestamp": [
+      "END_TIMESTAMP",
+      "HC_DUMP_END_TIMESTAMP1",
+      "Time End",
+      "End Timestamp",
+      "End Time"
+    ],
+    "Load_Timestamp": [
+      "HC_LOAD_START_TIMESTAMP",
+      "Load Timestamp",
+      "LOAD_START_TIMESTAMP"
+    ],
+    "Dump_Timestamp": [
+      "HC_DUMP_END_TIMESTAMP1",
+      "Dump Timestamp",
+      "DUMP_END_TIMESTAMP"
+    ],
+    "Status_Category": [
+      "STATUSCAT_DESCRIP",
+      "Status Category",
+      "Status_Category"
+    ],
+    "Status_Desc": [
+      "STATUS_DESC",
+      "Status_Desc"
+    ],
+    "Sub_Status_Desc": [
+      "SUB_STATUS_DESC",
+      "Sub-Status Code",
+      "Sub_Status"
+    ],
+    "Status_Comment": [
+      "STATUS_COMMENT",
+      "Comments",
+      "Comment"
+    ],
+    "Duration_Hours": [
+      "DURATION",
+      "DURATION1",
+      "Duration(Hours)",
+      "Duration (Hours)"
+    ],
+    "Duration_Min": [
+      "duration",
+      "Duration(min)",
+      "Duration (min)"
+    ],
+    "Equipment_Total_Min": [
+      "duration1"
+    ],
+    "Cycle_Time": [
+      "CYCLE_TIME",
+      "Cycle Time",
+      "Cycle Time(min)"
+    ],
+    "Travel_Empty": [
+      "EMPTY_STOPPED_TIME_NEW"
+    ],
+    "Travel_Loaded": [
+      "HAULING_STOPPED_TIME_NEW"
+    ],
+    "Stopped_Empty": [
+      "EMPTY_TRAVEL"
+    ],
+    "Stopped_Loaded": [
+      "LOAD_HAUL_TIME"
+    ],
+    "Stopped_At_Face": [
+      "EMPTY_STOPPED"
+    ],
+    "Queue_Shovel": [
+      "WAITING_TIME_LU"
+    ],
+    "Queue_Dump": [
+      "WAITING_TIME_DUMP"
+    ],
+    "Spotting": [
+      "SPOTTING_TIME1",
+      "SPOTTING_TIME"
+    ],
+    "Loading_Time": [
+      "LOADING_TIME",
+      "Loading Time"
+    ],
+    "Dumping_Time": [
+      "DUMPING_TIME",
+      "Dumping Time"
+    ],
+    "Payload": [
+      "HAULING_UNIT_PAYLOAD2",
+      "QUANTITY_REPORTING",
+      "Payload Weight",
+      "Payload",
+      "Coal_Quantity",
+      "OB_Quantity"
+    ],
+    "Fuel_Consumed": [
+      "FUEL_CONSUMED",
+      "FUEL_CONSUMPTION2",
+      "Fuel Consumption (L)"
+    ],
+    "Material": [
+      "MATERIAL",
+      "Material"
+    ],
+    "Load_Location": [
+      "LOAD_LOCATION_SNAME",
+      "Origin",
+      "Origin_Destination2"
+    ],
+    "Dump_Location": [
+      "DUMP_LOCATION_SNAME",
+      "Destination",
+      "DUMP_LOCATION"
+    ],
+    "Total_Trips": [
+      "Total_Trips"
+    ],
+    "Coal_Trips": [
+      "Coal_Trips"
+    ],
+    "OB_Trips": [
+      "OB_Trips"
+    ],
+    "Coal_Quantity": [
+      "Coal_Quantity"
+    ],
+    "OB_Quantity": [
+      "OB_Quantity"
+    ],
+    "Haul_Distance": [
+      "HAUL_DISTANCE",
+      "HAUL_DISTANCE1"
+    ],
+    "Empty_Distance": [
+      "EMPTY_DISTANCE"
+    ],
+    "Elevation_Empty_Positive": [
+      "ELEVATION_EMPTY_POSITIVE"
+    ],
+    "Num_Loads": [
+      "NUM_LOADS2",
+      "NUM_OF_LOADS",
+      "NUM_OF_LOADS1"
+    ],
+    "Production": [
+      "PRODUCTION2",
+      "PRODUCTION"
+    ],
+    "Operator_Count_First_Shift": [
+      "Operator_Count_First_Shift"
+    ],
+    "Operator_Count_Second_Shift": [
+      "Operator_Count_Second_Shift"
+    ],
+    "Operator_Count_Third_Shift": [
+      "Operator_Count_Third_Shift"
+    ],
+    "Max_Timestamp": [
+      "MAX_TIMESTAMP"
+    ],
+    "Run_Hours": [
+      "Run_Hours"
+    ],
+    "Breakdown_Hours": [
+      "BREAKDOWN_HR"
+    ],
+    "Available_Hours": [
+      "AVAILABIL_HR"
+    ],
+    "Canteen_Break_Min": [
+      "Canteen_Break"
+    ],
+    "First_Load_Delay_Min": [
+      "First_load_Delay"
+    ],
+    "Last_Load_Delay_Min": [
+      "LAST_LOAD_DELAY"
+    ],
+    "Equipment_Start_Time": [
+      "EQUIP_START_TIME"
+    ],
+    "Loading_Equipment": [
+      "LOADING_EQUIPMENT"
+    ],
+    "Operator_PNo": [
+      "PNO"
+    ],
+    "Travel_Time_Hours": [
+      "Total Travel Time"
+    ]
+  }
+}

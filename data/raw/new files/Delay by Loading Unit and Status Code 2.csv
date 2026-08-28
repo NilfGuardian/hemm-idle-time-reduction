@@ -1,0 +1,2167 @@
+﻿textbox7,textbox19,textbox20,textbox22,textbox29,textbox21,textbox27,textbox26,textbox28,textbox24,textbox10,textbox11,textbox30,textbox31,textbox33,textbox32
+Delay by Loading Unit and Status Code,Report Created On:,12-08-2026,Description:,Parameters:,This report contains a matrix identifying the delay and down statuses for all loading units during a specified time period.  The report is grouped by fleet.,Start Shift Date:,11-07-2026,End Shift Date:,20-07-2026,,,Fleet:,All,Loader:,All
+
+textbox4,Textbox1,FLEET_IDENT,EQUIP_IDENT,STATUS_DESC,textbox2,Textbox42,Textbox44,Textbox13,Textbox14,Textbox37,Textbox12,Textbox15,Textbox46
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F06-Tata Hitachi EX1200-6,EX009, Down,18.40,Total,79.08,Total,122.36,289.40,Total,750.64,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F06-Tata Hitachi EX1200-6,EX009,Blasting,8.24,Total,79.08,Total,24.82,289.40,Total,94.37,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F06-Tata Hitachi EX1200-6,EX009,Change Operators,,Total,79.08,Total,0.00,289.40,Total,0.89,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F06-Tata Hitachi EX1200-6,EX009,Clean & Remove,,Total,79.08,Total,,289.40,Total,0.08,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F06-Tata Hitachi EX1200-6,EX009,Daily Service,8.06,Total,79.08,Total,18.63,289.40,Total,130.67,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F06-Tata Hitachi EX1200-6,EX009,Delay At Hopper,,Total,79.08,Total,,289.40,Total,6.78,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F06-Tata Hitachi EX1200-6,EX009,Face Height Reduction,0.08,Total,79.08,Total,0.08,289.40,Total,0.18,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F06-Tata Hitachi EX1200-6,EX009,Fuel Filling,0.23,Total,79.08,Total,0.50,289.40,Total,8.68,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F06-Tata Hitachi EX1200-6,EX009,Marching,6.07,Total,79.08,Total,15.19,289.40,Total,95.71,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F06-Tata Hitachi EX1200-6,EX009,Meeting,0.00,Total,79.08,Total,0.00,289.40,Total,0.01,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F06-Tata Hitachi EX1200-6,EX009,Pit Closed,,Total,79.08,Total,,289.40,Total,0.00,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F06-Tata Hitachi EX1200-6,EX009,Scheduled Service,,Total,79.08,Total,4.82,289.40,Total,28.26,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F06-Tata Hitachi EX1200-6,EX009,Shift Change,25.49,Total,79.08,Total,76.40,289.40,Total,426.12,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F06-Tata Hitachi EX1200-6,EX009,Shift Incharge Instruction,2.85,Total,79.08,Total,2.85,289.40,Total,13.99,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F06-Tata Hitachi EX1200-6,EX009,Stuck in Mud,,Total,79.08,Total,,289.40,Total,0.43,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F06-Tata Hitachi EX1200-6,EX009,Tea/ Breakfast / Snacks,9.59,Total,79.08,Total,23.67,289.40,Total,92.99,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F06-Tata Hitachi EX1200-6,EX009,Toilet Break,0.09,Total,79.08,Total,0.09,289.40,Total,0.45,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F06-Tata Hitachi EX1200-6,EX009,Wireless Infrastructure/Network,,Total,79.08,Total,,289.40,Total,0.02,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F06-Tata Hitachi EX1200-6,EX010, Down,82.29,Total,130.33,Total,122.36,289.40,Total,750.64,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F06-Tata Hitachi EX1200-6,EX010,Blasting,6.01,Total,130.33,Total,24.82,289.40,Total,94.37,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F06-Tata Hitachi EX1200-6,EX010,Change Operators,,Total,130.33,Total,0.00,289.40,Total,0.89,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F06-Tata Hitachi EX1200-6,EX010,Clean & Remove,,Total,130.33,Total,,289.40,Total,0.08,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F06-Tata Hitachi EX1200-6,EX010,Daily Service,,Total,130.33,Total,18.63,289.40,Total,130.67,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F06-Tata Hitachi EX1200-6,EX010,Delay At Hopper,,Total,130.33,Total,,289.40,Total,6.78,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F06-Tata Hitachi EX1200-6,EX010,Face Height Reduction,,Total,130.33,Total,0.08,289.40,Total,0.18,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F06-Tata Hitachi EX1200-6,EX010,Fuel Filling,0.13,Total,130.33,Total,0.50,289.40,Total,8.68,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F06-Tata Hitachi EX1200-6,EX010,Marching,3.51,Total,130.33,Total,15.19,289.40,Total,95.71,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F06-Tata Hitachi EX1200-6,EX010,Meeting,,Total,130.33,Total,0.00,289.40,Total,0.01,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F06-Tata Hitachi EX1200-6,EX010,Pit Closed,,Total,130.33,Total,,289.40,Total,0.00,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F06-Tata Hitachi EX1200-6,EX010,Scheduled Service,4.82,Total,130.33,Total,4.82,289.40,Total,28.26,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F06-Tata Hitachi EX1200-6,EX010,Shift Change,25.63,Total,130.33,Total,76.40,289.40,Total,426.12,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F06-Tata Hitachi EX1200-6,EX010,Shift Incharge Instruction,,Total,130.33,Total,2.85,289.40,Total,13.99,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F06-Tata Hitachi EX1200-6,EX010,Stuck in Mud,,Total,130.33,Total,,289.40,Total,0.43,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F06-Tata Hitachi EX1200-6,EX010,Tea/ Breakfast / Snacks,7.94,Total,130.33,Total,23.67,289.40,Total,92.99,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F06-Tata Hitachi EX1200-6,EX010,Toilet Break,,Total,130.33,Total,0.09,289.40,Total,0.45,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F06-Tata Hitachi EX1200-6,EX010,Wireless Infrastructure/Network,,Total,130.33,Total,,289.40,Total,0.02,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F06-Tata Hitachi EX1200-6,EX012, Down,21.68,Total,79.99,Total,122.36,289.40,Total,750.64,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F06-Tata Hitachi EX1200-6,EX012,Blasting,10.58,Total,79.99,Total,24.82,289.40,Total,94.37,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F06-Tata Hitachi EX1200-6,EX012,Change Operators,0.00,Total,79.99,Total,0.00,289.40,Total,0.89,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F06-Tata Hitachi EX1200-6,EX012,Clean & Remove,,Total,79.99,Total,,289.40,Total,0.08,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F06-Tata Hitachi EX1200-6,EX012,Daily Service,10.57,Total,79.99,Total,18.63,289.40,Total,130.67,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F06-Tata Hitachi EX1200-6,EX012,Delay At Hopper,,Total,79.99,Total,,289.40,Total,6.78,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F06-Tata Hitachi EX1200-6,EX012,Face Height Reduction,,Total,79.99,Total,0.08,289.40,Total,0.18,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F06-Tata Hitachi EX1200-6,EX012,Fuel Filling,0.13,Total,79.99,Total,0.50,289.40,Total,8.68,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F06-Tata Hitachi EX1200-6,EX012,Marching,5.61,Total,79.99,Total,15.19,289.40,Total,95.71,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F06-Tata Hitachi EX1200-6,EX012,Meeting,,Total,79.99,Total,0.00,289.40,Total,0.01,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F06-Tata Hitachi EX1200-6,EX012,Pit Closed,,Total,79.99,Total,,289.40,Total,0.00,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F06-Tata Hitachi EX1200-6,EX012,Scheduled Service,,Total,79.99,Total,4.82,289.40,Total,28.26,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F06-Tata Hitachi EX1200-6,EX012,Shift Change,25.28,Total,79.99,Total,76.40,289.40,Total,426.12,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F06-Tata Hitachi EX1200-6,EX012,Shift Incharge Instruction,,Total,79.99,Total,2.85,289.40,Total,13.99,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F06-Tata Hitachi EX1200-6,EX012,Stuck in Mud,,Total,79.99,Total,,289.40,Total,0.43,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F06-Tata Hitachi EX1200-6,EX012,Tea/ Breakfast / Snacks,6.14,Total,79.99,Total,23.67,289.40,Total,92.99,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F06-Tata Hitachi EX1200-6,EX012,Toilet Break,,Total,79.99,Total,0.09,289.40,Total,0.45,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F06-Tata Hitachi EX1200-6,EX012,Wireless Infrastructure/Network,,Total,79.99,Total,,289.40,Total,0.02,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F07-Tata Hitachi EX2500-5,EX001, Down,82.64,Total,122.05,Total,127.39,237.48,Total,750.64,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F07-Tata Hitachi EX2500-5,EX001,Blasting,3.88,Total,122.05,Total,9.90,237.48,Total,94.37,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F07-Tata Hitachi EX2500-5,EX001,Change Operators,,Total,122.05,Total,,237.48,Total,0.89,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F07-Tata Hitachi EX2500-5,EX001,Clean & Remove,,Total,122.05,Total,0.08,237.48,Total,0.08,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F07-Tata Hitachi EX2500-5,EX001,Daily Service,6.27,Total,122.05,Total,11.51,237.48,Total,130.67,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F07-Tata Hitachi EX2500-5,EX001,Delay At Hopper,,Total,122.05,Total,,237.48,Total,6.78,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F07-Tata Hitachi EX2500-5,EX001,Face Height Reduction,,Total,122.05,Total,,237.48,Total,0.18,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F07-Tata Hitachi EX2500-5,EX001,Fuel Filling,0.39,Total,122.05,Total,2.30,237.48,Total,8.68,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F07-Tata Hitachi EX2500-5,EX001,Marching,3.68,Total,122.05,Total,6.64,237.48,Total,95.71,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F07-Tata Hitachi EX2500-5,EX001,Meeting,,Total,122.05,Total,,237.48,Total,0.01,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F07-Tata Hitachi EX2500-5,EX001,Pit Closed,0.00,Total,122.05,Total,0.00,237.48,Total,0.00,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F07-Tata Hitachi EX2500-5,EX001,Scheduled Service,,Total,122.05,Total,23.44,237.48,Total,28.26,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F07-Tata Hitachi EX2500-5,EX001,Shift Change,22.55,Total,122.05,Total,41.12,237.48,Total,426.12,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F07-Tata Hitachi EX2500-5,EX001,Shift Incharge Instruction,,Total,122.05,Total,,237.48,Total,13.99,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F07-Tata Hitachi EX2500-5,EX001,Stuck in Mud,,Total,122.05,Total,,237.48,Total,0.43,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F07-Tata Hitachi EX2500-5,EX001,Tea/ Breakfast / Snacks,2.61,Total,122.05,Total,15.08,237.48,Total,92.99,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F07-Tata Hitachi EX2500-5,EX001,Toilet Break,0.01,Total,122.05,Total,0.01,237.48,Total,0.45,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F07-Tata Hitachi EX2500-5,EX001,Wireless Infrastructure/Network,,Total,122.05,Total,,237.48,Total,0.02,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F07-Tata Hitachi EX2500-5,EX003, Down,44.75,Total,115.44,Total,127.39,237.48,Total,750.64,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F07-Tata Hitachi EX2500-5,EX003,Blasting,6.01,Total,115.44,Total,9.90,237.48,Total,94.37,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F07-Tata Hitachi EX2500-5,EX003,Change Operators,,Total,115.44,Total,,237.48,Total,0.89,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F07-Tata Hitachi EX2500-5,EX003,Clean & Remove,0.08,Total,115.44,Total,0.08,237.48,Total,0.08,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F07-Tata Hitachi EX2500-5,EX003,Daily Service,5.23,Total,115.44,Total,11.51,237.48,Total,130.67,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F07-Tata Hitachi EX2500-5,EX003,Delay At Hopper,,Total,115.44,Total,,237.48,Total,6.78,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F07-Tata Hitachi EX2500-5,EX003,Face Height Reduction,,Total,115.44,Total,,237.48,Total,0.18,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F07-Tata Hitachi EX2500-5,EX003,Fuel Filling,1.91,Total,115.44,Total,2.30,237.48,Total,8.68,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F07-Tata Hitachi EX2500-5,EX003,Marching,2.96,Total,115.44,Total,6.64,237.48,Total,95.71,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F07-Tata Hitachi EX2500-5,EX003,Meeting,,Total,115.44,Total,,237.48,Total,0.01,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F07-Tata Hitachi EX2500-5,EX003,Pit Closed,,Total,115.44,Total,0.00,237.48,Total,0.00,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F07-Tata Hitachi EX2500-5,EX003,Scheduled Service,23.44,Total,115.44,Total,23.44,237.48,Total,28.26,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F07-Tata Hitachi EX2500-5,EX003,Shift Change,18.57,Total,115.44,Total,41.12,237.48,Total,426.12,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F07-Tata Hitachi EX2500-5,EX003,Shift Incharge Instruction,,Total,115.44,Total,,237.48,Total,13.99,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F07-Tata Hitachi EX2500-5,EX003,Stuck in Mud,,Total,115.44,Total,,237.48,Total,0.43,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F07-Tata Hitachi EX2500-5,EX003,Tea/ Breakfast / Snacks,12.47,Total,115.44,Total,15.08,237.48,Total,92.99,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F07-Tata Hitachi EX2500-5,EX003,Toilet Break,,Total,115.44,Total,0.01,237.48,Total,0.45,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F07-Tata Hitachi EX2500-5,EX003,Wireless Infrastructure/Network,,Total,115.44,Total,,237.48,Total,0.02,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F08-Liebherr R9250,EX006, Down,2.07,Total,52.79,Total,2.07,52.79,Total,750.64,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F08-Liebherr R9250,EX006,Blasting,10.43,Total,52.79,Total,10.43,52.79,Total,94.37,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F08-Liebherr R9250,EX006,Change Operators,0.28,Total,52.79,Total,0.28,52.79,Total,0.89,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F08-Liebherr R9250,EX006,Clean & Remove,,Total,52.79,Total,,52.79,Total,0.08,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F08-Liebherr R9250,EX006,Daily Service,1.64,Total,52.79,Total,1.64,52.79,Total,130.67,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F08-Liebherr R9250,EX006,Delay At Hopper,,Total,52.79,Total,,52.79,Total,6.78,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F08-Liebherr R9250,EX006,Face Height Reduction,,Total,52.79,Total,,52.79,Total,0.18,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F08-Liebherr R9250,EX006,Fuel Filling,0.72,Total,52.79,Total,0.72,52.79,Total,8.68,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F08-Liebherr R9250,EX006,Marching,3.92,Total,52.79,Total,3.92,52.79,Total,95.71,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F08-Liebherr R9250,EX006,Meeting,,Total,52.79,Total,,52.79,Total,0.01,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F08-Liebherr R9250,EX006,Pit Closed,,Total,52.79,Total,,52.79,Total,0.00,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F08-Liebherr R9250,EX006,Scheduled Service,,Total,52.79,Total,,52.79,Total,28.26,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F08-Liebherr R9250,EX006,Shift Change,32.93,Total,52.79,Total,32.93,52.79,Total,426.12,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F08-Liebherr R9250,EX006,Shift Incharge Instruction,0.37,Total,52.79,Total,0.37,52.79,Total,13.99,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F08-Liebherr R9250,EX006,Stuck in Mud,0.43,Total,52.79,Total,0.43,52.79,Total,0.43,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F08-Liebherr R9250,EX006,Tea/ Breakfast / Snacks,,Total,52.79,Total,,52.79,Total,92.99,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F08-Liebherr R9250,EX006,Toilet Break,,Total,52.79,Total,,52.79,Total,0.45,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F08-Liebherr R9250,EX006,Wireless Infrastructure/Network,,Total,52.79,Total,,52.79,Total,0.02,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F09-Tata Hitachi EX2500-6,EX004, Down,61.50,Total,105.61,Total,132.87,223.07,Total,750.64,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F09-Tata Hitachi EX2500-6,EX004,Blasting,6.67,Total,105.61,Total,7.53,223.07,Total,94.37,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F09-Tata Hitachi EX2500-6,EX004,Change Operators,,Total,105.61,Total,,223.07,Total,0.89,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F09-Tata Hitachi EX2500-6,EX004,Clean & Remove,,Total,105.61,Total,,223.07,Total,0.08,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F09-Tata Hitachi EX2500-6,EX004,Daily Service,6.07,Total,105.61,Total,11.40,223.07,Total,130.67,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F09-Tata Hitachi EX2500-6,EX004,Delay At Hopper,,Total,105.61,Total,,223.07,Total,6.78,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F09-Tata Hitachi EX2500-6,EX004,Face Height Reduction,,Total,105.61,Total,,223.07,Total,0.18,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F09-Tata Hitachi EX2500-6,EX004,Fuel Filling,0.21,Total,105.61,Total,1.29,223.07,Total,8.68,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F09-Tata Hitachi EX2500-6,EX004,Marching,2.58,Total,105.61,Total,12.58,223.07,Total,95.71,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F09-Tata Hitachi EX2500-6,EX004,Meeting,,Total,105.61,Total,0.00,223.07,Total,0.01,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F09-Tata Hitachi EX2500-6,EX004,Pit Closed,,Total,105.61,Total,,223.07,Total,0.00,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F09-Tata Hitachi EX2500-6,EX004,Scheduled Service,,Total,105.61,Total,,223.07,Total,28.26,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F09-Tata Hitachi EX2500-6,EX004,Shift Change,23.10,Total,105.61,Total,48.59,223.07,Total,426.12,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F09-Tata Hitachi EX2500-6,EX004,Shift Incharge Instruction,2.89,Total,105.61,Total,3.22,223.07,Total,13.99,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F09-Tata Hitachi EX2500-6,EX004,Stuck in Mud,,Total,105.61,Total,,223.07,Total,0.43,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F09-Tata Hitachi EX2500-6,EX004,Tea/ Breakfast / Snacks,2.59,Total,105.61,Total,5.59,223.07,Total,92.99,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F09-Tata Hitachi EX2500-6,EX004,Toilet Break,,Total,105.61,Total,,223.07,Total,0.45,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F09-Tata Hitachi EX2500-6,EX004,Wireless Infrastructure/Network,,Total,105.61,Total,,223.07,Total,0.02,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F09-Tata Hitachi EX2500-6,EX005, Down,71.38,Total,117.46,Total,132.87,223.07,Total,750.64,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F09-Tata Hitachi EX2500-6,EX005,Blasting,0.85,Total,117.46,Total,7.53,223.07,Total,94.37,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F09-Tata Hitachi EX2500-6,EX005,Change Operators,,Total,117.46,Total,,223.07,Total,0.89,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F09-Tata Hitachi EX2500-6,EX005,Clean & Remove,,Total,117.46,Total,,223.07,Total,0.08,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F09-Tata Hitachi EX2500-6,EX005,Daily Service,5.33,Total,117.46,Total,11.40,223.07,Total,130.67,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F09-Tata Hitachi EX2500-6,EX005,Delay At Hopper,,Total,117.46,Total,,223.07,Total,6.78,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F09-Tata Hitachi EX2500-6,EX005,Face Height Reduction,,Total,117.46,Total,,223.07,Total,0.18,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F09-Tata Hitachi EX2500-6,EX005,Fuel Filling,1.08,Total,117.46,Total,1.29,223.07,Total,8.68,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F09-Tata Hitachi EX2500-6,EX005,Marching,10.00,Total,117.46,Total,12.58,223.07,Total,95.71,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F09-Tata Hitachi EX2500-6,EX005,Meeting,0.00,Total,117.46,Total,0.00,223.07,Total,0.01,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F09-Tata Hitachi EX2500-6,EX005,Pit Closed,,Total,117.46,Total,,223.07,Total,0.00,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F09-Tata Hitachi EX2500-6,EX005,Scheduled Service,,Total,117.46,Total,,223.07,Total,28.26,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F09-Tata Hitachi EX2500-6,EX005,Shift Change,25.49,Total,117.46,Total,48.59,223.07,Total,426.12,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F09-Tata Hitachi EX2500-6,EX005,Shift Incharge Instruction,0.33,Total,117.46,Total,3.22,223.07,Total,13.99,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F09-Tata Hitachi EX2500-6,EX005,Stuck in Mud,,Total,117.46,Total,,223.07,Total,0.43,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F09-Tata Hitachi EX2500-6,EX005,Tea/ Breakfast / Snacks,3.00,Total,117.46,Total,5.59,223.07,Total,92.99,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F09-Tata Hitachi EX2500-6,EX005,Toilet Break,,Total,117.46,Total,,223.07,Total,0.45,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F09-Tata Hitachi EX2500-6,EX005,Wireless Infrastructure/Network,,Total,117.46,Total,,223.07,Total,0.02,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F11-Caterpillar 988H,PL2K05, Down,15.69,Total,122.59,Total,71.51,243.42,Total,750.64,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F11-Caterpillar 988H,PL2K05,Blasting,4.60,Total,122.59,Total,9.16,243.42,Total,94.37,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F11-Caterpillar 988H,PL2K05,Change Operators,,Total,122.59,Total,,243.42,Total,0.89,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F11-Caterpillar 988H,PL2K05,Clean & Remove,,Total,122.59,Total,,243.42,Total,0.08,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F11-Caterpillar 988H,PL2K05,Daily Service,52.43,Total,122.59,Total,66.83,243.42,Total,130.67,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F11-Caterpillar 988H,PL2K05,Delay At Hopper,1.11,Total,122.59,Total,4.07,243.42,Total,6.78,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F11-Caterpillar 988H,PL2K05,Face Height Reduction,,Total,122.59,Total,,243.42,Total,0.18,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F11-Caterpillar 988H,PL2K05,Fuel Filling,,Total,122.59,Total,,243.42,Total,8.68,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F11-Caterpillar 988H,PL2K05,Marching,9.64,Total,122.59,Total,13.45,243.42,Total,95.71,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F11-Caterpillar 988H,PL2K05,Meeting,,Total,122.59,Total,,243.42,Total,0.01,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F11-Caterpillar 988H,PL2K05,Pit Closed,,Total,122.59,Total,,243.42,Total,0.00,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F11-Caterpillar 988H,PL2K05,Scheduled Service,,Total,122.59,Total,,243.42,Total,28.26,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F11-Caterpillar 988H,PL2K05,Shift Change,24.61,Total,122.59,Total,55.14,243.42,Total,426.12,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F11-Caterpillar 988H,PL2K05,Shift Incharge Instruction,,Total,122.59,Total,2.74,243.42,Total,13.99,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F11-Caterpillar 988H,PL2K05,Stuck in Mud,,Total,122.59,Total,,243.42,Total,0.43,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F11-Caterpillar 988H,PL2K05,Tea/ Breakfast / Snacks,14.50,Total,122.59,Total,20.35,243.42,Total,92.99,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F11-Caterpillar 988H,PL2K05,Toilet Break,,Total,122.59,Total,0.17,243.42,Total,0.45,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F11-Caterpillar 988H,PL2K05,Wireless Infrastructure/Network,,Total,122.59,Total,,243.42,Total,0.02,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F11-Caterpillar 988H,PL2K06, Down,55.82,Total,120.83,Total,71.51,243.42,Total,750.64,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F11-Caterpillar 988H,PL2K06,Blasting,4.56,Total,120.83,Total,9.16,243.42,Total,94.37,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F11-Caterpillar 988H,PL2K06,Change Operators,,Total,120.83,Total,,243.42,Total,0.89,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F11-Caterpillar 988H,PL2K06,Clean & Remove,,Total,120.83,Total,,243.42,Total,0.08,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F11-Caterpillar 988H,PL2K06,Daily Service,14.39,Total,120.83,Total,66.83,243.42,Total,130.67,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F11-Caterpillar 988H,PL2K06,Delay At Hopper,2.96,Total,120.83,Total,4.07,243.42,Total,6.78,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F11-Caterpillar 988H,PL2K06,Face Height Reduction,,Total,120.83,Total,,243.42,Total,0.18,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F11-Caterpillar 988H,PL2K06,Fuel Filling,,Total,120.83,Total,,243.42,Total,8.68,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F11-Caterpillar 988H,PL2K06,Marching,3.80,Total,120.83,Total,13.45,243.42,Total,95.71,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F11-Caterpillar 988H,PL2K06,Meeting,,Total,120.83,Total,,243.42,Total,0.01,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F11-Caterpillar 988H,PL2K06,Pit Closed,,Total,120.83,Total,,243.42,Total,0.00,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F11-Caterpillar 988H,PL2K06,Scheduled Service,,Total,120.83,Total,,243.42,Total,28.26,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F11-Caterpillar 988H,PL2K06,Shift Change,30.53,Total,120.83,Total,55.14,243.42,Total,426.12,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F11-Caterpillar 988H,PL2K06,Shift Incharge Instruction,2.74,Total,120.83,Total,2.74,243.42,Total,13.99,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F11-Caterpillar 988H,PL2K06,Stuck in Mud,,Total,120.83,Total,,243.42,Total,0.43,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F11-Caterpillar 988H,PL2K06,Tea/ Breakfast / Snacks,5.85,Total,120.83,Total,20.35,243.42,Total,92.99,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F11-Caterpillar 988H,PL2K06,Toilet Break,0.17,Total,120.83,Total,0.17,243.42,Total,0.45,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F11-Caterpillar 988H,PL2K06,Wireless Infrastructure/Network,,Total,120.83,Total,,243.42,Total,0.02,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX0009, Down,15.65,Total,74.12,Total,104.70,356.40,Total,750.64,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX0009,Blasting,9.55,Total,74.12,Total,31.02,356.40,Total,94.37,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX0009,Change Operators,0.28,Total,74.12,Total,0.38,356.40,Total,0.89,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX0009,Clean & Remove,,Total,74.12,Total,,356.40,Total,0.08,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX0009,Daily Service,2.63,Total,74.12,Total,20.67,356.40,Total,130.67,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX0009,Delay At Hopper,,Total,74.12,Total,,356.40,Total,6.78,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX0009,Face Height Reduction,0.10,Total,74.12,Total,0.10,356.40,Total,0.18,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX0009,Fuel Filling,0.22,Total,74.12,Total,3.57,356.40,Total,8.68,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX0009,Marching,7.11,Total,74.12,Total,32.29,356.40,Total,95.71,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX0009,Meeting,,Total,74.12,Total,0.00,356.40,Total,0.01,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX0009,Pit Closed,,Total,74.12,Total,,356.40,Total,0.00,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX0009,Scheduled Service,,Total,74.12,Total,,356.40,Total,28.26,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX0009,Shift Change,29.43,Total,74.12,Total,144.38,356.40,Total,426.12,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX0009,Shift Incharge Instruction,2.83,Total,74.12,Total,3.10,356.40,Total,13.99,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX0009,Stuck in Mud,,Total,74.12,Total,,356.40,Total,0.43,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX0009,Tea/ Breakfast / Snacks,6.14,Total,74.12,Total,15.99,356.40,Total,92.99,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX0009,Toilet Break,0.18,Total,74.12,Total,0.18,356.40,Total,0.45,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX0009,Wireless Infrastructure/Network,,Total,74.12,Total,0.02,356.40,Total,0.02,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX0010, Down,1.04,Total,48.56,Total,104.70,356.40,Total,750.64,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX0010,Blasting,5.49,Total,48.56,Total,31.02,356.40,Total,94.37,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX0010,Change Operators,,Total,48.56,Total,0.38,356.40,Total,0.89,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX0010,Clean & Remove,,Total,48.56,Total,,356.40,Total,0.08,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX0010,Daily Service,6.25,Total,48.56,Total,20.67,356.40,Total,130.67,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX0010,Delay At Hopper,,Total,48.56,Total,,356.40,Total,6.78,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX0010,Face Height Reduction,,Total,48.56,Total,0.10,356.40,Total,0.18,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX0010,Fuel Filling,0.34,Total,48.56,Total,3.57,356.40,Total,8.68,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX0010,Marching,3.33,Total,48.56,Total,32.29,356.40,Total,95.71,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX0010,Meeting,,Total,48.56,Total,0.00,356.40,Total,0.01,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX0010,Pit Closed,,Total,48.56,Total,,356.40,Total,0.00,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX0010,Scheduled Service,,Total,48.56,Total,,356.40,Total,28.26,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX0010,Shift Change,30.01,Total,48.56,Total,144.38,356.40,Total,426.12,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX0010,Shift Incharge Instruction,,Total,48.56,Total,3.10,356.40,Total,13.99,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX0010,Stuck in Mud,,Total,48.56,Total,,356.40,Total,0.43,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX0010,Tea/ Breakfast / Snacks,2.11,Total,48.56,Total,15.99,356.40,Total,92.99,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX0010,Toilet Break,,Total,48.56,Total,0.18,356.40,Total,0.45,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX0010,Wireless Infrastructure/Network,,Total,48.56,Total,0.02,356.40,Total,0.02,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX0011, Down,9.50,Total,58.01,Total,104.70,356.40,Total,750.64,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX0011,Blasting,5.63,Total,58.01,Total,31.02,356.40,Total,94.37,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX0011,Change Operators,0.10,Total,58.01,Total,0.38,356.40,Total,0.89,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX0011,Clean & Remove,,Total,58.01,Total,,356.40,Total,0.08,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX0011,Daily Service,3.18,Total,58.01,Total,20.67,356.40,Total,130.67,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX0011,Delay At Hopper,,Total,58.01,Total,,356.40,Total,6.78,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX0011,Face Height Reduction,,Total,58.01,Total,0.10,356.40,Total,0.18,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX0011,Fuel Filling,1.06,Total,58.01,Total,3.57,356.40,Total,8.68,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX0011,Marching,6.69,Total,58.01,Total,32.29,356.40,Total,95.71,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX0011,Meeting,,Total,58.01,Total,0.00,356.40,Total,0.01,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX0011,Pit Closed,,Total,58.01,Total,,356.40,Total,0.00,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX0011,Scheduled Service,,Total,58.01,Total,,356.40,Total,28.26,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX0011,Shift Change,30.70,Total,58.01,Total,144.38,356.40,Total,426.12,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX0011,Shift Incharge Instruction,,Total,58.01,Total,3.10,356.40,Total,13.99,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX0011,Stuck in Mud,,Total,58.01,Total,,356.40,Total,0.43,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX0011,Tea/ Breakfast / Snacks,1.14,Total,58.01,Total,15.99,356.40,Total,92.99,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX0011,Toilet Break,,Total,58.01,Total,0.18,356.40,Total,0.45,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX0011,Wireless Infrastructure/Network,0.02,Total,58.01,Total,0.02,356.40,Total,0.02,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX007, Down,65.06,Total,110.14,Total,104.70,356.40,Total,750.64,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX007,Blasting,4.58,Total,110.14,Total,31.02,356.40,Total,94.37,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX007,Change Operators,,Total,110.14,Total,0.38,356.40,Total,0.89,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX007,Clean & Remove,,Total,110.14,Total,,356.40,Total,0.08,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX007,Daily Service,2.53,Total,110.14,Total,20.67,356.40,Total,130.67,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX007,Delay At Hopper,,Total,110.14,Total,,356.40,Total,6.78,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX007,Face Height Reduction,,Total,110.14,Total,0.10,356.40,Total,0.18,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX007,Fuel Filling,0.77,Total,110.14,Total,3.57,356.40,Total,8.68,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX007,Marching,10.94,Total,110.14,Total,32.29,356.40,Total,95.71,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX007,Meeting,0.00,Total,110.14,Total,0.00,356.40,Total,0.01,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX007,Pit Closed,,Total,110.14,Total,,356.40,Total,0.00,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX007,Scheduled Service,,Total,110.14,Total,,356.40,Total,28.26,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX007,Shift Change,22.61,Total,110.14,Total,144.38,356.40,Total,426.12,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX007,Shift Incharge Instruction,0.27,Total,110.14,Total,3.10,356.40,Total,13.99,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX007,Stuck in Mud,,Total,110.14,Total,,356.40,Total,0.43,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX007,Tea/ Breakfast / Snacks,3.38,Total,110.14,Total,15.99,356.40,Total,92.99,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX007,Toilet Break,,Total,110.14,Total,0.18,356.40,Total,0.45,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX007,Wireless Infrastructure/Network,,Total,110.14,Total,0.02,356.40,Total,0.02,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX008, Down,13.45,Total,65.56,Total,104.70,356.40,Total,750.64,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX008,Blasting,5.76,Total,65.56,Total,31.02,356.40,Total,94.37,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX008,Change Operators,,Total,65.56,Total,0.38,356.40,Total,0.89,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX008,Clean & Remove,,Total,65.56,Total,,356.40,Total,0.08,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX008,Daily Service,6.09,Total,65.56,Total,20.67,356.40,Total,130.67,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX008,Delay At Hopper,,Total,65.56,Total,,356.40,Total,6.78,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX008,Face Height Reduction,,Total,65.56,Total,0.10,356.40,Total,0.18,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX008,Fuel Filling,1.19,Total,65.56,Total,3.57,356.40,Total,8.68,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX008,Marching,4.21,Total,65.56,Total,32.29,356.40,Total,95.71,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX008,Meeting,,Total,65.56,Total,0.00,356.40,Total,0.01,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX008,Pit Closed,,Total,65.56,Total,,356.40,Total,0.00,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX008,Scheduled Service,,Total,65.56,Total,,356.40,Total,28.26,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX008,Shift Change,31.62,Total,65.56,Total,144.38,356.40,Total,426.12,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX008,Shift Incharge Instruction,,Total,65.56,Total,3.10,356.40,Total,13.99,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX008,Stuck in Mud,,Total,65.56,Total,,356.40,Total,0.43,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX008,Tea/ Breakfast / Snacks,3.23,Total,65.56,Total,15.99,356.40,Total,92.99,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX008,Toilet Break,,Total,65.56,Total,0.18,356.40,Total,0.45,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F17-Tata Hitachi EX2600-7,EX008,Wireless Infrastructure/Network,,Total,65.56,Total,0.02,356.40,Total,0.02,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F18-KOMATSU WE1150,PL003, Down,162.93,Total,177.88,Total,189.73,247.72,Total,750.64,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F18-KOMATSU WE1150,PL003,Blasting,0.33,Total,177.88,Total,1.51,247.72,Total,94.37,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F18-KOMATSU WE1150,PL003,Change Operators,,Total,177.88,Total,0.23,247.72,Total,0.89,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F18-KOMATSU WE1150,PL003,Clean & Remove,,Total,177.88,Total,,247.72,Total,0.08,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F18-KOMATSU WE1150,PL003,Daily Service,,Total,177.88,Total,,247.72,Total,130.67,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F18-KOMATSU WE1150,PL003,Delay At Hopper,,Total,177.88,Total,2.71,247.72,Total,6.78,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F18-KOMATSU WE1150,PL003,Face Height Reduction,,Total,177.88,Total,,247.72,Total,0.18,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F18-KOMATSU WE1150,PL003,Fuel Filling,0.09,Total,177.88,Total,0.30,247.72,Total,8.68,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F18-KOMATSU WE1150,PL003,Marching,1.89,Total,177.88,Total,11.65,247.72,Total,95.71,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F18-KOMATSU WE1150,PL003,Meeting,,Total,177.88,Total,,247.72,Total,0.01,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F18-KOMATSU WE1150,PL003,Pit Closed,,Total,177.88,Total,,247.72,Total,0.00,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F18-KOMATSU WE1150,PL003,Scheduled Service,,Total,177.88,Total,,247.72,Total,28.26,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F18-KOMATSU WE1150,PL003,Shift Change,7.74,Total,177.88,Total,27.56,247.72,Total,426.12,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F18-KOMATSU WE1150,PL003,Shift Incharge Instruction,0.31,Total,177.88,Total,1.72,247.72,Total,13.99,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F18-KOMATSU WE1150,PL003,Stuck in Mud,,Total,177.88,Total,,247.72,Total,0.43,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F18-KOMATSU WE1150,PL003,Tea/ Breakfast / Snacks,4.58,Total,177.88,Total,12.31,247.72,Total,92.99,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F18-KOMATSU WE1150,PL003,Toilet Break,,Total,177.88,Total,,247.72,Total,0.45,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F18-KOMATSU WE1150,PL003,Wireless Infrastructure/Network,,Total,177.88,Total,,247.72,Total,0.02,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F18-KOMATSU WE1150,PL004, Down,26.80,Total,69.84,Total,189.73,247.72,Total,750.64,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F18-KOMATSU WE1150,PL004,Blasting,1.19,Total,69.84,Total,1.51,247.72,Total,94.37,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F18-KOMATSU WE1150,PL004,Change Operators,0.23,Total,69.84,Total,0.23,247.72,Total,0.89,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F18-KOMATSU WE1150,PL004,Clean & Remove,,Total,69.84,Total,,247.72,Total,0.08,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F18-KOMATSU WE1150,PL004,Daily Service,,Total,69.84,Total,,247.72,Total,130.67,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F18-KOMATSU WE1150,PL004,Delay At Hopper,2.71,Total,69.84,Total,2.71,247.72,Total,6.78,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F18-KOMATSU WE1150,PL004,Face Height Reduction,,Total,69.84,Total,,247.72,Total,0.18,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F18-KOMATSU WE1150,PL004,Fuel Filling,0.21,Total,69.84,Total,0.30,247.72,Total,8.68,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F18-KOMATSU WE1150,PL004,Marching,9.76,Total,69.84,Total,11.65,247.72,Total,95.71,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F18-KOMATSU WE1150,PL004,Meeting,,Total,69.84,Total,,247.72,Total,0.01,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F18-KOMATSU WE1150,PL004,Pit Closed,,Total,69.84,Total,,247.72,Total,0.00,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F18-KOMATSU WE1150,PL004,Scheduled Service,,Total,69.84,Total,,247.72,Total,28.26,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F18-KOMATSU WE1150,PL004,Shift Change,19.82,Total,69.84,Total,27.56,247.72,Total,426.12,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F18-KOMATSU WE1150,PL004,Shift Incharge Instruction,1.41,Total,69.84,Total,1.72,247.72,Total,13.99,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F18-KOMATSU WE1150,PL004,Stuck in Mud,,Total,69.84,Total,,247.72,Total,0.43,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F18-KOMATSU WE1150,PL004,Tea/ Breakfast / Snacks,7.73,Total,69.84,Total,12.31,247.72,Total,92.99,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F18-KOMATSU WE1150,PL004,Toilet Break,,Total,69.84,Total,,247.72,Total,0.45,"1,650.28"
+"
+Fleet     
+              ","        Status Code
+Loader    
+
+
+                       ",F18-KOMATSU WE1150,PL004,Wireless Infrastructure/Network,,Total,69.84,Total,,247.72,Total,0.02,"1,650.28"
+
+New Duration_label,New Duration_Chart2_CategoryGroup_label,New Duration_Chart2_CategoryGroup_Value_Y
+New Duration, Down,750.6405545166666666632
+New Duration,Blasting,94.3672217833333333306
+New Duration,Change Operators,0.8877777166666666665
+New Duration,Clean & Remove,0.0838888833333333333
+New Duration,Daily Service,130.6741663666666666647
+New Duration,Delay At Hopper,6.7761110166666666663
+New Duration,Face Height Reduction,0.1788888833333333333
+New Duration,Fuel Filling,8.6763886833333333317
+New Duration,Marching,95.7102756666666666584
+New Duration,Meeting,0.0055555333333333332
+New Duration,Pit Closed,0.0016666666666666666
+New Duration,Scheduled Service,28.2649999666666666665
+New Duration,Shift Change,426.1233294833333333199
+New Duration,Shift Incharge Instruction,13.9922221666666666663
+New Duration,Stuck in Mud,0.4341666666666666666
+New Duration,Tea/ Breakfast / Snacks,92.9913883499999999972
+New Duration,Toilet Break,0.4533333166666666666
+New Duration,Wireless Infrastructure/Network,0.0208333333333333333
+

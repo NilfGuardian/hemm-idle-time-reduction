@@ -1,0 +1,21 @@
+﻿START_SHIFT_DATE,END_SHIFT_DATE
+2026-07-01,2026-07-31
+
+Equipment_type,Operator_Count_First_Shift,Operator_Count_Second_Shift,Operator_Count_Third_Shift,Textbox30
+Shovel,36,34,35,105
+Dumper,142,144,143,429
+Loader,17,20,15,52
+Drill,0,0,0,0
+
+MATERIAL,Material_Count_First_Shift,Materail_Count_Second_Shift,Material_Count_Third_Shift,Textbox42
+COAL in tons,186618.59,202181.18,197330.41,586130.18
+OVERBURDEN in CUM,347161.59,279121.82,325502.84,951786.25
+MIXED COAL in tons,2998.40,287.95,0.00,3286.35
+
+Model,First_Shift_Production,Second_Shift_Production,Third_Shift_Production,Textbox49
+EX-120T -CUM/Hr,0,0,0,0
+EX-250T- CUM/Hr,153,136,155,444
+RD-50T-CUM/Hr,0,0,0,0
+CRD-Ton/Hr,0,0,0,0
+RD-100T-CUM/Hr,15,17,15,47
+

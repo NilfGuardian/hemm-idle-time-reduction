@@ -1,0 +1,130 @@
+{
+  "generated_at": "2026-08-28T10:11:19",
+  "elapsed_seconds": 22.0,
+  "source_dirs": [
+    "d:\\HEMM DATA 1July to 31st",
+    "d:\\HEMM DATA 1July to 31st\\new files"
+  ],
+  "files_used": {
+    "hauling_summary": [
+      "21 to 31 july.csv",
+      "Hauling Unit Summary Report_QSE 11 to 20 july.csv",
+      "Hauling Unit Summary Report_QSE july 1 to 10.csv"
+    ],
+    "idle_events": [
+      "Dumper Idle Time 1.07.2026.csv"
+    ],
+    "dumper_shift": [
+      "Dumper_QSE_Report 1 JULY TO 31 2026.csv"
+    ],
+    "loader_profile": [
+      "Loading Unit Time Profile EX-001.csv",
+      "Loading Unit Time Profile EX0010.csv",
+      "Loading Unit Time Profile EX0011.csv",
+      "Loading Unit Time Profile EX005.csv",
+      "Loading Unit Time Profile EX007.csv",
+      "Loading Unit Time Profile EX008.csv",
+      "Loading Unit Time Profile PL003.csv",
+      "Loading Unit Time Profile PL004.csv"
+    ],
+    "operator": [
+      "Operator Performance Report_QSE_ 1 TO 31 JULY 2026.csv"
+    ],
+    "shovel_shift": [
+      "SHOVEL_QSE_REPORT 1 JULY TO 31 2026.csv"
+    ],
+    "status_category": [
+      "Time by Status Category Fleet and Equipment 1 JULY TO 31 2026.csv"
+    ],
+    "payload_cycles": [
+      "Cycle Time and Payload by Hauling Unit and Load.csv"
+    ],
+    "daily_production": [
+      "Daily Production Report QSE.csv"
+    ],
+    "delay_events": [
+      "Delays and Downs by Equipment Shift Status Code and Sub-Status Code.csv"
+    ],
+    "cycles": [
+      "Dumper Cycle Time 1.csv",
+      "Dumper Cycle Time 2.csv",
+      "Dumper Cycle Time 3.csv"
+    ],
+    "fuel": [
+      "Fuel Consumption by Hauling Unit 1.csv",
+      "Fuel Consumption by Hauling Unit 2.csv",
+      "Fuel Consumption by Hauling Unit 3.csv"
+    ],
+    "loading_unit_summary": [
+      "Loading Unit Summary Report.csv"
+    ],
+    "engine_hours": [
+      "Net Engine Hours by Fleet and Equipment 1.csv",
+      "Net Engine Hours by Fleet and Equipment 2.csv",
+      "Net Engine Hours by Fleet and Equipment 3.csv"
+    ],
+    "tkph": [
+      "Productivity TKPH-TMPH by Fleet and Hauling Unit.csv"
+    ],
+    "status_summary": [
+      "Status and Sub-Status by Hauling Unit.csv"
+    ]
+  },
+  "row_counts": {
+    "cycles": 59250,
+    "shifts": 6372,
+    "hourly": 742,
+    "reasons": 19,
+    "equipment": 70,
+    "idle_events": 18640,
+    "delay_events": 27733,
+    "fuel": 40,
+    "tkph": 69,
+    "dumper_shift": 2709,
+    "status_summary": 1193,
+    "shovel_shift": 837,
+    "hauling_summary": 2588,
+    "loading_unit_summary": 1263,
+    "daily_production": 138,
+    "loader_profile": 65562,
+    "operator": 537,
+    "payload_cycles": 60221,
+    "loading_unit_time": 51,
+    "loading_routes": 4023,
+    "status_category": 87,
+    "engine_hours": 2317
+  },
+  "coverage": {
+    "first_shift_date": "2026-07-01",
+    "last_shift_date": "2026-07-31",
+    "dumpers": 70,
+    "dumper_shifts": 6372,
+    "zero_cycle_shifts": 1412
+  },
+  "model": {
+    "model": "Gradient Boosting",
+    "target": "Total_Idle_Min",
+    "r2": 0.7223,
+    "mae": 41.806,
+    "n_train": 5097,
+    "n_test": 1275,
+    "segments": {
+      "working_shifts": {
+        "r2": 0.1881,
+        "mae": 44.4383,
+        "n": 990,
+        "mean_actual": 241.6027
+      },
+      "zero_cycle_shifts": {
+        "r2": 0.2235,
+        "mae": 32.6645,
+        "n": 285,
+        "mean_actual": 462.5469
+      }
+    },
+    "risk_model": "Logistic Regression",
+    "risk_auc": 0.7795,
+    "risk_accuracy": 0.7359,
+    "risk_threshold_min": 254.6
+  }
+}
