@@ -221,7 +221,7 @@ def main() -> None:
             )
             st.markdown("#### Dumpers to prioritise for inspection")
             st.dataframe(
-                worst, hide_index=True, width="stretch",
+                worst, hide_index=True,
                 column_config={
                     "Equipment_ID": "Dumper",
                     "Hours": st.column_config.NumberColumn(format="%,.1f"),
@@ -258,7 +258,7 @@ def main() -> None:
             st.markdown("#### Shovels with the most queueing per cycle")
             st.dataframe(
                 worst_shovels[["Loading_Unit", "Idle hours", "Queue min per cycle", "Dumper_Shifts"]],
-                hide_index=True, width="stretch",
+                hide_index=True,
                 column_config={
                     "Loading_Unit": "Shovel",
                     "Idle hours": st.column_config.NumberColumn(format="%,.0f"),

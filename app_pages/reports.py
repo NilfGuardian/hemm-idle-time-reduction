@@ -174,13 +174,13 @@ def main() -> None:
         else:
             filtered = filters.apply(frame)
             st.caption(f"{len(filtered):,} rows · {len(filtered.columns)} columns")
-            st.dataframe(filtered.head(200), hide_index=True, width="stretch", height=400)
+            st.dataframe(filtered.head(200), hide_index=True, height=400)
 
             buttons = st.columns(2)
             with buttons[0]:
                 st.download_button(
                     "Download CSV", filtered.to_csv(index=False).encode("utf-8"),
-                    file_name=f"{key}.csv", mime="text/csv", width="stretch",
+                    file_name=f"{key}.csv", mime="text/csv",
                 )
             with buttons[1]:
                 buffer = io.BytesIO()
@@ -188,7 +188,7 @@ def main() -> None:
                 st.download_button(
                     "Download Parquet", buffer.getvalue(),
                     file_name=f"{key}.parquet", mime="application/octet-stream",
-                    width="stretch",
+                    use_container_width=True,
                 )
 
     with tab_model:
@@ -214,7 +214,7 @@ def main() -> None:
 
                 st.dataframe(
                     bundle.risk_leaderboard[["Model", "AUC", "Accuracy", "F1"]],
-                    hide_index=True, width="stretch",
+                    hide_index=True,
                     column_config={
                         "AUC": st.column_config.NumberColumn(format="%.4f"),
                         "Accuracy": st.column_config.NumberColumn(format="%.4f"),
@@ -224,7 +224,7 @@ def main() -> None:
                 if bundle.risk_importances is not None:
                     st.markdown("**What predicts high-idle risk**")
                     st.dataframe(
-                        bundle.risk_importances.head(10), hide_index=True, width="stretch",
+                        bundle.risk_importances.head(10), hide_index=True,
                         column_config={
                             "Importance": st.column_config.ProgressColumn(
                                 format="%.3f", min_value=0,
@@ -255,7 +255,7 @@ def main() -> None:
                             f"{bundle.n_test:,} held out")
 
             st.dataframe(
-                bundle.leaderboard[["Model", "R2", "MAE"]], hide_index=True, width="stretch",
+                bundle.leaderboard[["Model", "R2", "MAE"]], hide_index=True,
                 column_config={
                     "R2": st.column_config.NumberColumn("Test R²", format="%.4f"),
                     "MAE": st.column_config.NumberColumn("MAE (min)", format="%.2f"),
@@ -275,7 +275,7 @@ def main() -> None:
 
             st.markdown("**Top features**")
             st.dataframe(
-                bundle.importances.head(15), hide_index=True, width="stretch",
+                bundle.importances.head(15), hide_index=True,
                 column_config={
                     "Importance": st.column_config.ProgressColumn(
                         format="%.3f", min_value=0,
@@ -352,7 +352,7 @@ def main() -> None:
                     {"Metric": "Fleet size", "Before": "69", "After": f"{shifts['Equipment_ID'].nunique()}"},
                 ]
             )
-            st.dataframe(kpi_before_after, hide_index=True, width="stretch")
+            st.dataframe(kpi_before_after, hide_index=True)
             ui.note(
                 "The opportunity does <b>not</b> grow much — the extra 10,458 h is nearly all "
                 "unaddressable <code>Down</code> time. What changes is that the mine can no "

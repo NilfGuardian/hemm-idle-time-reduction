@@ -73,11 +73,11 @@ def main() -> None:
     with tab_cycle:
         left, right = st.columns([3, 2], gap="large")
         with left:
-            st.plotly_chart(charts.cycle_breakdown_bar(shifts), width="stretch")
+            st.plotly_chart(charts.cycle_breakdown_bar(shifts))
         with right:
             frame = bucket_table(shifts)
             st.dataframe(
-                frame, hide_index=True, width="stretch", height=420,
+                frame, hide_index=True, height=420,
                 column_config={
                     "Min per cycle": st.column_config.NumberColumn(format="%.2f"),
                     "Total hours": st.column_config.NumberColumn(format="%,.0f"),
@@ -99,14 +99,14 @@ def main() -> None:
     with tab_when:
         top = st.columns(2, gap="large")
         with top[0]:
-            st.plotly_chart(charts.idle_by_shift(shifts), width="stretch")
+            st.plotly_chart(charts.idle_by_shift(shifts))
         with top[1]:
-            st.plotly_chart(charts.idle_trend(shifts), width="stretch")
+            st.plotly_chart(charts.idle_trend(shifts))
 
-        st.plotly_chart(charts.idle_heatmap(shifts), width="stretch")
+        st.plotly_chart(charts.idle_heatmap(shifts))
 
         if not hourly.empty:
-            st.plotly_chart(charts.hour_of_day_profile(hourly), width="stretch")
+            st.plotly_chart(charts.hour_of_day_profile(hourly))
             peak = (
                 hourly.groupby("Hour")["Idle_Min"].sum().div(60).sort_values(ascending=False)
             )
@@ -128,7 +128,7 @@ def main() -> None:
         weekday["Idle hours per dumper-shift"] = weekday["Total_Idle_Min"] / 60
         st.dataframe(
             weekday[["Day_Of_Week", "Idle hours per dumper-shift"]],
-            hide_index=True, width="stretch",
+            hide_index=True,
             column_config={
                 "Day_Of_Week": "Day of week",
                 "Idle hours per dumper-shift": st.column_config.NumberColumn(format="%.2f"),
@@ -172,7 +172,7 @@ def main() -> None:
                 distribution["Hours"] / distribution["Hours"].sum() * 100
             )
             st.dataframe(
-                distribution, hide_index=True, width="stretch",
+                distribution, hide_index=True,
                 column_config={
                     "Bucket": "Event length",
                     "Events": st.column_config.NumberColumn(format="%,d"),
@@ -193,7 +193,7 @@ def main() -> None:
             ].copy()
             worst["Idle hours"] = worst["Idle_Min"] / 60
             st.dataframe(
-                worst.drop(columns=["Idle_Min"]), hide_index=True, width="stretch",
+                worst.drop(columns=["Idle_Min"]), hide_index=True,
                 column_config={
                     "Equipment_ID": "Dumper",
                     "Shift_Date": st.column_config.DateColumn("Shift date", format="DD MMM"),
@@ -259,7 +259,7 @@ def main() -> None:
                 },
             ]
         )
-        st.dataframe(recon, hide_index=True, width="stretch")
+        st.dataframe(recon, hide_index=True)
         ui.note(
             "The previous release dropped every fully-down dumper-shift because it never "
             "appeared in the cycle report. Those 1,412 missing rows represented 10,458 h of "
@@ -300,7 +300,7 @@ def main() -> None:
             ]
         )
         st.dataframe(
-            cross, hide_index=True, width="stretch",
+            cross, hide_index=True,
             column_config={"Hours": st.column_config.NumberColumn(format="%,.0f")},
         )
         ui.note(

@@ -85,7 +85,7 @@ def main() -> None:
                 charts.equipment_ranking(
                     dumpers.rename(columns={metric: "value"}), "value", metric, top=18
                 ),
-                width="stretch",
+                use_container_width=True,
             )
         with table:
             columns = ["Equipment_ID"] + DISPLAY_COLUMNS
@@ -93,7 +93,7 @@ def main() -> None:
                 columns.append("Litres per tonne")
             st.dataframe(
                 dumpers[columns].sort_values(metric, ascending=False),
-                hide_index=True, width="stretch", height=520,
+                hide_index=True, height=520,
                 column_config={
                     "Equipment_ID": "Dumper",
                     **RANKING_COLUMNS,
@@ -154,7 +154,7 @@ def main() -> None:
 
             left, right = st.columns([3, 2], gap="large")
             with left:
-                st.plotly_chart(charts.residual_scatter(shifts), width="stretch")
+                st.plotly_chart(charts.residual_scatter(shifts))
                 st.caption(
                     "Exact-minute estimate vs actual. Useful for ranking, not for reading off "
                     "a precise number."
@@ -164,7 +164,7 @@ def main() -> None:
                     bundle.risk_importances if bundle.risk_importances is not None
                     else bundle.importances
                 )
-                st.plotly_chart(charts.importance_bar(importances), width="stretch")
+                st.plotly_chart(charts.importance_bar(importances))
                 st.caption("What the risk classifier leans on.")
 
             st.markdown("#### Shifts flagged as high risk this period")
@@ -187,7 +187,7 @@ def main() -> None:
                      "Total_Idle_Min", "High_Idle_Risk_Proba"]
                 ]
                 st.dataframe(
-                    worst, hide_index=True, width="stretch",
+                    worst, hide_index=True,
                     column_config={
                         "Shift_Date": st.column_config.DateColumn("Date", format="DD MMM"),
                         "Equipment_ID": "Dumper",
@@ -210,7 +210,7 @@ def main() -> None:
                 by_dumper.nlargest(15, "Flagged share")[
                     ["Equipment_ID", "Shifts", "Flagged", "Flagged share", "Mean_Risk"]
                 ],
-                hide_index=True, width="stretch",
+                hide_index=True,
                 column_config={
                     "Equipment_ID": "Dumper",
                     "Flagged": st.column_config.NumberColumn(format="%d"),
@@ -268,7 +268,7 @@ def main() -> None:
             lu_summary = lu_summary.sort_values("Waiting_Hours", ascending=False)
             st.dataframe(
                 lu_summary,
-                hide_index=True, width="stretch",
+                hide_index=True,
                 column_config={
                     "Equipment_ID": "Shovel",
                     "Loading_Hours": st.column_config.NumberColumn("Loading h", format="%,.0f"),
@@ -312,7 +312,7 @@ def main() -> None:
             merged = merged[merged["shovel_idle_h"] >= 0]
             st.plotly_chart(
                 charts.shovel_starvation_scatter(merged),
-                width="stretch",
+                use_container_width=True,
             )
             ui.note(
                 "The weak correlation (r ≈ −0.08) shows that <b>adding trucks alone does "
@@ -349,7 +349,7 @@ def main() -> None:
             ]
             st.dataframe(
                 shovel_decomp[show_cols].sort_values("Idle_Hours", ascending=False),
-                hide_index=True, width="stretch",
+                hide_index=True,
                 column_config={
                     "Equipment_ID": "Shovel",
                     "Shifts": st.column_config.NumberColumn(format="%d"),
@@ -373,7 +373,7 @@ def main() -> None:
         st.markdown("#### Idle of the trucks working to each shovel")
         st.dataframe(
             loaders[["Loading_Unit"] + DISPLAY_COLUMNS],
-            hide_index=True, width="stretch",
+            hide_index=True,
             column_config={"Loading_Unit": "Shovel", **RANKING_COLUMNS},
         )
         ui.note(
@@ -385,7 +385,7 @@ def main() -> None:
         st.markdown("#### Idle by haul route")
         st.dataframe(
             routes[["Route"] + DISPLAY_COLUMNS].head(20),
-            hide_index=True, width="stretch",
+            hide_index=True,
             column_config={"Route": "Load -> Dump", **RANKING_COLUMNS},
         )
 
@@ -433,12 +433,12 @@ def main() -> None:
                 st.markdown("#### Dumpers ranked by breakdown / down hours")
                 st.plotly_chart(
                     charts.breakdown_ranking(per_dumper, median_hours),
-                    width="stretch",
+                    use_container_width=True,
                 )
 
                 st.dataframe(
                     per_dumper,
-                    hide_index=True, width="stretch",
+                    hide_index=True,
                     column_config={
                         "Equipment_ID": "Dumper",
                         "Breakdown_Events": st.column_config.NumberColumn("Events", format="%d"),
@@ -470,13 +470,13 @@ def main() -> None:
             )
             st.dataframe(
                 operators[["Operator"] + DISPLAY_COLUMNS].head(25),
-                hide_index=True, width="stretch",
+                hide_index=True,
                 column_config={"Operator": "Operator", **RANKING_COLUMNS},
             )
             best = operators.nsmallest(5, "Idle % of cycle")[["Operator", "Idle % of cycle"]]
             st.markdown("**Lowest in-cycle idle share — worth understanding what they do differently**")
             st.dataframe(
-                best, hide_index=True, width="stretch",
+                best, hide_index=True,
                 column_config={
                     "Idle % of cycle": st.column_config.NumberColumn(format="%.1f%%")
                 },

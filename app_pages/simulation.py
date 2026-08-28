@@ -129,7 +129,7 @@ def main() -> None:
     st.markdown("")
     st.plotly_chart(
         charts.savings_waterfall(plan.to_dict("records"), summary.total_idle_hours),
-        width="stretch",
+        use_container_width=True,
     )
 
     left, right = st.columns([3, 2], gap="large")
@@ -140,7 +140,7 @@ def main() -> None:
         st.dataframe(
             display[["Reason", "Lever", "Hours lost", "Reduction %", "Hours saved",
                      "Hours saved per day", "Value"]],
-            hide_index=True, width="stretch",
+            hide_index=True,
             column_config={
                 "Hours lost": st.column_config.NumberColumn(format="%,.0f"),
                 "Reduction %": st.column_config.NumberColumn(format="%d%%"),
@@ -164,7 +164,7 @@ def main() -> None:
             }
         )
         st.dataframe(
-            comparison, hide_index=True, width="stretch",
+            comparison, hide_index=True,
             column_config={
                 "Idle hours per dumper-shift": st.column_config.NumberColumn(format="%.2f"),
                 "Productive share of shift": st.column_config.NumberColumn(format="%.1f%%"),
@@ -192,7 +192,7 @@ def main() -> None:
         }
     )
     st.dataframe(
-        sensitivity, hide_index=True, width="stretch",
+        sensitivity, hide_index=True,
         column_config={
             "Idle cost (₹/h)": st.column_config.NumberColumn(format="₹%,d"),
             "Value in period": st.column_config.NumberColumn(format="₹%,.0f"),

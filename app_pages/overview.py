@@ -102,11 +102,11 @@ def main() -> None:
 
     left, right = st.columns([3, 2], gap="large")
     with left:
-        st.plotly_chart(charts.cycle_breakdown_bar(shifts), width="stretch")
+        st.plotly_chart(charts.cycle_breakdown_bar(shifts))
     with right:
         reasons = _reason_table(reasons_scope)
         if not reasons.empty:
-            st.plotly_chart(charts.reason_class_donut(reasons), width="stretch")
+            st.plotly_chart(charts.reason_class_donut(reasons))
 
     st.divider()
     st.subheader("What to do about it")
@@ -166,10 +166,10 @@ def main() -> None:
     st.divider()
     trend, profile = st.columns(2, gap="large")
     with trend:
-        st.plotly_chart(charts.idle_trend(shifts), width="stretch")
+        st.plotly_chart(charts.idle_trend(shifts))
     with profile:
         if not hourly.empty:
-            st.plotly_chart(charts.hour_of_day_profile(hourly), width="stretch")
+            st.plotly_chart(charts.hour_of_day_profile(hourly))
         else:
             st.info("No hourly idle data in the current selection.")
 

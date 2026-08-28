@@ -78,9 +78,9 @@ def main() -> None:
     with tab_pareto:
         left, right = st.columns([3, 2], gap="large")
         with left:
-            st.plotly_chart(charts.reason_pareto(reasons), width="stretch")
+            st.plotly_chart(charts.reason_pareto(reasons))
         with right:
-            st.plotly_chart(charts.reason_class_donut(reasons), width="stretch")
+            st.plotly_chart(charts.reason_class_donut(reasons))
 
         st.markdown("#### Full reason table")
         display = reasons.copy()
@@ -90,7 +90,7 @@ def main() -> None:
         if "Hours_Cross_Check" in display.columns:
             columns.insert(5, "Hours_Cross_Check")
         st.dataframe(
-            display[columns], hide_index=True, width="stretch",
+            display[columns], hide_index=True,
             column_config={
                 "Reason_Class": "Class",
                 "Addressable": st.column_config.CheckboxColumn("Addressable"),
@@ -134,7 +134,7 @@ def main() -> None:
             )
             if selected:
                 st.plotly_chart(
-                    charts.reason_hour_heatmap(dumper_delays, selected), width="stretch"
+                    charts.reason_hour_heatmap(dumper_delays, selected)
                 )
 
             st.markdown("#### Reason mix by shift")
@@ -145,7 +145,7 @@ def main() -> None:
             )
             mix.index = [safe_shift_label(i) for i in mix.index]
             st.dataframe(
-                mix.round(0), width="stretch",
+                mix.round(0),
                 column_config={c: st.column_config.NumberColumn(format="%,.0f") for c in mix.columns},
             )
 
@@ -172,7 +172,7 @@ def main() -> None:
                     ["Shift_Date", "Shift", "Equipment_ID", "Reason", "Reason_Class",
                      "Start_Timestamp", "Delay_Min"]
                 ],
-                hide_index=True, width="stretch", height=460,
+                hide_index=True, height=460,
                 column_config={
                     "Shift_Date": st.column_config.DateColumn("Date", format="DD MMM"),
                     "Equipment_ID": "Dumper",
@@ -216,7 +216,7 @@ def main() -> None:
                 "Add a matching rule to `config.REASON_RULES` to fold these into a class."
             )
             st.dataframe(
-                unclassified[["Reason", "Hours", "Events"]], hide_index=True, width="stretch",
+                unclassified[["Reason", "Hours", "Events"]], hide_index=True,
                 column_config={"Hours": st.column_config.NumberColumn(format="%,.0f")},
             )
         else:
