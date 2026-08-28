@@ -4,7 +4,7 @@ A Streamlit application that turns raw Fleet Management System exports from
 Tata Steel West Bokaro into a quantified, costed and actionable picture of dumper
 idle time.
 
-**Live dashboard:** _add your Streamlit Community Cloud URL here after deployment_
+**Live dashboard:** [optihaul.streamlit.app](https://optihaul.streamlit.app)
 
 **Source code:** [github.com/NilfGuardian/hemm-idle-time-reduction](https://github.com/NilfGuardian/hemm-idle-time-reduction)
 
