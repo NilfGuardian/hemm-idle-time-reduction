@@ -107,6 +107,72 @@ def main() -> None:
             "shifts they worked. A dumper can top the hours list simply by working the most."
         )
 
+        st.markdown("#### Dumper drilldown")
+        dumper_ids = sorted(dumpers["Equipment_ID"].unique())
+        selected_dumper = st.selectbox("Select a dumper", dumper_ids, key="dumper_drilldown")
+        if selected_dumper:
+            d_shifts = shifts[shifts["Equipment_ID"] == selected_dumper].sort_values(
+                ["Shift_Date", "Shift"]
+            )
+            d_delays = filters.apply(tables.get("delay_events", pd.DataFrame()))
+            d_delays = d_delays[d_delays["Equipment_ID"] == selected_dumper]
+
+            dc1, dc2, dc3, dc4 = st.columns(4)
+            with dc1:
+                ui.kpi_card("Shifts", str(len(d_shifts)), "in this period")
+            with dc2:
+                ui.kpi_card(
+                    "Avg idle / shift",
+                    f"{d_shifts['Total_Idle_Min'].mean() / 60:.1f} h",
+                    f"fleet avg: {shifts['Total_Idle_Min'].mean() / 60:.1f} h",
+                )
+            with dc3:
+                ui.kpi_card(
+                    "Worst shift",
+                    f"{d_shifts['Total_Idle_Min'].max() / 60:.1f} h",
+                    str(d_shifts.loc[d_shifts['Total_Idle_Min'].idxmax(), 'Shift_Date'].date()),
+                )
+            with dc4:
+                ui.kpi_card(
+                    "Delay events",
+                    str(len(d_delays)),
+                    f"{d_delays['Delay_Min'].sum() / 60:.0f} h total" if not d_delays.empty else "none",
+                )
+
+            st.plotly_chart(charts.dumper_timeline(shifts, selected_dumper), use_container_width=True)
+
+            drill_left, drill_right = st.columns([3, 2], gap="large")
+            with drill_left:
+                st.markdown("**Shift-by-shift detail**")
+                detail = d_shifts[[
+                    "Shift_Date", "Shift", "Loading_Unit", "Cycles",
+                    "Total_Idle_Min", "Cycle_Idle_Min", "Delay_Min",
+                ]].copy()
+                detail["Idle_Hours"] = (detail["Total_Idle_Min"] / 60).round(2)
+                detail["Shift"] = detail["Shift"].astype(int)
+                st.dataframe(
+                    detail[["Shift_Date", "Shift", "Loading_Unit", "Cycles",
+                            "Idle_Hours", "Cycle_Idle_Min", "Delay_Min"]],
+                    hide_index=True,
+                    column_config={
+                        "Shift_Date": st.column_config.DateColumn("Date", format="DD MMM"),
+                        "Shift": st.column_config.NumberColumn(format="%d"),
+                        "Loading_Unit": "Shovel",
+                        "Cycles": st.column_config.NumberColumn(format="%d"),
+                        "Idle_Hours": st.column_config.NumberColumn("Idle h", format="%.2f"),
+                        "Cycle_Idle_Min": st.column_config.NumberColumn("Cycle idle", format="%.0f"),
+                        "Delay_Min": st.column_config.NumberColumn("Delay", format="%.0f"),
+                    },
+                )
+            with drill_right:
+                if not d_delays.empty:
+                    st.plotly_chart(
+                        charts.dumper_reason_bar(d_delays, selected_dumper),
+                        use_container_width=True,
+                    )
+                else:
+                    st.info("No delay events for this dumper in the selected period.")
+
     with tab_risk:
         if bundle is None or "High_Idle_Risk_Proba" not in shifts.columns:
             st.info("Train the model from the sidebar to enable risk scoring.")

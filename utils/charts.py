@@ -353,3 +353,69 @@ def shovel_starvation_scatter(frame: pd.DataFrame) -> go.Figure:
         yaxis_title="Shovel idle hours (Available − Run)",
     )
     return _style(fig, height=440)
+
+
+def dumper_timeline(shifts: pd.DataFrame, dumper_id: str) -> go.Figure:
+    """Shift-by-shift idle timeline for a single dumper.
+
+    Shows total idle hours per shift as a bar chart, coloured by shift number,
+    with a rolling 5-shift average overlay.
+    """
+    d = shifts[shifts["Equipment_ID"] == dumper_id].copy()
+    if d.empty:
+        fig = go.Figure()
+        fig.update_layout(title=f"No shifts found for {dumper_id}")
+        return _style(fig, height=300, legend=False)
+
+    d["Shift_Label"] = d["Shift_Date"].dt.strftime("%d %b") + " S" + d["Shift"].astype(int).astype(str)
+    d["Idle_Hours"] = d["Total_Idle_Min"] / 60
+    d = d.sort_values(["Shift_Date", "Shift"])
+    d["Rolling_Avg"] = d["Idle_Hours"].rolling(5, min_periods=1).mean()
+
+    shift_colors = {1: config.LIME, 2: config.TEXT_LIGHT, 3: config.TEXT_MUTED}
+    fig = go.Figure()
+    for shift_num in sorted(d["Shift"].unique()):
+        subset = d[d["Shift"] == shift_num]
+        fig.add_trace(go.Bar(
+            x=subset["Shift_Label"], y=subset["Idle_Hours"],
+            name=f"Shift {int(shift_num)}",
+            marker_color=shift_colors.get(int(shift_num), config.LIME),
+        ))
+    fig.add_trace(go.Scatter(
+        x=d["Shift_Label"], y=d["Rolling_Avg"],
+        name="5-shift rolling avg", mode="lines+markers",
+        line=dict(color=config.DANGER, width=2, dash="dot"),
+        marker=dict(size=5),
+    ))
+    fig.update_layout(
+        title=f"{dumper_id} — idle hours per shift",
+        xaxis_title="", yaxis_title="Idle hours",
+        barmode="group", bargap=0.15,
+    )
+    return _style(fig, height=380)
+
+
+def dumper_reason_bar(delay_events: pd.DataFrame, dumper_id: str) -> go.Figure:
+    """Horizontal bar chart of delay reasons for a single dumper."""
+    d = delay_events[delay_events["Equipment_ID"] == dumper_id].copy()
+    if d.empty:
+        fig = go.Figure()
+        fig.update_layout(title=f"No delay events for {dumper_id}")
+        return _style(fig, height=300, legend=False)
+
+    d["Hours"] = d["Delay_Min"] / 60
+    by_reason = d.groupby("Reason", as_index=False).agg(
+        Hours=("Hours", "sum"), Events=("Delay_Min", "size"),
+    ).sort_values("Hours", ascending=True).tail(12)
+
+    fig = px.bar(
+        by_reason, x="Hours", y="Reason", orientation="h",
+        text=by_reason["Hours"].round(1),
+        color_discrete_sequence=[config.LIME],
+    )
+    fig.update_traces(textposition="outside", cliponaxis=False)
+    fig.update_layout(
+        title=f"{dumper_id} — top delay reasons",
+        xaxis_title="Hours", yaxis_title="",
+    )
+    return _style(fig, height=max(300, 28 * len(by_reason)), legend=False)

@@ -214,5 +214,77 @@ def main() -> None:
         "extra_tonnes": extra_tonnes,
     }
 
+    st.divider()
+    st.markdown("#### 4. Save and compare scenarios")
+    col_save, col_clear = st.columns(2)
+    with col_save:
+        if st.button("Save as baseline", use_container_width=True):
+            st.session_state["baseline_plan"] = plan.copy()
+            st.session_state["baseline_totals"] = dict(st.session_state["simulation_totals"])
+            st.session_state["baseline_filters"] = {
+                "start": filters.start,
+                "end": filters.end,
+                "sites": list(filters.sites),
+            }
+            st.success("Baseline saved! Adjust the sliders above and compare.")
+    with col_clear:
+        if st.button("Clear baseline", use_container_width=True):
+            st.session_state.pop("baseline_plan", None)
+            st.session_state.pop("baseline_totals", None)
+            st.session_state.pop("baseline_filters", None)
+            st.rerun()
+
+    baseline = st.session_state.get("baseline_plan")
+    baseline_totals = st.session_state.get("baseline_totals")
+    if baseline is not None and baseline_totals is not None:
+        st.markdown("##### Baseline vs current scenario")
+        b_hours = baseline_totals["hours_saved"]
+        b_value = baseline_totals["value"]
+        b_fuel = baseline_totals["fuel_litres"]
+        b_tonnes = baseline_totals["extra_tonnes"]
+
+        comp = pd.DataFrame({
+            "Metric": [
+                "Idle recovered (h)", "Value (₹)", "Annualised (₹)",
+                "Diesel saved (L)", "Extra tonnes",
+                "Idle h per dumper-shift (after)",
+            ],
+            "Baseline": [
+                f"{b_hours:,.0f}", format_inr(b_value), format_inr(baseline_totals["annualised"]),
+                f"{b_fuel:,.0f}", f"{b_tonnes:,.0f}",
+                f"{(summary.total_idle_hours - b_hours) / summary.dumper_shifts:.2f}",
+            ],
+            "Current": [
+                f"{hours_saved:,.0f}", format_inr(value), format_inr(value * 365 / days),
+                f"{fuel_saved:,.0f}", f"{extra_tonnes:,.0f}",
+                f"{per_shift_after:.2f}",
+            ],
+            "Delta": [
+                f"{hours_saved - b_hours:+,.0f}",
+                f"₹{value - b_value:+,.0f}",
+                f"₹{(value * 365 / days) - baseline_totals['annualised']:+,.0f}",
+                f"{fuel_saved - b_fuel:+,.0f}",
+                f"{extra_tonnes - b_tonnes:+,.0f}",
+                f"{per_shift_after - ((summary.total_idle_hours - b_hours) / summary.dumper_shifts):+.2f}",
+            ],
+        })
+        st.dataframe(comp, hide_index=True)
+
+        merged = baseline[["Reason", "Hours saved"]].rename(
+            columns={"Hours saved": "Baseline h"}
+        ).merge(
+            plan[["Reason", "Hours saved"]].rename(columns={"Hours saved": "Current h"}),
+            on="Reason", how="outer",
+        ).fillna(0)
+        merged["Delta h"] = merged["Current h"] - merged["Baseline h"]
+        st.dataframe(
+            merged, hide_index=True,
+            column_config={
+                "Baseline h": st.column_config.NumberColumn(format="%,.0f"),
+                "Current h": st.column_config.NumberColumn(format="%,.0f"),
+                "Delta h": st.column_config.NumberColumn(format="%+,.0f"),
+            },
+        )
+
 
 main()

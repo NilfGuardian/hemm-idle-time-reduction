@@ -126,6 +126,93 @@ def build_summary_text(
     return "\n".join(lines)
 
 
+def _build_print_html(markdown_text: str) -> str:
+    """Wrap the management summary markdown in a print-ready HTML page.
+
+    The downloaded HTML auto-opens the browser print dialog so the user can
+    Save as PDF directly.  Uses a minimal clean stylesheet suitable for A4.
+    """
+    import html as html_mod
+    import re as re_mod
+
+    def md_to_html(md: str) -> str:
+        lines = md.split("\n")
+        out: list[str] = []
+        in_table = False
+        for line in lines:
+            stripped = line.strip()
+            if stripped.startswith("|") and "---" not in stripped:
+                cells = [c.strip() for c in stripped.split("|")[1:-1]]
+                if not in_table:
+                    out.append('<table>')
+                    in_table = True
+                    out.append("<tr>" + "".join(f"<th>{html_mod.escape(c)}</th>" for c in cells) + "</tr>")
+                else:
+                    out.append("<tr>" + "".join(f"<td>{html_mod.escape(c)}</td>" for c in cells) + "</tr>")
+            elif in_table and not stripped.startswith("|"):
+                out.append("</table>")
+                in_table = False
+                if stripped:
+                    out.append(_md_line(stripped))
+            else:
+                if not in_table:
+                    out.append(_md_line(stripped))
+        if in_table:
+            out.append("</table>")
+        return "\n".join(out)
+
+    def _md_line(s: str) -> str:
+        if not s:
+            return ""
+        if s.startswith("# "):
+            return f"<h1>{html_mod.escape(s[2:])}</h1>"
+        if s.startswith("## "):
+            return f"<h2>{html_mod.escape(s[3:])}</h2>"
+        if s.startswith("#### "):
+            return f"<h4>{html_mod.escape(s[5:])}</h4>"
+        if s.startswith("- "):
+            return f"<li>{_inline(s[2:])}</li>"
+        if s.startswith("**") and s.endswith("**") and len(s) > 4:
+            return f"<p><strong>{_inline(s[2:-2])}</strong></p>"
+        return f"<p>{_inline(s)}</p>"
+
+    def _inline(s: str) -> str:
+        s = html_mod.escape(s)
+        s = re_mod.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", s)
+        s = re_mod.sub(r"\*(.+?)\*", r"<em>\1</em>", s)
+        s = re_mod.sub(r"`(.+?)`", r"<code>\1</code>", s)
+        return s
+
+    body = md_to_html(markdown_text)
+    return f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Idle Time Summary</title>
+<style>
+@page {{ size: A4; margin: 18mm; }}
+body {{ font-family: 'Segoe UI', Arial, sans-serif; font-size: 11pt; color: #1a1a1a; line-height: 1.5; }}
+h1 {{ font-size: 18pt; color: #2c3e50; border-bottom: 2px solid #C8E600; padding-bottom: 6px; }}
+h2 {{ font-size: 14pt; color: #2c3e50; margin-top: 20px; }}
+h4 {{ font-size: 12pt; color: #34495e; }}
+table {{ border-collapse: collapse; width: 100%; margin: 10px 0; }}
+th, td {{ border: 1px solid #ccc; padding: 6px 10px; text-align: left; font-size: 10pt; }}
+th {{ background: #f5f6f0; }}
+li {{ margin: 4px 0; }}
+code {{ background: #f0f0f0; padding: 1px 4px; border-radius: 3px; font-size: 10pt; }}
+p {{ margin: 6px 0; }}
+@media print {{ .no-print {{ display: none; }} }}
+</style>
+</head>
+<body onload="window.print()">
+<div class="no-print" style="text-align:center; padding:20px; background:#f5f6f0; margin-bottom:20px; border-radius:8px;">
+  Use your browser's print dialog to save as PDF. (Ctrl+P or Cmd+P)
+</div>
+{body}
+</body>
+</html>"""
+
+
 def main() -> None:
     """Render the reports page."""
     if not ui.data_is_ready():
@@ -153,11 +240,24 @@ def main() -> None:
 
     with tab_summary:
         text = build_summary_text(summary, reasons, filters)
-        st.download_button(
-            "Download summary (Markdown)", text,
-            file_name=f"idle_summary_{filters.start:%Y%m%d}_{filters.end:%Y%m%d}.md",
-            mime="text/markdown", type="primary",
-        )
+
+        export_cols = st.columns(2)
+        with export_cols[0]:
+            st.download_button(
+                "Download summary (Markdown)", text,
+                file_name=f"idle_summary_{filters.start:%Y%m%d}_{filters.end:%Y%m%d}.md",
+                mime="text/markdown",
+            )
+        with export_cols[1]:
+            pdf_html = _build_print_html(text)
+            st.download_button(
+                "Download / Print PDF",
+                pdf_html,
+                file_name=f"idle_summary_{filters.start:%Y%m%d}_{filters.end:%Y%m%d}.html",
+                mime="text/html",
+                help="Opens a print-ready page in your browser. Use Ctrl+P → Save as PDF.",
+            )
+
         st.markdown("---")
         st.markdown(text)
 
