@@ -95,8 +95,19 @@ def cycle_breakdown_bar(shifts: pd.DataFrame) -> go.Figure:
         title="Where a haul cycle goes (average minutes per cycle)",
         text=frame["Minutes per cycle"].round(2),
     )
-    figure.update_traces(textposition="outside", cliponaxis=False, textfont=dict(size=10, family="Inter, sans-serif"))
-    return _style(figure, height=420)
+    figure.update_traces(
+        textposition="outside", cliponaxis=False,
+        textfont=dict(size=10, family="Inter, sans-serif"),
+        texttemplate="%{x:.1f}",
+    )
+    figure.update_layout(
+        yaxis=dict(
+            tickfont=dict(size=11, family="Inter, sans-serif"),
+            automargin=True,
+        ),
+        margin=dict(l=140, r=60, t=80, b=40),
+    )
+    return _style(figure, height=460)
 
 
 def idle_trend(shifts: pd.DataFrame) -> go.Figure:
@@ -192,11 +203,10 @@ def reason_class_donut(reasons: pd.DataFrame) -> go.Figure:
         title="Who controls the lost time",
     )
     figure.update_traces(
-        textinfo="percent", textposition="inside",
-        textfont=dict(size=11, family="Inter, sans-serif", color="#fff"),
-        insidetextorientation="radial",
+        textinfo="percent+label", textposition="outside",
+        textfont=dict(size=9, family="Inter, sans-serif"), automargin=True,
     )
-    return _style(figure, height=360, legend=True)
+    return _style(figure, height=360, legend=False)
 
 
 def equipment_ranking(equipment: pd.DataFrame, metric: str, label: str, top: int = 20) -> go.Figure:
