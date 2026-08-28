@@ -9,6 +9,7 @@ import pandas as pd
 import streamlit as st
 
 import config
+import data_utils as du
 from utils import charts, ui
 from utils.helpers import format_inr, format_number
 
@@ -52,13 +53,78 @@ def top_actions(reasons: pd.DataFrame, cost_per_hour: float) -> pd.DataFrame:
     return frame.sort_values("Hours recovered", ascending=False).reset_index(drop=True)
 
 
+def _auto_insights(
+    shifts: pd.DataFrame,
+    reasons: pd.DataFrame,
+    summary: ui.IdleSummary,
+    filters: ui.Filters,
+) -> list[str]:
+    """Generate plain-English findings from the data, auto-discovered."""
+    insights: list[str] = []
+    if shifts.empty:
+        return insights
+
+    dumper_summary = du.build_group_summary(shifts, "Equipment_ID")
+    if not dumper_summary.empty:
+        worst = dumper_summary.iloc[0]
+        median_idle = float(dumper_summary["Idle h per shift"].median())
+        ratio = worst["Idle h per shift"] / median_idle if median_idle else 0
+        insights.append(
+            f"Dumper **{worst['Equipment_ID']}** lost **{worst['Idle h per shift']:.1f} h per shift** "
+            f"— {ratio:.1f}x the fleet median of {median_idle:.1f} h"
+        )
+        best = dumper_summary.iloc[-1]
+        insights.append(
+            f"Best performer: **{best['Equipment_ID']}** at **{best['Idle h per shift']:.1f} h per shift** "
+            f"— the gap between worst and best is "
+            f"{worst['Idle h per shift'] - best['Idle h per shift']:.1f} h per shift"
+        )
+
+    if not reasons.empty:
+        top_reason = reasons.iloc[0]
+        insights.append(
+            f"Single biggest cause: **{top_reason['Reason']}** at **{top_reason['Hours']:.0f} h** "
+            f"({top_reason['Share_Pct']:.1f}% of all idle time)"
+        )
+        addressable = reasons[reasons["Addressable"]]
+        if not addressable.empty:
+            addr_hours = float(addressable["Hours"].sum())
+            addr_pct = addr_hours / summary.total_idle_hours * 100 if summary.total_idle_hours else 0
+            insights.append(
+                f"**{addr_pct:.0f}% of all idle time is addressable** by scheduling changes "
+                f"({addr_hours:.0f} h worth {format_inr(addr_hours * filters.idle_cost_per_hour)})"
+            )
+
+    if "Loading_Unit" in shifts.columns:
+        loader_summary = du.build_group_summary(shifts, "Loading_Unit")
+        if not loader_summary.empty:
+            worst_loader = loader_summary.iloc[0]
+            insights.append(
+                f"Shovel **{worst_loader['Equipment_ID']}** has the highest associated idle: "
+                f"**{worst_loader['Idle h per shift']:.1f} h per dumper-shift** assigned to it"
+            )
+
+    if summary.idle_share_of_cycle > 0:
+        insights.append(
+            f"Inside the haul cycle, **{summary.idle_share_of_cycle:.1f}% of cycle time is idle** "
+            f"— dumpers stand still for {summary.idle_share_of_cycle / 100 * 24:.1f} minutes "
+            f"of every 24-minute cycle"
+        )
+
+    if summary.fuel_litres_idle > 0:
+        insights.append(
+            f"Diesel burnt while idling: **{summary.fuel_litres_idle:,.0f} litres** "
+            f"({format_inr(summary.fuel_cost_idle)}) — the engine runs in every idle event"
+        )
+
+    return insights
+
+
 @st.cache_data(show_spinner=False)
 def _reason_table(delay_events: pd.DataFrame) -> pd.DataFrame:
     """Rebuild the reason ranking for the filtered subset."""
     if delay_events is None or delay_events.empty:
         return pd.DataFrame()
-    import data_utils as du
-
     return du.build_reason_master(delay_events)
 
 
@@ -87,6 +153,25 @@ def main() -> None:
         return
 
     summary = ui.summarise_idle(shifts, filters)
+    reasons = _reason_table(reasons_scope)
+
+    if summary.addressable_hours > 0:
+        hero_value = summary.addressable_cost
+        st.markdown(
+            f'<div style="text-align:center; padding:20px 0; margin:10px 0 20px 0;">'
+            f'<div style="font-size:14px; color:{config.TEXT_MUTED}; letter-spacing:2px; '
+            f'text-transform:uppercase;">Addressable savings in this period</div>'
+            f'<div style="font-size:42px; font-weight:700; color:{config.LIME}; '
+            f'font-family:JetBrains Mono, monospace; margin:8px 0;">'
+            f'<span class="counter" data-target="{hero_value:,.0f}" data-decimals="0" '
+            f'data-prefix="&#8377;" data-sign="" data-suffix="">&#8377;0</span></div>'
+            f'<div style="font-size:13px; color:{config.TEXT_MUTED};">'
+            f'{summary.addressable_hours:,.0f} hours recoverable by scheduling changes · '
+            f'annualised: {format_inr(hero_value * 365 / max(summary.days, 1))}'
+            f'</div></div>',
+            unsafe_allow_html=True,
+        )
+
     ui.headline_kpis(summary, filters)
 
     st.markdown("")
@@ -100,18 +185,23 @@ def main() -> None:
         f"Includes shifts where the truck completed no cycles because it was down the full 8 hours."
     )
 
+    insights = _auto_insights(shifts, reasons, summary, filters)
+    if insights:
+        st.markdown("#### Key findings")
+        for insight in insights:
+            st.markdown(f"- {insight}")
+
+    st.markdown("")
     left, right = st.columns([3, 2], gap="large")
     with left:
         st.plotly_chart(charts.cycle_breakdown_bar(shifts))
     with right:
-        reasons = _reason_table(reasons_scope)
         if not reasons.empty:
             st.plotly_chart(charts.reason_class_donut(reasons))
 
     st.divider()
     st.subheader("What to do about it")
 
-    reasons = _reason_table(reasons_scope)
     actions = top_actions(reasons, filters.idle_cost_per_hour)
     if actions.empty:
         st.info("No addressable reasons found in the current selection.")
@@ -139,7 +229,7 @@ def main() -> None:
             )
 
         st.markdown("")
-        for rank, row in actions.head(4).iterrows():
+        for rank, row in actions.head(5).iterrows():
             with st.container(border=True):
                 head, metric = st.columns([4, 1])
                 with head:

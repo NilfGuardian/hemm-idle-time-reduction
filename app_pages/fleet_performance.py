@@ -142,6 +142,32 @@ def main() -> None:
 
             st.plotly_chart(charts.dumper_timeline(shifts, selected_dumper), use_container_width=True)
 
+            fleet_idle = shifts.groupby("Equipment_ID")["Total_Idle_Min"].sum() / 60
+            dumper_total = float(fleet_idle.get(selected_dumper, 0))
+            percentile = float((fleet_idle < dumper_total).sum() / len(fleet_idle) * 100) if len(fleet_idle) else 0
+            if percentile >= 75:
+                rank_label = "Bottom 25% of fleet"
+                rank_color = config.DANGER
+            elif percentile >= 50:
+                rank_label = "Bottom half of fleet"
+                rank_color = "#e67e22"
+            elif percentile >= 25:
+                rank_label = "Top half of fleet"
+                rank_color = config.LIME
+            else:
+                rank_label = "Top 25% of fleet"
+                rank_color = config.LIME
+            st.markdown(
+                f'<div style="text-align:center; padding:10px 0; margin:5px 0 15px 0;">'
+                f'<div style="font-size:13px; color:{config.TEXT_MUTED};">Fleet percentile (idle hours)</div>'
+                f'<div style="font-size:28px; font-weight:700; color:{rank_color}; '
+                f'font-family:JetBrains Mono, monospace; margin:4px 0;">'
+                f'{percentile:.0f}th percentile</div>'
+                f'<div style="font-size:14px; color:{rank_color};">{rank_label}</div>'
+                f'</div>',
+                unsafe_allow_html=True,
+            )
+
             drill_left, drill_right = st.columns([3, 2], gap="large")
             with drill_left:
                 st.markdown("**Shift-by-shift detail**")
