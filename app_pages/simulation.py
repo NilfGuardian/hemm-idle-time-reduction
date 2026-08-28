@@ -282,7 +282,7 @@ def main() -> None:
             column_config={
                 "Baseline h": st.column_config.NumberColumn(format="%,.0f"),
                 "Current h": st.column_config.NumberColumn(format="%,.0f"),
-                "Delta h": st.column_config.NumberColumn(format="%+,.0f"),
+                "Delta h": st.column_config.NumberColumn(format="%,.0f"),
             },
         )
 
