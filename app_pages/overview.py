@@ -188,8 +188,12 @@ def main() -> None:
     insights = _auto_insights(shifts, reasons, summary, filters)
     if insights:
         st.markdown("#### Key findings")
-        for insight in insights:
+        for insight in insights[:3]:
             st.markdown(f"- {insight}")
+        if len(insights) > 3:
+            with st.expander("View all findings"):
+                for insight in insights[3:]:
+                    st.markdown(f"- {insight}")
 
     st.markdown("")
     left, right = st.columns([3, 2], gap="large")
@@ -200,7 +204,6 @@ def main() -> None:
             st.plotly_chart(charts.reason_class_donut(reasons))
 
     st.divider()
-    st.subheader("What to do about it")
 
     actions = top_actions(reasons, filters.idle_cost_per_hour)
     if actions.empty:
@@ -208,27 +211,11 @@ def main() -> None:
     else:
         recovered = float(actions["Hours recovered"].sum())
         value = float(actions["Value"].sum())
-        extra_tonnes = (recovered) * summary.tonnes_per_operating_hour
+        st.markdown(
+            f"#### Recommended actions — {format_inr(value * 12)} annualised value"
+        )
+        st.caption(f"{format_number(recovered)} hours recoverable from {len(actions)} scheduling changes")
 
-        cards = st.columns(3)
-        with cards[0]:
-            ui.kpi_card(
-                "Recoverable idle", f"{format_number(recovered)} h",
-                "sum of the realistic reductions below", tone="good",
-            )
-        with cards[1]:
-            ui.kpi_card(
-                "Annualised value", format_inr(value * 12),
-                f"{format_inr(value)} in the selected period", tone="good",
-            )
-        with cards[2]:
-            ui.kpi_card(
-                "Extra material moved", f"{format_number(extra_tonnes)} t",
-                f"at the observed {summary.tonnes_per_operating_hour:,.0f} t per operating hour",
-                tone="good",
-            )
-
-        st.markdown("")
         for rank, row in actions.head(5).iterrows():
             with st.container(border=True):
                 head, metric = st.columns([4, 1])
@@ -253,15 +240,15 @@ def main() -> None:
             "Adjust every assumption on the <b>Scenario simulator</b> page."
         )
 
-    st.divider()
-    trend, profile = st.columns(2, gap="large")
-    with trend:
-        st.plotly_chart(charts.idle_trend(shifts))
-    with profile:
-        if not hourly.empty:
-            st.plotly_chart(charts.hour_of_day_profile(hourly))
-        else:
-            st.info("No hourly idle data in the current selection.")
+    with st.expander("Trends & hourly profile"):
+        trend, profile = st.columns(2, gap="large")
+        with trend:
+            st.plotly_chart(charts.idle_trend(shifts))
+        with profile:
+            if not hourly.empty:
+                st.plotly_chart(charts.hour_of_day_profile(hourly))
+            else:
+                st.info("No hourly idle data in the current selection.")
 
     st.caption(
         "Use the navigation above for the cycle breakdown, fleet league table, "
