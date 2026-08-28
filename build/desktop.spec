@@ -16,24 +16,23 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(SPEC), '..'))
 
 # --- Data files to bundle ---
 datas = [
-    # Top-level Python files
+    # Top-level Python files needed as files on disk (Streamlit loads by path)
     (os.path.join(ROOT, 'app.py'), '.'),
     (os.path.join(ROOT, 'config.py'), '.'),
     (os.path.join(ROOT, 'data_utils.py'), '.'),
     (os.path.join(ROOT, 'data_upload.py'), '.'),
     (os.path.join(ROOT, 'column_mapping.json'), '.'),
-    (os.path.join(ROOT, 'desktop_app.py'), '.'),
 
     # .streamlit config
     (os.path.join(ROOT, '.streamlit', 'config.toml'), '.streamlit'),
 ]
 
-# app_pages/*.py
+# app_pages/*.py — must be on disk as files (Streamlit st.Page loads by path)
 app_pages = glob.glob(os.path.join(ROOT, 'app_pages', '*.py'))
 for f in app_pages:
     datas.append((f, 'app_pages'))
 
-# utils/*.py
+# utils/*.py — must be on disk as files AND importable as modules
 utils_files = glob.glob(os.path.join(ROOT, 'utils', '*.py'))
 for f in utils_files:
     datas.append((f, 'utils'))
@@ -80,6 +79,22 @@ hiddenimports = [
     'PIL._tkinter_finder',
     'webview',
     'webview.platforms.winforms',
+
+    # App modules — must be compiled into PYZ, not just data files
+    'config',
+    'data_utils',
+    'data_upload',
+    'app_pages.overview',
+    'app_pages.idle_breakdown',
+    'app_pages.fleet_performance',
+    'app_pages.root_causes',
+    'app_pages.action_plan',
+    'app_pages.simulation',
+    'app_pages.reports',
+    'utils',
+    'utils.ui',
+    'utils.charts',
+    'utils.helpers',
 ]
 
 # Collect all submodules for packages with dynamic imports

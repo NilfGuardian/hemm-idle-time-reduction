@@ -47,6 +47,15 @@
         }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
 
         doc.querySelectorAll('.reveal').forEach(function (el) { observer.observe(el); });
+
+        // Safety net: if IntersectionObserver doesn't fire (e.g. tab switch,
+        // small viewport, or elements already in view), force visible after 1.5s.
+        topWin.setTimeout(function () {
+            doc.querySelectorAll('.reveal:not(.visible)').forEach(function (el) {
+                el.classList.add('visible');
+                el.querySelectorAll('.counter').forEach(startCounter);
+            });
+        }, 1500);
     }
 
     // ----------------------------------------------------------------------- //

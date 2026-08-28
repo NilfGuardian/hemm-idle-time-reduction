@@ -71,9 +71,9 @@
     perspective: 800px;
     transition:
         border-color 0.15s ease,
-        box-shadow 0.3s ease,
-        transform 0.75s cubic-bezier(0.22, 1, 0.36, 1),
-        opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+        box-shadow 0.3s ease;
+    /* Do NOT use 3D transform on the card itself — it causes text overflow */
+    /* when the window is small. The reveal animation handles entrance. */
 }
 
 .hemm-card::after {
@@ -106,13 +106,11 @@
 .hemm-card:hover {
     border-color: var(--accent) !important;
     box-shadow: 0 0 22px var(--accent-glow);
-    transform: translateY(-4px) translateZ(10px);
 }
 
 .hemm-card .value {
     position: relative;
     display: inline-block;
-    transform: translateZ(4px);
 }
 
 .hemm-card .value .counter-sign {
@@ -145,30 +143,21 @@
 /* --------------------------------------------------------------------------- */
 .reveal {
     opacity: 0;
-    will-change: transform, opacity;
-    transform: translateY(40px);
+    will-change: opacity;
     transition:
-        opacity 0.75s cubic-bezier(0.23, 1, 0.32, 1),
-        transform 0.75s cubic-bezier(0.23, 1, 0.32, 1),
-        box-shadow 0.75s ease,
-        filter 0.75s ease;
+        opacity 0.5s ease;
 }
 
 .reveal.visible {
     opacity: 1;
-    transform: translateY(0);
 }
 
-.reveal-left  { transform: translateX(-40px); }
-.reveal-right { transform: translateX(40px); }
+/* reveal-left and reveal-right kept as class names for JS compatibility */
 
-.reveal-scale {
-    transform: scale(0.95);
-}
+/* reveal-scale kept as class name for JS compatibility */
 
 .reveal.reveal-scale.visible {
     opacity: 1;
-    transform: scale(1);
     box-shadow: 0 0 20px rgba(200, 230, 0, 0.05);
 }
 

@@ -100,6 +100,11 @@ class InstallerAPI:
         except Exception as exc:
             return {"ok": False, "error": str(exc)}
 
+    def close_window(self) -> None:
+        """Close the installer window."""
+        for win in webview.windows:
+            win.destroy()
+
     # ------------------------------------------------------------------ #
     # Internal helpers
     # ------------------------------------------------------------------ #
@@ -120,16 +125,17 @@ class InstallerAPI:
         """Create a Windows .lnk shortcut via PowerShell COM."""
         ps_script = (
             f'$ws = New-Object -ComObject WScript.Shell; '
-            f'$sc = $ws.CreateShortcut("{shortcut_path}"); '
-            f'$sc.TargetPath = "{target}"; '
-            f'$sc.WorkingDirectory = "{Path(target).parent}"; '
-            f'$sc.Description = "{description}"; '
+            f'$sc = $ws.CreateShortcut(\'{shortcut_path}\'); '
+            f'$sc.TargetPath = \'{target}\'; '
+            f'$sc.WorkingDirectory = \'{Path(target).parent}\'; '
+            f'$sc.Description = \'{description}\'; '
             f'$sc.Save()'
         )
-        subprocess.run(
-            ["powershell", "-NoProfile", "-Command", ps_script],
+        result = subprocess.run(
+            ["powershell", "-NoProfile", "-ExecutionPolicy", "Bypass", "-Command", ps_script],
             check=True,
             capture_output=True,
+            text=True,
         )
 
     def _register_uninstaller(self, exe_path: Path) -> None:

@@ -248,15 +248,11 @@
 
   <!-- ASCII industrial logo + header -->
   <div class="logo">
-        __
-   ____/ /___  ____  ________  _____
-  / __  / __ \/ __ \/ ___/ _ \/ ___/
- / /_/ / /_/ / / / / /__/  __/ /__
- \__,_/\____/_/ /_/\___/\___/\___/
-   ____  ___   ____ _________ _      _____
-  / __ \/   | / __  / ___/ __ \ | /| / / _ \
- / /_/ / /| |/ /_/ / /__/ /_/ / |/ |/ /  __/
- \____/_/ |_|\__,_/\___/\____/|__/|__/\___/
+  ____        _   _       _   _
+ |  _ \ _   _| |_| |__   | | | | ___
+ | |_) | | | | __| '_ \  | |_| |/ _ \
+ |  _ <| |_| | |_| | | | |  _  | (_) |
+ |_| \_\\__,_|\__|_| |_| |_| |_|\___/
   </div>
 
   <div class="header">
@@ -434,10 +430,14 @@
   }
 
   function closeWindow() {
-    if (window.pywebview) {
+    if (api) {
+      api.close_window();
+    } else if (window.pywebview) {
       window.pywebview.api = null;
+      window.close();
+    } else {
+      window.close();
     }
-    window.close();
   }
 </script>
 </body>
