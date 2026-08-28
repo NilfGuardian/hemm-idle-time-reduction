@@ -6,6 +6,8 @@ idle time.
 
 **Live dashboard:** _add your Streamlit Community Cloud URL here after deployment_
 
+**Source code:** [github.com/NilfGuardian/hemm-idle-time-reduction](https://github.com/NilfGuardian/hemm-idle-time-reduction)
+
 **The problem in one line:** across July 2026 the 69-dumper fleet lost roughly
 **4 hours of every 8-hour shift** to idle time, and most of it is a scheduling
 decision rather than a broken machine.
