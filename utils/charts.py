@@ -28,18 +28,20 @@ def _style(figure: go.Figure, height: int = 340, legend: bool = True) -> go.Figu
         showlegend=legend,
         legend=dict(
             orientation="h", yanchor="bottom", y=1.02, x=0,
-            font=dict(color=config.TEXT_LIGHT),
+            font=dict(color=config.TEXT_LIGHT, family="Inter, sans-serif"),
             bgcolor="rgba(0,0,0,0)",
         ),
-        hoverlabel=dict(bgcolor=config.BG_CARD, font_color=config.TEXT_LIGHT, font_size=12),
+        hoverlabel=dict(bgcolor=config.BG_CARD, font_color=config.TEXT_LIGHT, font_size=12, font_family="Inter, sans-serif"),
     )
     figure.update_xaxes(
         showgrid=True, gridcolor=config.GRID_DARK, linecolor=config.BORDER_MUTED,
-        tickfont=dict(color=config.TEXT_MUTED), title_font=dict(color=config.TEXT_MUTED),
+        tickfont=dict(color=config.TEXT_MUTED, family="Inter, sans-serif"),
+        title_font=dict(color=config.TEXT_MUTED, family="Inter, sans-serif"),
     )
     figure.update_yaxes(
         showgrid=True, gridcolor=config.GRID_DARK, linecolor=config.BORDER_MUTED,
-        tickfont=dict(color=config.TEXT_MUTED), title_font=dict(color=config.TEXT_MUTED),
+        tickfont=dict(color=config.TEXT_MUTED, family="Inter, sans-serif"),
+        title_font=dict(color=config.TEXT_MUTED, family="Inter, sans-serif"),
     )
     return figure
 
@@ -80,7 +82,7 @@ def cycle_breakdown_bar(shifts: pd.DataFrame) -> go.Figure:
         title="Where a haul cycle goes (average minutes per cycle)",
         text=frame["Minutes per cycle"].round(2),
     )
-    figure.update_traces(textposition="outside", cliponaxis=False, textfont=dict(size=10))
+    figure.update_traces(textposition="outside", cliponaxis=False, textfont=dict(size=10, family="Inter, sans-serif"))
     return _style(figure, height=420)
 
 
@@ -178,7 +180,7 @@ def reason_class_donut(reasons: pd.DataFrame) -> go.Figure:
     )
     figure.update_traces(
         textinfo="percent+label", textposition="outside",
-        textfont=dict(size=9), automargin=True,
+        textfont=dict(size=9, family="Inter, sans-serif"), automargin=True,
     )
     return _style(figure, height=360, legend=False)
 
@@ -309,12 +311,12 @@ def breakdown_ranking(frame: pd.DataFrame, median_hours: float) -> go.Figure:
         marker_color=colors[::-1],
         text=[f"{h:,.0f} h" for h in plot["Breakdown_Hours"][::-1]],
         textposition="outside",
-        textfont=dict(color=config.TEXT_MUTED, size=10),
+        textfont=dict(color=config.TEXT_MUTED, size=10, family="Inter, sans-serif"),
     ))
     fig.add_vline(
         x=median_hours, line_dash="dash", line_color=config.LIME,
         annotation_text=f"median {median_hours:,.0f} h",
-        annotation_font=dict(color=config.LIME, size=10),
+        annotation_font=dict(color=config.LIME, size=10, family="Inter, sans-serif"),
     )
     fig.update_layout(
         title="Breakdown / Down hours per dumper",
