@@ -158,7 +158,7 @@ def main() -> None:
     if summary.addressable_hours > 0:
         hero_value = summary.addressable_cost
         st.markdown(
-            f'<div style="text-align:center; padding:20px 0; margin:10px 0 20px 0;">'
+            f'<div style="text-align:center; padding:8px 0; margin:4px 0 10px 0;">'
             f'<div style="font-size:14px; color:{config.TEXT_MUTED}; letter-spacing:2px; '
             f'text-transform:uppercase;">Addressable savings in this period</div>'
             f'<div style="font-size:42px; font-weight:700; color:{config.LIME}; '
@@ -174,7 +174,6 @@ def main() -> None:
 
     ui.headline_kpis(summary, filters)
 
-    st.markdown("")
     ui.note(
         f"<b>Idle time</b> is every minute a dumper was available and manned but not moving "
         f"material: queueing at the shovel or dump, standing still mid-trip, and every "
@@ -195,7 +194,6 @@ def main() -> None:
                 for insight in insights[3:]:
                     st.markdown(f"- {insight}")
 
-    st.markdown("")
     left, right = st.columns([3, 2], gap="large")
     with left:
         st.plotly_chart(charts.cycle_breakdown_bar(shifts), theme=None)
