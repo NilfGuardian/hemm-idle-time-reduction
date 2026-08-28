@@ -63,8 +63,6 @@ def main() -> None:
         return
 
     summary = ui.summarise_idle(shifts, filters)
-    ui.headline_kpis(summary, filters)
-    st.markdown("")
 
     tab_cycle, tab_when, tab_events, tab_quality = st.tabs(
         ["Cycle breakdown", "When it happens", "Idle events", "Definitions & data quality"]
@@ -105,35 +103,36 @@ def main() -> None:
 
         st.plotly_chart(charts.idle_heatmap(shifts))
 
-        if not hourly.empty:
-            st.plotly_chart(charts.hour_of_day_profile(hourly))
-            peak = (
-                hourly.groupby("Hour")["Idle_Min"].sum().div(60).sort_values(ascending=False)
-            )
-            changeover = [h for h in (6, 14, 22) if h in peak.head(6).index]
-            if changeover:
-                ui.note(
-                    f"The three shift-changeover hours (06:00, 14:00, 22:00) include "
-                    f"{len(changeover)} of the six worst hours of the day. That is the "
-                    "signature of the whole fleet stopping together rather than of "
-                    "individual machines failing."
+        with st.expander("Hour-of-day profile & weekday breakdown"):
+            if not hourly.empty:
+                st.plotly_chart(charts.hour_of_day_profile(hourly))
+                peak = (
+                    hourly.groupby("Hour")["Idle_Min"].sum().div(60).sort_values(ascending=False)
                 )
+                changeover = [h for h in (6, 14, 22) if h in peak.head(6).index]
+                if changeover:
+                    ui.note(
+                        f"The three shift-changeover hours (06:00, 14:00, 22:00) include "
+                        f"{len(changeover)} of the six worst hours of the day. That is the "
+                        "signature of the whole fleet stopping together rather than of "
+                        "individual machines failing."
+                    )
 
-        weekday = (
-            shifts.groupby("Day_Of_Week", as_index=False)["Total_Idle_Min"].mean()
-        )
-        order = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
-        weekday["Day_Of_Week"] = pd.Categorical(weekday["Day_Of_Week"], order, ordered=True)
-        weekday = weekday.sort_values("Day_Of_Week")
-        weekday["Idle hours per dumper-shift"] = weekday["Total_Idle_Min"] / 60
-        st.dataframe(
-            weekday[["Day_Of_Week", "Idle hours per dumper-shift"]],
-            hide_index=True,
-            column_config={
-                "Day_Of_Week": "Day of week",
-                "Idle hours per dumper-shift": st.column_config.NumberColumn(format="%.2f"),
-            },
-        )
+            weekday = (
+                shifts.groupby("Day_Of_Week", as_index=False)["Total_Idle_Min"].mean()
+            )
+            order = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+            weekday["Day_Of_Week"] = pd.Categorical(weekday["Day_Of_Week"], order, ordered=True)
+            weekday = weekday.sort_values("Day_Of_Week")
+            weekday["Idle hours per dumper-shift"] = weekday["Total_Idle_Min"] / 60
+            st.dataframe(
+                weekday[["Day_Of_Week", "Idle hours per dumper-shift"]],
+                hide_index=True,
+                column_config={
+                    "Day_Of_Week": "Day of week",
+                    "Idle hours per dumper-shift": st.column_config.NumberColumn(format="%.2f"),
+                },
+            )
 
     with tab_events:
         if idle_events.empty:

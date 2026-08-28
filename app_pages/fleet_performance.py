@@ -55,10 +55,6 @@ def main() -> None:
         st.warning("No data matches the current filters.")
         return
 
-    summary = ui.summarise_idle(shifts, filters)
-    ui.headline_kpis(summary, filters)
-    st.markdown("")
-
     tab_dumpers, tab_risk, tab_loaders, tab_breakdown, tab_operators = st.tabs(
         ["Dumpers", "Idle risk (model)", "Shovels & routes", "Breakdown analysis", "Operators"]
     )
@@ -319,6 +315,10 @@ def main() -> None:
             )
 
     with tab_loaders:
+        sub_waiting, sub_decomp, sub_routes = st.tabs(
+            ["Shovel waiting", "Time decomposition", "Routes"]
+        )
+
         loaders = group_summary(shifts, "Loading_Unit", min_shifts=10)
         routes = group_summary(shifts, "Route", min_shifts=10)
 
@@ -326,165 +326,160 @@ def main() -> None:
         cycles = tables.get("cycles", pd.DataFrame())
         shovel_shift = tables.get("shovel_shift", pd.DataFrame())
 
-        if not lu.empty and not cycles.empty:
-            wait_h = lu["Waiting_Min"].sum() / 60
-            load_h = lu["Loading_Min"].sum() / 60
-            wait_share = wait_h / (wait_h + load_h) if (wait_h + load_h) > 0 else 0
-            dumper_queue_h = cycles["Queue_Shovel"].sum() / 60
-            n_cycles = len(cycles)
-            ui.note(
-                f"<b>The queue is on the shovel side, not the dumper side.</b> "
-                f"Across the period, shovels waited {wait_h:,.0f} h while actually loading "
-                f"{load_h:,.0f} h — waiting is {wait_share:.1%} of load + wait time. "
-                f"By contrast, dumpers queued at the shovel for only "
-                f"{dumper_queue_h:,.1f} h across {n_cycles:,} cycles "
-                f"({dumper_queue_h * 60 / n_cycles:.2f} min/cycle)."
-            )
+        with sub_waiting:
+            if not lu.empty and not cycles.empty:
+                wait_h = lu["Waiting_Min"].sum() / 60
+                load_h = lu["Loading_Min"].sum() / 60
+                wait_share = wait_h / (wait_h + load_h) if (wait_h + load_h) > 0 else 0
+                dumper_queue_h = cycles["Queue_Shovel"].sum() / 60
+                n_cycles = len(cycles)
+                ui.note(
+                    f"<b>The queue is on the shovel side, not the dumper side.</b> "
+                    f"Across the period, shovels waited {wait_h:,.0f} h while actually loading "
+                    f"{load_h:,.0f} h — waiting is {wait_share:.1%} of load + wait time. "
+                    f"By contrast, dumpers queued at the shovel for only "
+                    f"{dumper_queue_h:,.1f} h across {n_cycles:,} cycles "
+                    f"({dumper_queue_h * 60 / n_cycles:.2f} min/cycle)."
+                )
 
-            st.markdown("#### Shovel waiting: per-loader summary")
-            lu_summary = lu.groupby("Equipment_ID", as_index=False).agg(
-                Loading_Hours=("Loading_Min", lambda x: x.sum() / 60),
-                Waiting_Hours=("Waiting_Min", lambda x: x.sum() / 60),
-            )
-            lu_summary["Waiting_Share"] = lu_summary["Waiting_Hours"] / (
-                lu_summary["Waiting_Hours"] + lu_summary["Loading_Hours"]
-            )
-            avg_payload = cycles.groupby("Loading_Unit")["Payload"].mean()
-            avg_load_min_per_cycle = cycles.groupby("Loading_Unit")["Loading_Time"].mean()
-            for idx, row in lu_summary.iterrows():
-                eid = row["Equipment_ID"]
-                rate = avg_load_min_per_cycle.get(eid, 0)
-                payload = avg_payload.get(eid, 0)
-                if rate > 0:
-                    extra_loads = row["Waiting_Hours"] * 60 / rate
-                    lu_summary.at[idx, "Theoretical_Extra_Loads"] = extra_loads
-                    lu_summary.at[idx, "Theoretical_Extra_Tonnes"] = extra_loads * payload
-                else:
-                    lu_summary.at[idx, "Theoretical_Extra_Loads"] = 0
-                    lu_summary.at[idx, "Theoretical_Extra_Tonnes"] = 0
-            lu_summary = lu_summary.sort_values("Waiting_Hours", ascending=False)
+                lu_summary = lu.groupby("Equipment_ID", as_index=False).agg(
+                    Loading_Hours=("Loading_Min", lambda x: x.sum() / 60),
+                    Waiting_Hours=("Waiting_Min", lambda x: x.sum() / 60),
+                )
+                lu_summary["Waiting_Share"] = lu_summary["Waiting_Hours"] / (
+                    lu_summary["Waiting_Hours"] + lu_summary["Loading_Hours"]
+                )
+                avg_payload = cycles.groupby("Loading_Unit")["Payload"].mean()
+                avg_load_min_per_cycle = cycles.groupby("Loading_Unit")["Loading_Time"].mean()
+                for idx, row in lu_summary.iterrows():
+                    eid = row["Equipment_ID"]
+                    rate = avg_load_min_per_cycle.get(eid, 0)
+                    payload = avg_payload.get(eid, 0)
+                    if rate > 0:
+                        extra_loads = row["Waiting_Hours"] * 60 / rate
+                        lu_summary.at[idx, "Theoretical_Extra_Loads"] = extra_loads
+                        lu_summary.at[idx, "Theoretical_Extra_Tonnes"] = extra_loads * payload
+                    else:
+                        lu_summary.at[idx, "Theoretical_Extra_Loads"] = 0
+                        lu_summary.at[idx, "Theoretical_Extra_Tonnes"] = 0
+                lu_summary = lu_summary.sort_values("Waiting_Hours", ascending=False)
+                st.dataframe(
+                    lu_summary,
+                    hide_index=True,
+                    column_config={
+                        "Equipment_ID": "Shovel",
+                        "Loading_Hours": st.column_config.NumberColumn("Loading h", format="%.0f"),
+                        "Waiting_Hours": st.column_config.NumberColumn("Waiting h", format="%.0f"),
+                        "Waiting_Share": st.column_config.ProgressColumn(
+                            "Waiting %", format="%.0f%%", min_value=0, max_value=100,
+                        ),
+                        "Theoretical_Extra_Loads": st.column_config.NumberColumn(
+                            "Theoretical extra loads", format="%.0f",
+                        ),
+                        "Theoretical_Extra_Tonnes": st.column_config.NumberColumn(
+                            "Theoretical extra tonnes", format="%.0f",
+                        ),
+                    },
+                )
+                total_extra_tonnes = float(lu_summary["Theoretical_Extra_Tonnes"].sum())
+                ui.note(
+                    f"<b>Theoretical upper bound:</b> if every shovel had loaded continuously "
+                    f"during its waiting time, the fleet could have moved "
+                    f"<b>{total_extra_tonnes:,.0f} additional tonnes</b>. This assumes zero "
+                    f"blasting, marching, face preparation or maintenance — so it is an "
+                    f"<i>upper bound on the opportunity, not a forecast</i>."
+                )
+
+                if not shovel_shift.empty:
+                    cyc = filters.apply(cycles)
+                    tps = cyc.groupby(["Shift_Date", "Shift", "Loading_Unit"]).agg(
+                        trucks=("Equipment_ID", "nunique"),
+                        tonnes=("Payload", "sum"),
+                    ).reset_index()
+                    ss = filters.apply(shovel_shift)
+                    merged = tps.merge(
+                        ss[["Shift_Date", "Shift", "Equipment_ID", "Run_Hours", "Available_Hours"]],
+                        left_on=["Shift_Date", "Shift", "Loading_Unit"],
+                        right_on=["Shift_Date", "Shift", "Equipment_ID"],
+                        how="inner",
+                    )
+                    merged["shovel_idle_h"] = merged["Available_Hours"] - merged["Run_Hours"]
+                    merged = merged[merged["shovel_idle_h"] >= 0]
+                    st.plotly_chart(
+                        charts.shovel_starvation_scatter(merged),
+                        use_container_width=True,
+                    )
+                    ui.note(
+                        "The weak correlation (r ≈ −0.08) shows that <b>adding trucks alone does "
+                        "not linearly reduce shovel idle time</b>. Shovel idle is driven by "
+                        "blasting, marching, face preparation and maintenance — not just truck "
+                        "availability."
+                    )
+            else:
+                st.info("No loading-unit time data available for this selection.")
+
+        with sub_decomp:
+            if not shovel_shift.empty:
+                ss = filters.apply(shovel_shift)
+                shovel_decomp = ss.groupby("Equipment_ID", as_index=False).agg(
+                    Shifts=("Shift_Date", "size"),
+                    Available_Hours=("Available_Hours", "sum"),
+                    Run_Hours=("Run_Hours", "sum"),
+                    Marching_Hours=("Marching_Hours", "sum"),
+                    Face_Prep_Min=("Face_Preparation_Min", "sum"),
+                    Blasting_Min=("Blasting_Delay_Min", "sum"),
+                    Maintenance_Min=("Maintenance_Min", "sum"),
+                    Coal_Tonnes=("Coal_Tonnes", "sum"),
+                    OB_Tonnes=("OB_Tonnes", "sum"),
+                )
+                shovel_decomp["Idle_Hours"] = shovel_decomp["Available_Hours"] - shovel_decomp["Run_Hours"]
+                shovel_decomp["Face_Prep_Hours"] = shovel_decomp["Face_Prep_Min"] / 60
+                shovel_decomp["Blasting_Hours"] = shovel_decomp["Blasting_Min"] / 60
+                shovel_decomp["Maintenance_Hours"] = shovel_decomp["Maintenance_Min"] / 60
+                shovel_decomp["Total_Tonnes"] = shovel_decomp["Coal_Tonnes"] + shovel_decomp["OB_Tonnes"]
+                show_cols = [
+                    "Equipment_ID", "Shifts", "Available_Hours", "Run_Hours",
+                    "Idle_Hours", "Marching_Hours", "Face_Prep_Hours",
+                    "Blasting_Hours", "Maintenance_Hours", "Total_Tonnes",
+                ]
+                st.dataframe(
+                    shovel_decomp[show_cols].sort_values("Idle_Hours", ascending=False),
+                    hide_index=True,
+                    column_config={
+                        "Equipment_ID": "Shovel",
+                        "Shifts": st.column_config.NumberColumn(format="%d"),
+                        "Available_Hours": st.column_config.NumberColumn("Avail h", format="%.0f"),
+                        "Run_Hours": st.column_config.NumberColumn("Run h", format="%.0f"),
+                        "Idle_Hours": st.column_config.NumberColumn("Idle h", format="%.0f"),
+                        "Marching_Hours": st.column_config.NumberColumn("March h", format="%.1f"),
+                        "Face_Prep_Hours": st.column_config.NumberColumn("Face prep h", format="%.1f"),
+                        "Blasting_Hours": st.column_config.NumberColumn("Blast h", format="%.1f"),
+                        "Maintenance_Hours": st.column_config.NumberColumn("Maint h", format="%.1f"),
+                        "Total_Tonnes": st.column_config.NumberColumn("Tonnes", format="%.0f"),
+                    },
+                )
+                ui.note(
+                    "'Idle h' is Available − Run — the time the shovel was ready but not loading. "
+                    "Marching, face prep, blasting and maintenance are the operational reasons behind that idle time."
+                )
+
+            st.markdown("#### Idle of the trucks working to each shovel")
             st.dataframe(
-                lu_summary,
+                loaders[["Loading_Unit"] + DISPLAY_COLUMNS],
                 hide_index=True,
-                column_config={
-                    "Equipment_ID": "Shovel",
-                    "Loading_Hours": st.column_config.NumberColumn("Loading h", format="%.0f"),
-                    "Waiting_Hours": st.column_config.NumberColumn("Waiting h", format="%.0f"),
-                    "Waiting_Share": st.column_config.ProgressColumn(
-                        "Waiting %", format="%.0f%%", min_value=0, max_value=100,
-                    ),
-                    "Theoretical_Extra_Loads": st.column_config.NumberColumn(
-                        "Theoretical extra loads", format="%.0f",
-                    ),
-                    "Theoretical_Extra_Tonnes": st.column_config.NumberColumn(
-                        "Theoretical extra tonnes", format="%.0f",
-                    ),
-                },
-            )
-            total_extra_tonnes = float(lu_summary["Theoretical_Extra_Tonnes"].sum())
-            ui.note(
-                f"<b>Theoretical upper bound:</b> if every shovel had loaded continuously "
-                f"during its waiting time, the fleet could have moved "
-                f"<b>{total_extra_tonnes:,.0f} additional tonnes</b>. This assumes zero "
-                f"blasting, marching, face preparation or maintenance — so it is an "
-                f"<i>upper bound on the opportunity, not a forecast</i>. The realisable "
-                f"figure is lower and depends on face conditions, not just truck count."
-            )
-
-        st.markdown("#### Trucks per shovel vs shovel idle time")
-        if not shovel_shift.empty and not cycles.empty:
-            cyc = filters.apply(cycles)
-            tps = cyc.groupby(["Shift_Date", "Shift", "Loading_Unit"]).agg(
-                trucks=("Equipment_ID", "nunique"),
-                tonnes=("Payload", "sum"),
-            ).reset_index()
-            ss = filters.apply(shovel_shift)
-            merged = tps.merge(
-                ss[["Shift_Date", "Shift", "Equipment_ID", "Run_Hours", "Available_Hours"]],
-                left_on=["Shift_Date", "Shift", "Loading_Unit"],
-                right_on=["Shift_Date", "Shift", "Equipment_ID"],
-                how="inner",
-            )
-            merged["shovel_idle_h"] = merged["Available_Hours"] - merged["Run_Hours"]
-            merged = merged[merged["shovel_idle_h"] >= 0]
-            st.plotly_chart(
-                charts.shovel_starvation_scatter(merged),
-                use_container_width=True,
+                column_config={"Loading_Unit": "Shovel", **RANKING_COLUMNS},
             )
             ui.note(
-                "The weak correlation (r ≈ −0.08) shows that <b>adding trucks alone does "
-                "not linearly reduce shovel idle time</b>. Shovel idle is driven by "
-                "blasting, marching, face preparation and maintenance — not just truck "
-                "availability. One month of monsoon-season data cannot support a "
-                "fleet-sizing recommendation."
+                "High queue minutes per cycle against one shovel means too many trucks are "
+                "assigned to it, or that shovel is losing time itself."
             )
 
-        st.markdown("#### Shovel time decomposition")
-        if not shovel_shift.empty:
-            ss = filters.apply(shovel_shift)
-            shovel_decomp = ss.groupby("Equipment_ID", as_index=False).agg(
-                Shifts=("Shift_Date", "size"),
-                Available_Hours=("Available_Hours", "sum"),
-                Run_Hours=("Run_Hours", "sum"),
-                Marching_Hours=("Marching_Hours", "sum"),
-                Face_Prep_Min=("Face_Preparation_Min", "sum"),
-                Blasting_Min=("Blasting_Delay_Min", "sum"),
-                Maintenance_Min=("Maintenance_Min", "sum"),
-                Coal_Tonnes=("Coal_Tonnes", "sum"),
-                OB_Tonnes=("OB_Tonnes", "sum"),
-            )
-            shovel_decomp["Idle_Hours"] = shovel_decomp["Available_Hours"] - shovel_decomp["Run_Hours"]
-            shovel_decomp["Marching_Hours"] = shovel_decomp["Marching_Hours"]
-            shovel_decomp["Face_Prep_Hours"] = shovel_decomp["Face_Prep_Min"] / 60
-            shovel_decomp["Blasting_Hours"] = shovel_decomp["Blasting_Min"] / 60
-            shovel_decomp["Maintenance_Hours"] = shovel_decomp["Maintenance_Min"] / 60
-            shovel_decomp["Total_Tonnes"] = shovel_decomp["Coal_Tonnes"] + shovel_decomp["OB_Tonnes"]
-            show_cols = [
-                "Equipment_ID", "Shifts", "Available_Hours", "Run_Hours",
-                "Idle_Hours", "Marching_Hours", "Face_Prep_Hours",
-                "Blasting_Hours", "Maintenance_Hours", "Total_Tonnes",
-            ]
+        with sub_routes:
             st.dataframe(
-                shovel_decomp[show_cols].sort_values("Idle_Hours", ascending=False),
+                routes[["Route"] + DISPLAY_COLUMNS].head(20),
                 hide_index=True,
-                column_config={
-                    "Equipment_ID": "Shovel",
-                    "Shifts": st.column_config.NumberColumn(format="%d"),
-                    "Available_Hours": st.column_config.NumberColumn("Avail h", format="%.0f"),
-                    "Run_Hours": st.column_config.NumberColumn("Run h", format="%.0f"),
-                    "Idle_Hours": st.column_config.NumberColumn("Idle h", format="%.0f"),
-                    "Marching_Hours": st.column_config.NumberColumn("March h", format="%.1f"),
-                    "Face_Prep_Hours": st.column_config.NumberColumn("Face prep h", format="%.1f"),
-                    "Blasting_Hours": st.column_config.NumberColumn("Blast h", format="%.1f"),
-                    "Maintenance_Hours": st.column_config.NumberColumn("Maint h", format="%.1f"),
-                    "Total_Tonnes": st.column_config.NumberColumn("Tonnes", format="%.0f"),
-                },
+                column_config={"Route": "Load -> Dump", **RANKING_COLUMNS},
             )
-            ui.note(
-                "This decomposes <i>why</i> each shovel was not loading. 'Idle h' is "
-                "Available − Run — the time the shovel was ready but not loading. "
-                "Marching, face prep, blasting and maintenance are the operational "
-                "reasons behind that idle time."
-            )
-
-        st.markdown("#### Idle of the trucks working to each shovel")
-        st.dataframe(
-            loaders[["Loading_Unit"] + DISPLAY_COLUMNS],
-            hide_index=True,
-            column_config={"Loading_Unit": "Shovel", **RANKING_COLUMNS},
-        )
-        ui.note(
-            "High queue minutes per cycle against one shovel means too many trucks are "
-            "assigned to it, or that shovel is losing time itself. Either way the fix is "
-            "dispatch allocation, not the truck operators."
-        )
-
-        st.markdown("#### Idle by haul route")
-        st.dataframe(
-            routes[["Route"] + DISPLAY_COLUMNS].head(20),
-            hide_index=True,
-            column_config={"Route": "Load -> Dump", **RANKING_COLUMNS},
-        )
 
     with tab_breakdown:
         delay_events_all = tables.get("delay_events", pd.DataFrame())
