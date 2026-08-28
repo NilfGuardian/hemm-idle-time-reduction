@@ -191,7 +191,7 @@ def _build_print_html(markdown_text: str) -> str:
 <title>Idle Time Summary</title>
 <style>
 @page {{ size: A4; margin: 18mm; }}
-body {{ font-family: 'Segoe UI', Arial, sans-serif; font-size: 11pt; color: #1a1a1a; line-height: 1.5; }}
+body {{ font-family: Helvetica, Arial, sans-serif; font-size: 11pt; color: #1a1a1a; line-height: 1.5; }}
 h1 {{ font-size: 18pt; color: #2c3e50; border-bottom: 2px solid #C8E600; padding-bottom: 6px; }}
 h2 {{ font-size: 14pt; color: #2c3e50; margin-top: 20px; }}
 h4 {{ font-size: 12pt; color: #34495e; }}
@@ -199,18 +199,25 @@ table {{ border-collapse: collapse; width: 100%; margin: 10px 0; }}
 th, td {{ border: 1px solid #ccc; padding: 6px 10px; text-align: left; font-size: 10pt; }}
 th {{ background: #f5f6f0; }}
 li {{ margin: 4px 0; }}
-code {{ background: #f0f0f0; padding: 1px 4px; border-radius: 3px; font-size: 10pt; }}
+code {{ background: #f0f0f0; padding: 1px 4px; font-size: 10pt; }}
 p {{ margin: 6px 0; }}
-@media print {{ .no-print {{ display: none; }} }}
 </style>
 </head>
-<body onload="window.print()">
-<div class="no-print" style="text-align:center; padding:20px; background:#f5f6f0; margin-bottom:20px; border-radius:8px;">
-  Use your browser's print dialog to save as PDF. (Ctrl+P or Cmd+P)
-</div>
+<body>
 {body}
 </body>
 </html>"""
+
+
+def _build_pdf(html_content: str) -> bytes:
+    """Convert print-ready HTML to PDF bytes using xhtml2pdf (pure Python)."""
+    from xhtml2pdf import pisa
+    result = io.BytesIO()
+    pisa_status = pisa.CreatePDF(io.BytesIO(html_content.encode("utf-8")), dest=result)
+    if pisa_status.err:
+        st.error("PDF generation failed — falling back to HTML download.")
+        return b""
+    return result.getvalue()
 
 
 def main() -> None:
@@ -250,13 +257,22 @@ def main() -> None:
             )
         with export_cols[1]:
             pdf_html = _build_print_html(text)
-            st.download_button(
-                "Download / Print PDF",
-                pdf_html,
-                file_name=f"idle_summary_{filters.start:%Y%m%d}_{filters.end:%Y%m%d}.html",
-                mime="text/html",
-                help="Opens a print-ready page in your browser. Use Ctrl+P → Save as PDF.",
-            )
+            pdf_bytes = _build_pdf(pdf_html)
+            if pdf_bytes:
+                st.download_button(
+                    "Download PDF",
+                    pdf_bytes,
+                    file_name=f"idle_summary_{filters.start:%Y%m%d}_{filters.end:%Y%m%d}.pdf",
+                    mime="application/pdf",
+                )
+            else:
+                st.download_button(
+                    "Download summary (HTML)",
+                    pdf_html,
+                    file_name=f"idle_summary_{filters.start:%Y%m%d}_{filters.end:%Y%m%d}.html",
+                    mime="text/html",
+                    help="PDF generation failed — download HTML and use Ctrl+P → Save as PDF.",
+                )
 
         st.markdown("---")
         st.markdown(text)
