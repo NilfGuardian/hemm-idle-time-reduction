@@ -20,13 +20,13 @@ group_summary = du.build_group_summary
 
 RANKING_COLUMNS = {
     "Dumper_Shifts": st.column_config.NumberColumn("Shifts", format="%d"),
-    "Idle hours": st.column_config.NumberColumn(format="%,.0f"),
+    "Idle hours": st.column_config.NumberColumn(format="%.0f"),
     "Idle h per shift": st.column_config.NumberColumn(format="%.2f"),
     "Idle % of cycle": st.column_config.ProgressColumn(
         format="%.1f%%", min_value=0, max_value=50
     ),
     "Queue min per cycle": st.column_config.NumberColumn(format="%.2f"),
-    "Tonnes per op hour": st.column_config.NumberColumn(format="%,.0f"),
+    "Tonnes per op hour": st.column_config.NumberColumn(format="%.0f"),
 }
 DISPLAY_COLUMNS = [
     "Dumper_Shifts", "Idle hours", "Idle h per shift", "Idle % of cycle",
@@ -342,16 +342,16 @@ def main() -> None:
                 hide_index=True,
                 column_config={
                     "Equipment_ID": "Shovel",
-                    "Loading_Hours": st.column_config.NumberColumn("Loading h", format="%,.0f"),
-                    "Waiting_Hours": st.column_config.NumberColumn("Waiting h", format="%,.0f"),
+                    "Loading_Hours": st.column_config.NumberColumn("Loading h", format="%.0f"),
+                    "Waiting_Hours": st.column_config.NumberColumn("Waiting h", format="%.0f"),
                     "Waiting_Share": st.column_config.ProgressColumn(
                         "Waiting %", format="%.0f%%", min_value=0, max_value=100,
                     ),
                     "Theoretical_Extra_Loads": st.column_config.NumberColumn(
-                        "Theoretical extra loads", format="%,.0f",
+                        "Theoretical extra loads", format="%.0f",
                     ),
                     "Theoretical_Extra_Tonnes": st.column_config.NumberColumn(
-                        "Theoretical extra tonnes", format="%,.0f",
+                        "Theoretical extra tonnes", format="%.0f",
                     ),
                 },
             )
@@ -424,14 +424,14 @@ def main() -> None:
                 column_config={
                     "Equipment_ID": "Shovel",
                     "Shifts": st.column_config.NumberColumn(format="%d"),
-                    "Available_Hours": st.column_config.NumberColumn("Avail h", format="%,.0f"),
-                    "Run_Hours": st.column_config.NumberColumn("Run h", format="%,.0f"),
-                    "Idle_Hours": st.column_config.NumberColumn("Idle h", format="%,.0f"),
-                    "Marching_Hours": st.column_config.NumberColumn("March h", format="%,.1f"),
-                    "Face_Prep_Hours": st.column_config.NumberColumn("Face prep h", format="%,.1f"),
-                    "Blasting_Hours": st.column_config.NumberColumn("Blast h", format="%,.1f"),
-                    "Maintenance_Hours": st.column_config.NumberColumn("Maint h", format="%,.1f"),
-                    "Total_Tonnes": st.column_config.NumberColumn("Tonnes", format="%,.0f"),
+                    "Available_Hours": st.column_config.NumberColumn("Avail h", format="%.0f"),
+                    "Run_Hours": st.column_config.NumberColumn("Run h", format="%.0f"),
+                    "Idle_Hours": st.column_config.NumberColumn("Idle h", format="%.0f"),
+                    "Marching_Hours": st.column_config.NumberColumn("March h", format="%.1f"),
+                    "Face_Prep_Hours": st.column_config.NumberColumn("Face prep h", format="%.1f"),
+                    "Blasting_Hours": st.column_config.NumberColumn("Blast h", format="%.1f"),
+                    "Maintenance_Hours": st.column_config.NumberColumn("Maint h", format="%.1f"),
+                    "Total_Tonnes": st.column_config.NumberColumn("Tonnes", format="%.0f"),
                 },
             )
             ui.note(
@@ -513,7 +513,7 @@ def main() -> None:
                     column_config={
                         "Equipment_ID": "Dumper",
                         "Breakdown_Events": st.column_config.NumberColumn("Events", format="%d"),
-                        "Breakdown_Hours": st.column_config.NumberColumn("Hours", format="%,.0f"),
+                        "Breakdown_Hours": st.column_config.NumberColumn("Hours", format="%.0f"),
                         "Shifts_Affected": st.column_config.NumberColumn("Shifts affected", format="%d"),
                         "Downtime_Share": st.column_config.ProgressColumn(
                             "Downtime %", format="%.0f%%", min_value=0, max_value=100,

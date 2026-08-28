@@ -94,17 +94,17 @@ def main() -> None:
             column_config={
                 "Reason_Class": "Class",
                 "Addressable": st.column_config.CheckboxColumn("Addressable"),
-                "Hours": st.column_config.NumberColumn(format="%,.0f"),
+                "Hours": st.column_config.NumberColumn(format="%.0f"),
                 "Hours_Cross_Check": st.column_config.NumberColumn(
-                    "Cross-check (h)", format="%,.0f",
+                    "Cross-check (h)", format="%.0f",
                     help="Same reason from the independent Status and Sub-Status report.",
                 ),
                 "Share_Pct": st.column_config.ProgressColumn(
                     "Share", format="%.1f%%", min_value=0, max_value=60
                 ),
-                "Events": st.column_config.NumberColumn(format="%,d"),
+                "Events": st.column_config.NumberColumn(format="%d"),
                 "Mean_Min": st.column_config.NumberColumn("Mean (min)", format="%.1f"),
-                "Cost": st.column_config.NumberColumn(format="₹%,.0f"),
+                "Cost": st.column_config.NumberColumn(format="₹%.0f"),
             },
         )
 
@@ -146,7 +146,7 @@ def main() -> None:
             mix.index = [safe_shift_label(i) for i in mix.index]
             st.dataframe(
                 mix.round(0),
-                column_config={c: st.column_config.NumberColumn(format="%,.0f") for c in mix.columns},
+                column_config={c: st.column_config.NumberColumn(format="%.0f") for c in mix.columns},
             )
 
             ui.note(
@@ -217,7 +217,7 @@ def main() -> None:
             )
             st.dataframe(
                 unclassified[["Reason", "Hours", "Events"]], hide_index=True,
-                column_config={"Hours": st.column_config.NumberColumn(format="%,.0f")},
+                column_config={"Hours": st.column_config.NumberColumn(format="%.0f")},
             )
         else:
             st.success("Every reason in the current selection is classified.")

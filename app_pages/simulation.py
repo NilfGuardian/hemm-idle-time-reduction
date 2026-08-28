@@ -142,11 +142,11 @@ def main() -> None:
                      "Hours saved per day", "Value"]],
             hide_index=True,
             column_config={
-                "Hours lost": st.column_config.NumberColumn(format="%,.0f"),
+                "Hours lost": st.column_config.NumberColumn(format="%.0f"),
                 "Reduction %": st.column_config.NumberColumn(format="%d%%"),
-                "Hours saved": st.column_config.NumberColumn(format="%,.0f"),
+                "Hours saved": st.column_config.NumberColumn(format="%.0f"),
                 "Hours saved per day": st.column_config.NumberColumn(format="%.1f"),
-                "Value": st.column_config.NumberColumn(format="₹%,.0f"),
+                "Value": st.column_config.NumberColumn(format="₹%.0f"),
             },
         )
     with right:
@@ -194,9 +194,9 @@ def main() -> None:
     st.dataframe(
         sensitivity, hide_index=True,
         column_config={
-            "Idle cost (₹/h)": st.column_config.NumberColumn(format="₹%,d"),
-            "Value in period": st.column_config.NumberColumn(format="₹%,.0f"),
-            "Annualised value": st.column_config.NumberColumn(format="₹%,.0f"),
+            "Idle cost (₹/h)": st.column_config.NumberColumn(format="₹%d"),
+            "Value in period": st.column_config.NumberColumn(format="₹%.0f"),
+            "Annualised value": st.column_config.NumberColumn(format="₹%.0f"),
         },
     )
 
@@ -280,9 +280,9 @@ def main() -> None:
         st.dataframe(
             merged, hide_index=True,
             column_config={
-                "Baseline h": st.column_config.NumberColumn(format="%,.0f"),
-                "Current h": st.column_config.NumberColumn(format="%,.0f"),
-                "Delta h": st.column_config.NumberColumn(format="%,.0f"),
+                "Baseline h": st.column_config.NumberColumn(format="%.0f"),
+                "Current h": st.column_config.NumberColumn(format="%.0f"),
+                "Delta h": st.column_config.NumberColumn(format="%.0f"),
             },
         )
 

@@ -224,7 +224,7 @@ def main() -> None:
                 worst, hide_index=True,
                 column_config={
                     "Equipment_ID": "Dumper",
-                    "Hours": st.column_config.NumberColumn(format="%,.1f"),
+                    "Hours": st.column_config.NumberColumn(format="%.1f"),
                     "Events": st.column_config.NumberColumn(format="%d"),
                 },
             )
@@ -261,7 +261,7 @@ def main() -> None:
                 hide_index=True,
                 column_config={
                     "Loading_Unit": "Shovel",
-                    "Idle hours": st.column_config.NumberColumn(format="%,.0f"),
+                    "Idle hours": st.column_config.NumberColumn(format="%.0f"),
                     "Queue min per cycle": st.column_config.NumberColumn(format="%.2f"),
                     "Dumper_Shifts": st.column_config.NumberColumn("Dumper-shifts", format="%d"),
                 },

@@ -80,7 +80,7 @@ def main() -> None:
                 frame, hide_index=True, height=420,
                 column_config={
                     "Min per cycle": st.column_config.NumberColumn(format="%.2f"),
-                    "Total hours": st.column_config.NumberColumn(format="%,.0f"),
+                    "Total hours": st.column_config.NumberColumn(format="%.0f"),
                     "Share of cycle": st.column_config.ProgressColumn(
                         format="%.1f%%", min_value=0, max_value=50
                     ),
@@ -175,8 +175,8 @@ def main() -> None:
                 distribution, hide_index=True,
                 column_config={
                     "Bucket": "Event length",
-                    "Events": st.column_config.NumberColumn(format="%,d"),
-                    "Hours": st.column_config.NumberColumn(format="%,.0f"),
+                    "Events": st.column_config.NumberColumn(format="%d"),
+                    "Hours": st.column_config.NumberColumn(format="%.0f"),
                     "Share of idle hours": st.column_config.ProgressColumn(
                         format="%.1f%%", min_value=0, max_value=60
                     ),
@@ -301,7 +301,7 @@ def main() -> None:
         )
         st.dataframe(
             cross, hide_index=True,
-            column_config={"Hours": st.column_config.NumberColumn(format="%,.0f")},
+            column_config={"Hours": st.column_config.NumberColumn(format="%.0f")},
         )
         ui.note(
             "The three reports measure overlapping but not identical things, so they are "
