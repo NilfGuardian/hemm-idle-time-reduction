@@ -201,6 +201,15 @@ def main() -> None:
         if not reasons.empty:
             st.plotly_chart(charts.reason_class_donut(reasons), theme=None)
 
+    ui.note(
+        "<b>Why is empty travel time longer than loaded?</b> The empty trip is physically "
+        "longer — the dumper travels <b>2.2 km empty</b> vs <b>1.7 km loaded</b> per cycle "
+        "(from the TKPH report). The implied speeds are <b>16.0 km/h empty</b> and "
+        "<b>15.5 km/h loaded</b>, which is correct: a loaded truck is slightly slower. "
+        "The empty route is longer because the staging/parking area is further from the "
+        "shovel than the dump is."
+    )
+
     st.divider()
 
     actions = top_actions(reasons, filters.idle_cost_per_hour)
