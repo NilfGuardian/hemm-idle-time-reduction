@@ -115,27 +115,31 @@ Navigation is a top bar grouped by what a reviewer actually wants to do:
 
 ## What the data showed
 
-### 1. The FMS column names are wrong, and it matters enormously
+### 1. The FMS column names are swapped, and it matters enormously
 
 The `Dumper Cycle Time` report has ten time buckets that sum exactly to
-`CYCLE_TIME`. Four of them are misnamed:
+`CYCLE_TIME`. Four of them are swapped — the FMS labels for travel and stopped
+are backwards:
 
 | Raw column | What it actually contains |
 | --- | --- |
-| `EMPTY_STOPPED_TIME_NEW` | Travel time **empty** |
-| `HAULING_STOPPED_TIME_NEW` | Travel time **loaded** |
-| `EMPTY_TRAVEL` | **Stopped** time while empty |
-| `LOAD_HAUL_TIME` | **Stopped** time while loaded |
+| `EMPTY_STOPPED_TIME_NEW` | Travel time **loaded** (9.14 min/cycle) |
+| `HAULING_STOPPED_TIME_NEW` | Travel time **empty** (6.49 min/cycle) |
+| `EMPTY_TRAVEL` | **Stopped** time while loaded (4.75 min/cycle) |
+| `LOAD_HAUL_TIME` | **Stopped** time while empty (0.57 min/cycle) |
 
-This was established by correlating each column against the per-dumper haul and
-empty distances in the `Productivity TKPH-TMPH` report across 63 dumpers:
+This was established by the **round-trip argument**: a haul cycle is a round
+trip on the same road, so the distance is the same both ways (~1.9 km/cycle).
+A loaded truck is slower, so loaded travel must take more time than empty
+travel. The column with the larger value (9.14 min) must be loaded travel.
 
-- Corrected reading: r = 0.88 and 0.96 against distance, implying **16.2 km/h
-  empty and 15.7 km/h loaded** — realistic, and loaded is slower than empty.
-- Literal reading: implies **179 km/h loaded** — impossible.
+- Corrected reading: **12.4 km/h loaded** and **16.9 km/h empty** — realistic,
+  and loaded is slower than empty, as physics demands.
+- Literal reading: loaded appears faster than empty (15.3 vs 14.9 km/h) —
+  physically impossible for a 60-tonne payload on the same road.
 
 Taking the names at face value would have reported 64% of cycle time as idle.
-The correct figure is **27.5%**.
+The correct figure is **28.8%**.
 
 ### 2. Three independent measurements agree
 

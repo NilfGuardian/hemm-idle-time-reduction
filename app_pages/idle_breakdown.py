@@ -86,12 +86,12 @@ def main() -> None:
             )
 
         ui.note(
-            "<b>Why is empty travel time longer than loaded?</b> The empty trip is physically "
-            "longer — the dumper travels <b>2.2 km empty</b> vs <b>1.7 km loaded</b> per cycle "
-            "(from the TKPH report). The implied speeds are <b>16.0 km/h empty</b> and "
-            "<b>15.5 km/h loaded</b>, which is correct: a loaded truck is slightly slower. "
-            "The empty route is longer because the staging/parking area is further from the "
-            "shovel than the dump is."
+            "<b>Why is loaded travel time longer than empty?</b> The haul cycle is a "
+            "round trip on the same road, so the distance is the same both ways "
+            "(~1.9 km/cycle). A loaded dumper is slower — <b>12.4 km/h loaded</b> vs "
+            "<b>16.9 km/h empty</b> — so the loaded leg takes more time. The FMS "
+            "column names are swapped (it labels loaded travel as 'EMPTY_STOPPED') "
+            "and we correct this in the mapping."
         )
 
         queue = float(shifts["Queue_Min"].sum()) / 60

@@ -110,16 +110,16 @@
       "Cycle Time",
       "Cycle Time(min)"
     ],
-    "Travel_Empty": [
+    "Travel_Loaded": [
       "EMPTY_STOPPED_TIME_NEW"
     ],
-    "Travel_Loaded": [
+    "Travel_Empty": [
       "HAULING_STOPPED_TIME_NEW"
     ],
-    "Stopped_Empty": [
+    "Stopped_Loaded": [
       "EMPTY_TRAVEL"
     ],
-    "Stopped_Loaded": [
+    "Stopped_Empty": [
       "LOAD_HAUL_TIME"
     ],
     "Stopped_At_Face": [

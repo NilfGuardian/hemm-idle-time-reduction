@@ -54,15 +54,25 @@ SHIFT_LABELS = {1: "Shift 1 (06-14)", 2: "Shift 2 (14-22)", 3: "Shift 3 (22-06)"
 # Idle definition  -- the core of the project
 # --------------------------------------------------------------------------- #
 # IMPORTANT: the raw column names in the FMS "Dumper Cycle Time" report are
-# misleading. Verified against HAUL_DISTANCE / EMPTY_DISTANCE in the
-# "Productivity TKPH-TMPH" report across 63 dumpers:
+# swapped. The FMS labels are backwards — verified by the round-trip argument:
 #
-#   EMPTY_STOPPED_TIME_NEW    -> travel time EMPTY   (r=0.88 vs km, 16.2 km/h)
-#   HAULING_STOPPED_TIME_NEW  -> travel time LOADED  (r=0.96 vs km, 15.7 km/h)
-#   EMPTY_TRAVEL              -> STOPPED while empty (not travel)
-#   LOAD_HAUL_TIME            -> STOPPED while loaded (not haul)
+# A haul cycle is a round trip (shovel -> dump -> shovel), so the distance is
+# the same both ways. A loaded truck is slower, so loaded travel MUST take
+# more time than empty travel.
 #
-# Reading them at face value implies 179 km/h loaded, which is impossible.
+#   EMPTY_STOPPED_TIME_NEW    = 9.14 min/cycle -> travel time LOADED (slower)
+#   HAULING_STOPPED_TIME_NEW  = 6.49 min/cycle -> travel time EMPTY (faster)
+#   EMPTY_TRAVEL              = 4.75 min/cycle -> STOPPED while loaded
+#   LOAD_HAUL_TIME            = 0.57 min/cycle -> STOPPED while empty
+#
+# Implied speeds (using average round-trip distance of 1.85 km/cycle):
+#   Loaded: 12.4 km/h  (slower, heavy truck uphill)
+#   Empty:  16.9 km/h  (faster, light truck downhill)
+#
+# The earlier correlation analysis with TKPH distances was misleading because
+# TKPH "Empty_Km" includes all empty driving (parking, fuel bay, shovel changes),
+# not just the return trip. The round-trip physical constraint is definitive.
+#
 # column_mapping.json renames them to the canonical names used below.
 # CYCLE_TIME is exactly the sum of the ten buckets; all units are minutes.
 

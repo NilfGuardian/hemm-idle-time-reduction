@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-08-28T10:11:19",
-  "elapsed_seconds": 22.0,
+  "generated_at": "2026-08-30T12:52:56",
+  "elapsed_seconds": 22.5,
   "source_dirs": [
-    "d:\\HEMM DATA 1July to 31st",
-    "d:\\HEMM DATA 1July to 31st\\new files"
+    "D:\\Idle Time Reduction in HEMM TSL\\data\\raw",
+    "D:\\Idle Time Reduction in HEMM TSL\\data\\raw\\new files"
   ],
   "files_used": {
     "hauling_summary": [
@@ -80,17 +80,17 @@
     "delay_events": 27733,
     "fuel": 40,
     "tkph": 69,
-    "dumper_shift": 2709,
-    "status_summary": 1193,
+    "dumper_shift": 812,
+    "status_summary": 1055,
     "shovel_shift": 837,
     "hauling_summary": 2588,
     "loading_unit_summary": 1263,
     "daily_production": 138,
     "loader_profile": 65562,
-    "operator": 537,
+    "operator": 535,
     "payload_cycles": 60221,
     "loading_unit_time": 51,
-    "loading_routes": 4023,
+    "loading_routes": 3752,
     "status_category": 87,
     "engine_hours": 2317
   },
@@ -104,14 +104,14 @@
   "model": {
     "model": "Gradient Boosting",
     "target": "Total_Idle_Min",
-    "r2": 0.7223,
-    "mae": 41.806,
+    "r2": 0.7227,
+    "mae": 41.716,
     "n_train": 5097,
     "n_test": 1275,
     "segments": {
       "working_shifts": {
-        "r2": 0.1881,
-        "mae": 44.4383,
+        "r2": 0.1896,
+        "mae": 44.3218,
         "n": 990,
         "mean_actual": 241.6027
       },
