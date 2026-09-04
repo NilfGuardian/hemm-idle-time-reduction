@@ -728,7 +728,7 @@ def kpi_card(label: str, value: str, help_text: str = "", tone: str = "") -> Non
 
                 f'data-sign="{html.escape(sign)}" data-suffix="{html.escape(value[match.end():])}">'
 
-                f'{html.escape(value[:match.start()])}0{html.escape(sign)}{html.escape(value[match.end():])}</span>'
+                f'{html.escape(value)}</span>'
 
             )
 
