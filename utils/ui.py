@@ -1556,11 +1556,11 @@ def headline_kpis(summary: IdleSummary, filters: Filters) -> None:
 
         kpi_card(
 
-            "Total idle time",
+            "Idle per dumper-shift",
 
-            f"{format_number(summary.total_idle_hours)} h",
+            f"{summary.idle_hours_per_dumper_shift:.1f} h",
 
-            f"{summary.idle_hours_per_dumper_shift:.1f} h per dumper-shift",
+            f"{format_number(summary.total_idle_hours)} h fleet-wide across {summary.dumpers} dumpers",
 
             tone="accent",
 
@@ -1586,7 +1586,7 @@ def headline_kpis(summary: IdleSummary, filters: Filters) -> None:
 
             format_inr(summary.cost),
 
-            f"at ₹{filters.idle_cost_per_hour:,.0f}/h (assumption)",
+            f"₹{summary.cost / summary.dumpers / summary.days:,.0f} per dumper per day · at ₹{filters.idle_cost_per_hour:,.0f}/h",
 
             tone="accent",
 
@@ -1598,9 +1598,9 @@ def headline_kpis(summary: IdleSummary, filters: Filters) -> None:
 
             "Addressable by scheduling",
 
-            f"{format_number(summary.addressable_hours)} h",
+            f"{summary.addressable_hours / summary.dumper_shifts:.1f} h/shift",
 
-            format_inr(summary.addressable_cost) + " of the total",
+            f"{format_number(summary.addressable_hours)} h fleet-wide · " + format_inr(summary.addressable_cost),
 
             tone="good",
 
@@ -1612,9 +1612,9 @@ def headline_kpis(summary: IdleSummary, filters: Filters) -> None:
 
             "Diesel burnt idling",
 
-            f"{format_number(summary.fuel_litres_idle)} L",
+            f"{summary.fuel_litres_idle / summary.dumpers / summary.days:,.0f} L/dumper/day",
 
-            format_inr(summary.fuel_cost_idle) + " · engine ON in every idle event",
+            f"{format_number(summary.fuel_litres_idle)} L total · " + format_inr(summary.fuel_cost_idle) + " · engine ON",
 
         )
 

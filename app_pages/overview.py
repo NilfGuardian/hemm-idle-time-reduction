@@ -157,9 +157,6 @@ def main() -> None:
     summary = ui.summarise_idle(shifts, filters)
     reasons = _reason_table(reasons_scope)
 
-    # Debug: show what addressable values are computed
-    st.caption(f"DEBUG: addressable_hours={summary.addressable_hours:.1f}, addressable_cost={summary.addressable_cost:.0f}, Addressable_Delay_Min_sum={shifts.get('Addressable_Delay_Min', pd.Series(dtype=float)).sum():.0f}")
-
     hero_value = summary.addressable_cost
     st.markdown(
         f'<div style="text-align:center; padding:8px 0; margin:4px 0 10px 0;">'
@@ -169,7 +166,8 @@ def main() -> None:
         f'font-family:Inter, sans-serif; margin:8px 0;">'
         f'{format_inr(hero_value)}</div>'
         f'<div style="font-size:13px; color:{config.TEXT_MUTED};">'
-        f'{summary.addressable_hours:,.0f} hours recoverable by scheduling changes · '
+        f'{summary.addressable_hours / summary.dumper_shifts:.1f} h per dumper-shift · '
+        f'{summary.addressable_hours:,.0f} h across {summary.dumpers} dumpers · '
         f'annualised: {format_inr(hero_value * 365 / max(summary.days, 1))}'
         f'</div></div>',
         unsafe_allow_html=True,
