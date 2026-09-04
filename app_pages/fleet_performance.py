@@ -228,15 +228,16 @@ def main() -> None:
             with cards[3]:
                 threshold_h = bundle.risk_threshold / 60
                 ui.kpi_card("High-risk threshold", f"{threshold_h:.1f} h",
-                            "idle in a single 8-hour shift")
+                            f"idle in a single {config.SHIFT_LENGTH_HOURS:.0f}-hour shift")
 
             st.markdown("")
+            cycles_corr = float(shifts["Cycles"].corr(shifts["Delay_Min"])) if "Cycles" in shifts.columns and "Delay_Min" in shifts.columns else 0
             ui.note(
                 "<b>Why two models, and why the regressor's R² looks low.</b> "
                 "Testing showed that including how many haul cycles a dumper completed in a "
-                "shift inflates R² to ~0.50, but that number is <b>not trustworthy</b>: in a "
-                "fixed 8-hour shift, cycles completed is a near-direct readout of delay "
-                "minutes (r=0.95) — the model would just be re-deriving its target, not "
+                f"shift inflates R² substantially, but that number is <b>not trustworthy</b>: in a "
+                f"fixed {config.SHIFT_LENGTH_HOURS:.0f}-hour shift, cycles completed is a near-direct readout of delay "
+                f"minutes (r={cycles_corr:.2f}) — the model would just be re-deriving its target, not "
                 "predicting it. Removing that column drops R² to its honest value "
                 f"({bundle.metrics['r2']:.2f}), because more than half of shift-to-shift idle "
                 "variance is driven by <i>when a machine breaks down</i>, which schedule and "

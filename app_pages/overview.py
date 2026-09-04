@@ -191,8 +191,8 @@ def main() -> None:
         f"reason-coded delay logged against the machine. Over the selected period the fleet "
         f"of {summary.dumpers} dumpers lost <b>{format_number(summary.total_idle_hours)} hours</b> "
         f"across {format_number(summary.dumper_shifts)} dumper-shifts, an average of "
-        f"<b>{summary.idle_hours_per_dumper_shift:.1f} hours in every 8-hour shift</b>. "
-        f"Includes shifts where the truck completed no cycles because it was down the full 8 hours."
+        f"<b>{summary.idle_hours_per_dumper_shift:.1f} hours in every {config.SHIFT_LENGTH_HOURS:.0f}-hour shift</b>. "
+        f"Includes shifts where the truck completed no cycles because it was down the full {config.SHIFT_LENGTH_HOURS:.0f} hours."
     )
 
     insights = _auto_insights(shifts, reasons, summary, filters, actions)
@@ -212,13 +212,17 @@ def main() -> None:
         if not reasons.empty:
             st.plotly_chart(charts.reason_class_donut(reasons), theme=None)
 
+    avg_km_per_cycle = float(shifts['Km_Per_Cycle'].mean()) if 'Km_Per_Cycle' in shifts.columns else 0
+    total_cycles = float(shifts['Cycles'].sum()) if 'Cycles' in shifts.columns else 0
+    loaded_speed = (shifts['Travel_Loaded'].sum() / 60) / (total_cycles * avg_km_per_cycle / 2) if total_cycles > 0 and avg_km_per_cycle > 0 else 0
+    empty_speed = (shifts['Travel_Empty'].sum() / 60) / (total_cycles * avg_km_per_cycle / 2) if total_cycles > 0 and avg_km_per_cycle > 0 else 0
     ui.note(
-        "<b>Why is loaded travel time longer than empty?</b> The haul cycle is a "
-        "round trip on the same road, so the distance is the same both ways "
-        "(~1.9 km/cycle). A loaded dumper is slower — <b>12.4 km/h loaded</b> vs "
-        "<b>16.9 km/h empty</b> — so the loaded leg takes more time. The FMS "
-        "column names are swapped (it labels loaded travel as 'EMPTY_STOPPED') "
-        "and we correct this in the mapping."
+        f"<b>Why is loaded travel time longer than empty?</b> The haul cycle is a "
+        f"round trip on the same road, so the distance is the same both ways "
+        f"(~{avg_km_per_cycle:.1f} km/cycle). A loaded dumper is slower — <b>{loaded_speed:.1f} km/h loaded</b> vs "
+        f"<b>{empty_speed:.1f} km/h empty</b> — so the loaded leg takes more time. The FMS "
+        f"column names are swapped (it labels loaded travel as 'EMPTY_STOPPED') "
+        f"and we correct this in the mapping."
     )
 
     st.divider()

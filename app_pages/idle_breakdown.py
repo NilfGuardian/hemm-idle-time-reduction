@@ -85,13 +85,17 @@ def main() -> None:
                 },
             )
 
+        avg_km_per_cycle = float(shifts['Km_Per_Cycle'].mean()) if 'Km_Per_Cycle' in shifts.columns else 0
+        total_cycles = float(shifts['Cycles'].sum()) if 'Cycles' in shifts.columns else 0
+        loaded_speed = (shifts['Travel_Loaded'].sum() / 60) / (total_cycles * avg_km_per_cycle / 2) if total_cycles > 0 and avg_km_per_cycle > 0 else 0
+        empty_speed = (shifts['Travel_Empty'].sum() / 60) / (total_cycles * avg_km_per_cycle / 2) if total_cycles > 0 and avg_km_per_cycle > 0 else 0
         ui.note(
-            "<b>Why is loaded travel time longer than empty?</b> The haul cycle is a "
-            "round trip on the same road, so the distance is the same both ways "
-            "(~1.9 km/cycle). A loaded dumper is slower — <b>12.4 km/h loaded</b> vs "
-            "<b>16.9 km/h empty</b> — so the loaded leg takes more time. The FMS "
-            "column names are swapped (it labels loaded travel as 'EMPTY_STOPPED') "
-            "and we correct this in the mapping."
+            f"<b>Why is loaded travel time longer than empty?</b> The haul cycle is a "
+            f"round trip on the same road, so the distance is the same both ways "
+            f"(~{avg_km_per_cycle:.1f} km/cycle). A loaded dumper is slower — <b>{loaded_speed:.1f} km/h loaded</b> vs "
+            f"<b>{empty_speed:.1f} km/h empty</b> — so the loaded leg takes more time. The FMS "
+            f"column names are swapped (it labels loaded travel as 'EMPTY_STOPPED') "
+            f"and we correct this in the mapping."
         )
 
         queue = float(shifts["Queue_Min"].sum()) / 60

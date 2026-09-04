@@ -35,7 +35,8 @@ def reason_master(delay_events: pd.DataFrame) -> pd.DataFrame:
 
 
 def build_summary_text(
-    summary: ui.IdleSummary, reasons: pd.DataFrame, filters: ui.Filters
+    summary: ui.IdleSummary, reasons: pd.DataFrame, filters: ui.Filters,
+    shifts: pd.DataFrame = None,
 ) -> str:
     """Compose the management summary as plain markdown, ready to paste."""
     top = reasons.head(5)
@@ -52,7 +53,7 @@ def build_summary_text(
         "## Headline",
         "",
         f"- Total idle time: **{summary.total_idle_hours:,.0f} hours** "
-        f"({summary.idle_hours_per_dumper_shift:.1f} h of every 8-hour dumper-shift)",
+        f"({summary.idle_hours_per_dumper_shift:.1f} h of every {config.SHIFT_LENGTH_HOURS:.0f}-hour dumper-shift)",
         f"- Idle inside the haul cycle: **{summary.idle_share_of_cycle:.1f}%** of cycle time",
         f"- Cost at ₹{filters.idle_cost_per_hour:,.0f}/h: "
         f"**{format_inr(summary.cost)}** (assumption)",
@@ -111,7 +112,7 @@ def build_summary_text(
     lines += [
         "## Basis and limitations",
         "",
-        "- Source: VPTL/Wenco FMS exports for July 2026, parsed automatically.",
+        "- Source: VPTL/Wenco FMS exports, parsed automatically.",
         "- Idle = queueing plus stopped-in-trip time from the cycle report, plus every "
         "reason-coded delay logged against the machine.",
         "- Cycle-report column names were corrected against measured haul distances; the "
@@ -252,7 +253,7 @@ def main() -> None:
     )
 
     with tab_summary:
-        text = build_summary_text(summary, reasons, filters)
+        text = build_summary_text(summary, reasons, filters, shifts)
 
         export_cols = st.columns(2)
         with export_cols[0]:
@@ -326,10 +327,10 @@ def main() -> None:
                                 tone="good")
                 with cards[1]:
                     ui.kpi_card("Test AUC", f"{bundle.risk_metrics['auc']:.3f}",
-                                "held-out final 20% of the month", tone="good")
+                                f"held-out final {config.TEST_SIZE:.0%} of the period", tone="good")
                 with cards[2]:
                     ui.kpi_card("Test accuracy", f"{bundle.risk_metrics['accuracy']:.0%}",
-                                "worst-third-of-month flag")
+                                f"worst-{config.HIGH_IDLE_PERCENTILE:.0%} flag")
                 with cards[3]:
                     ui.kpi_card("F1 score", f"{bundle.risk_metrics['f1']:.2f}",
                                 "balances precision and recall")
@@ -368,7 +369,7 @@ def main() -> None:
                 pooled_r2 = bundle.metrics['r2']
                 working_r2 = bundle.segment_metrics.get("working_shifts", {}).get("r2") if bundle.segment_metrics else None
                 display_r2 = f"{working_r2:.3f}" if working_r2 is not None else f"{pooled_r2:.3f}"
-                ui.kpi_card("Test R²", display_r2, "held-out final 20% of the month")
+                ui.kpi_card("Test R²", display_r2, f"held-out final {config.TEST_SIZE:.0%} of the period")
             with cards[2]:
                 ui.kpi_card("MAE", f"{bundle.metrics['mae']:.1f} min",
                             f"on a mean of {shifts['Total_Idle_Min'].mean():.0f} min")
@@ -407,6 +408,8 @@ def main() -> None:
             )
 
             risk_auc_display = f"{bundle.risk_metrics['auc']:.2f}" if bundle.risk_metrics else "n/a"
+            cycles_corr = float(shifts["Cycles"].corr(shifts["Delay_Min"])) if "Cycles" in shifts.columns and "Delay_Min" in shifts.columns else 0
+            idle_cv = float(shifts.groupby("Equipment_ID")["Total_Idle_Min"].mean().std() / shifts.groupby("Equipment_ID")["Total_Idle_Min"].mean().mean()) if "Total_Idle_Min" in shifts.columns else 1.0
             st.markdown(
                 f"""
                 #### Model card
@@ -414,7 +417,7 @@ def main() -> None:
                 - **Grain:** dumper × shift date × shift number ({shifts['Equipment_ID'].nunique()}
                   dumpers, {len(shifts):,} dumper-shifts in the full dataset).
                 - **Validation:** chronological split for both models. Trained on the earlier
-                  part of July, scored on the later part. No random shuffling, so the scores
+                  part of the data period ({shifts['Shift_Date'].min():%d %b} – {shifts['Shift_Date'].max():%d %b}), scored on the later part. No random shuffling, so the scores
                   reflect genuine forward prediction, not interpolation.
                 - **Regression target:** `{bundle.target}` — total idle minutes for one dumper
                   in one shift.
@@ -423,15 +426,15 @@ def main() -> None:
                   ({bundle.risk_threshold:.0f} min, i.e. {bundle.risk_threshold / 60:.1f} h).
                 - **Leakage control:** every literal component of idle time is blacklisted in
                   `config.LEAKY_COLUMNS`. `Cycles` and `Payload_Tonnes` are *also* blacklisted:
-                  testing showed `Cycles` correlates at r=0.95 with a value derived directly
-                  from the delay component of the target, because a fixed 8-hour shift means
+                  `Cycles` correlates at r={cycles_corr:.2f} with the delay component of the target,
+                  because a fixed {config.SHIFT_LENGTH_HOURS:.0f}-hour shift means
                   fewer completed cycles is nearly always just a readout of more delay having
-                  happened. Including it inflated R² to ~0.50 without adding real predictive
+                  happened. Including it inflated R² substantially without adding real predictive
                   power. History features are lagged by one shift so a group mean can never
                   contain the row it predicts.
                 - **Why the regressor's R² is modest, honestly:** with `Cycles` removed, over
                   half of the remaining variance in idle minutes comes from stochastic
-                  mechanical breakdowns (coefficient of variation ≈1.0 across dumpers, the
+                  mechanical breakdowns (coefficient of variation ≈{idle_cv:.1f} across dumpers, the
                   signature of a random failure process). No amount of feature engineering on
                   schedule and workload data will predict *when* a specific machine breaks; that
                   needs maintenance and fault-code history, which is not in the FMS exports
@@ -522,8 +525,9 @@ def main() -> None:
             st.json(provenance.get("row_counts", {}), expanded=False)
 
         st.markdown("#### Known limitations")
+        data_month = shifts['Shift_Date'].dt.strftime('%B').iloc[0] if not shifts.empty else ""
         st.markdown(
-            """
+            f"""
             - **`START_TIMESTAMP` in the cycle report is unusable.** Its dates and times
               disagree with the shift columns and some rows fall in June. Cycles are therefore
               dated from `LOAD_START_SHIFT_DATE` and `LOAD_START_SHIFT_IDENT` only, and all
@@ -536,7 +540,7 @@ def main() -> None:
             - **Availability context covers part of the fleet.** The `Dumper_QSE_Report`
               supplies breakdown and availability hours for roughly half the dumper-shifts, so
               those features are sparse and the model imputes them.
-            - **One month of data.** July is monsoon season in Ramgarh; wet haul roads may
+            - **One month of data.** {data_month} is monsoon season in Ramgarh; wet haul roads may
               inflate stopped-in-trip time relative to a dry month. No comparison period is
               available to test this.
             - **Idle cost per hour is an assumption.** Fuel litres and tonnes moved are
@@ -563,7 +567,7 @@ def main() -> None:
                     like any other Windows application.
                 </p>
                 <p style="color:{config.TEXT_MUTED}; font-size:12px; margin:0;">
-                    Includes the current July 2026 dataset. Upload new FMS data within the app
+                    Includes the current dataset ({shifts['Shift_Date'].min():%b %Y}). Upload new FMS data within the app
                     to refresh the analysis.
                 </p>
             </div>
