@@ -76,6 +76,12 @@
         const sign = counter.dataset.sign || '';
         const suffix = counter.dataset.suffix || '';
 
+        // Reset to 0 at animation start so it counts up visually
+        counter.textContent = prefix + (0).toLocaleString('en-IN', {
+            minimumFractionDigits: decimals,
+            maximumFractionDigits: decimals,
+        }) + sign + suffix;
+
         function step(now) {
             const p = Math.min((now - startTime) / duration, 1);
             const v = target * easeOutCubic(p);
@@ -131,8 +137,29 @@
         topWin.setTimeout(boot, 300);
     }
 
-    // Re-run on Streamlit page navigation (multipage app doesn't reload the iframe)
-    topWin.addEventListener('streamlit:hashChanged', function () {
-        topWin.setTimeout(boot, 300);
-    });
+    // Re-run when Streamlit replaces page content (multipage navigation).
+    // A MutationObserver on the main container catches new .reveal/.counter
+    // elements that Streamlit injects on page change.
+    function watchForNewContent() {
+        const main = doc.querySelector('section.main') || doc.querySelector('.stApp .main') || doc.querySelector('.stApp');
+        if (!main) {
+            topWin.setTimeout(watchForNewContent, 500);
+            return;
+        }
+        const mo = new topWin.MutationObserver(function (mutations) {
+            let hasNew = false;
+            for (const m of mutations) {
+                if (m.addedNodes && m.addedNodes.length > 0) { hasNew = true; break; }
+            }
+            if (hasNew) {
+                // Debounce: wait for Streamlit to finish rendering
+                topWin.clearTimeout(watchForNewContent._t);
+                watchForNewContent._t = topWin.setTimeout(function () {
+                    bindScrollReveals();
+                }, 200);
+            }
+        });
+        mo.observe(main, { childList: true, subtree: true });
+    }
+    topWin.setTimeout(watchForNewContent, 500);
 })();
