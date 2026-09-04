@@ -28,14 +28,26 @@ _INTER_TEMPLATE = go.layout.Template(
 
 
 def _style(figure: go.Figure, height: int = 340, legend: bool = True) -> go.Figure:
-    """Apply the shared dark/technical layout to any figure."""
+    """Apply the shared dark/technical layout to any figure.
+
+    Margins already set by the caller are preserved; only unset sides fall back
+    to the shared defaults. Both axes use ``automargin`` so long category
+    labels expand the plot area instead of being clipped.
+    """
+    existing = figure.layout.margin
+    margin = dict(
+        l=existing.l if existing.l is not None else 50,
+        r=existing.r if existing.r is not None else 50,
+        t=existing.t if existing.t is not None else 80,
+        b=existing.b if existing.b is not None else 40,
+    )
     figure.update_layout(
         template=_INTER_TEMPLATE,
         height=height,
         font=FONT,
         plot_bgcolor=config.BG_DARK,
         paper_bgcolor=config.BG_DARK,
-        margin=dict(l=50, r=50, t=80, b=40),
+        margin=margin,
         title_font=dict(size=13, color=config.LIME, family="Bebas Neue, sans-serif"),
         title=dict(x=0.0, xanchor="left", y=0.97, yanchor="top"),
         showlegend=legend,
@@ -50,11 +62,13 @@ def _style(figure: go.Figure, height: int = 340, legend: bool = True) -> go.Figu
         showgrid=True, gridcolor=config.GRID_DARK, linecolor=config.BORDER_MUTED,
         tickfont=dict(color=config.TEXT_MUTED, family="Inter, sans-serif"),
         title_font=dict(color=config.TEXT_MUTED, family="Inter, sans-serif"),
+        automargin=True,
     )
     figure.update_yaxes(
         showgrid=True, gridcolor=config.GRID_DARK, linecolor=config.BORDER_MUTED,
         tickfont=dict(color=config.TEXT_MUTED, family="Inter, sans-serif"),
         title_font=dict(color=config.TEXT_MUTED, family="Inter, sans-serif"),
+        automargin=True,
     )
     return figure
 
