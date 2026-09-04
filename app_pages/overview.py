@@ -59,6 +59,7 @@ def _auto_insights(
     reasons: pd.DataFrame,
     summary: ui.IdleSummary,
     filters: ui.Filters,
+    actions: pd.DataFrame = None,
 ) -> list[str]:
     """Generate plain-English findings from the data, auto-discovered."""
     insights: list[str] = []
@@ -91,9 +92,12 @@ def _auto_insights(
         if not addressable.empty:
             addr_hours = float(addressable["Hours"].sum())
             addr_pct = addr_hours / summary.total_idle_hours * 100 if summary.total_idle_hours else 0
+            recovered_h = float(actions["Hours recovered"].sum()) if not actions.empty else 0
+            recovered_value = float(actions["Value"].sum()) if not actions.empty else 0
             insights.append(
                 f"**{addr_pct:.0f}% of all idle time is addressable** by scheduling changes "
-                f"({addr_hours:.0f} h worth {format_inr(addr_hours * filters.idle_cost_per_hour)})"
+                f"({addr_hours:.0f} h), of which **{recovered_h:.0f} h ({format_inr(recovered_value)}) "
+                f"is realistically recoverable** with known levers"
             )
 
     if "Loading_Unit" in shifts.columns:
@@ -157,17 +161,23 @@ def main() -> None:
     summary = ui.summarise_idle(shifts, filters)
     reasons = _reason_table(reasons_scope)
 
-    hero_value = summary.addressable_cost
+    actions = top_actions(reasons, filters.idle_cost_per_hour)
+    if not actions.empty:
+        recovered_h = float(actions["Hours recovered"].sum())
+        hero_value = float(actions["Value"].sum())
+    else:
+        recovered_h = 0.0
+        hero_value = 0.0
     st.markdown(
         f'<div style="text-align:center; padding:8px 0; margin:4px 0 10px 0;">'
         f'<div style="font-size:14px; color:{config.TEXT_MUTED}; letter-spacing:2px; '
-        f'text-transform:uppercase;">Addressable savings in this period</div>'
+        f'text-transform:uppercase;">Realistic recoverable savings</div>'
         f'<div style="font-size:42px; font-weight:700; color:{config.LIME}; '
         f'font-family:Inter, sans-serif; margin:8px 0;">'
         f'{format_inr(hero_value)}</div>'
         f'<div style="font-size:13px; color:{config.TEXT_MUTED};">'
-        f'{summary.addressable_hours / summary.dumper_shifts:.1f} h per dumper-shift · '
-        f'{summary.addressable_hours:,.0f} h across {summary.dumpers} dumpers · '
+        f'{recovered_h / summary.dumper_shifts:.1f} h per dumper-shift · '
+        f'{recovered_h:,.0f} h recoverable from {summary.addressable_hours:,.0f} h addressable · '
         f'annualised: {format_inr(hero_value * 365 / max(summary.days, 1))}'
         f'</div></div>',
         unsafe_allow_html=True,
@@ -185,7 +195,7 @@ def main() -> None:
         f"Includes shifts where the truck completed no cycles because it was down the full 8 hours."
     )
 
-    insights = _auto_insights(shifts, reasons, summary, filters)
+    insights = _auto_insights(shifts, reasons, summary, filters, actions)
     if insights:
         st.markdown("#### Key findings")
         for insight in insights[:3]:
@@ -213,7 +223,6 @@ def main() -> None:
 
     st.divider()
 
-    actions = top_actions(reasons, filters.idle_cost_per_hour)
     if actions.empty:
         st.info("No addressable reasons found in the current selection.")
     else:
