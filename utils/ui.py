@@ -690,7 +690,7 @@ def hero(title: str, subtitle: str) -> None:
 
 
 
-def kpi_card(label: str, value: str, help_text: str = "", tone: str = "") -> None:
+def kpi_card(label: str, value: str, help_text: str = "", tone: str = "", tooltip: str = "") -> None:
 
     """Render a single KPI card. ``tone`` may be empty, ``accent`` or ``good``.
 
@@ -699,6 +699,10 @@ def kpi_card(label: str, value: str, help_text: str = "", tone: str = "") -> Non
     Numbers are wrapped in a live counter span that the JS scroll observer will
 
     animate from 0 to the final value once the card enters the viewport.
+
+    If ``tooltip`` is provided, a floating info window appears after 2s hover
+
+    explaining the metric, its calculation, and its legends.
 
     """
 
@@ -742,15 +746,47 @@ def kpi_card(label: str, value: str, help_text: str = "", tone: str = "") -> Non
 
 
 
+    tooltip_attr = ""
+    if tooltip:
+        tooltip_attr = f' data-tooltip="{html.escape(tooltip)}" data-tooltip-title="{html.escape(label)}"'
+
     st.markdown(
 
-        f'<div class="hemm-card reveal {tone}" data-stagger="{stagger}">'
+        f'<div class="hemm-card reveal {tone}" data-stagger="{stagger}"{tooltip_attr}>'
 
         f'<div class="label">{html.escape(label)}</div>'
 
         f'<div class="value">{value_html}</div>'
 
         f'<div class="help">{html.escape(help_text)}</div></div>',
+
+        unsafe_allow_html=True,
+
+    )
+
+
+
+
+
+def chart_tooltip(title: str, description: str) -> None:
+
+    """Inject a tooltip that will attach to the next Plotly chart or dataframe.
+
+
+
+    Call this *before* ``st.plotly_chart`` or ``st.dataframe``. The tooltip
+
+    appears after 2s hover, explaining the chart's metrics, legends, and
+
+    calculations.
+
+    """
+
+    st.markdown(
+
+        f'<div class="hemm-chart-tooltip-anchor" data-tooltip="{html.escape(description)}" '
+
+        f'data-tooltip-title="{html.escape(title)}"></div>',
 
         unsafe_allow_html=True,
 
@@ -1564,6 +1600,8 @@ def headline_kpis(summary: IdleSummary, filters: Filters) -> None:
 
             tone="accent",
 
+            tooltip="<strong>What:</strong> Average idle hours per dumper per shift. Idle = queueing at shovel/dump + stopped mid-trip + reason-coded delays. <strong>Calculation:</strong> <code>Total_Idle_Min</code> summed across all dumper-shifts, divided by number of dumper-shifts, converted to hours. <strong>Includes</strong> fully-down shifts (zero cycles) where the truck was manned but never moved.",
+
         )
 
     with columns[1]:
@@ -1575,6 +1613,8 @@ def headline_kpis(summary: IdleSummary, filters: Filters) -> None:
             f"{summary.idle_share_of_cycle:.1f}%",
 
             f"{format_number(summary.cycle_idle_hours)} h standing still while on a trip",
+
+            tooltip="<strong>What:</strong> Percentage of total cycle time spent idle (not loading, not travelling). <strong>Calculation:</strong> <code>Cycle_Idle_Min</code> (queue + stopped-in-trip) divided by <code>Cycle_Min</code> (total cycle time), times 100. <strong>Legends:</strong> Queue = waiting at shovel or dump; Stopped = truck halted mid-trip (congestion, road, dispatch).",
 
         )
 
@@ -1590,6 +1630,8 @@ def headline_kpis(summary: IdleSummary, filters: Filters) -> None:
 
             tone="accent",
 
+            tooltip="<strong>What:</strong> Total rupee value of idle time for the fleet. <strong>Calculation:</strong> <code>Total_Idle_Hours × idle_cost_per_hour</code> (adjustable in sidebar). This is an <strong>assumption</strong>, not a measured cost — fuel and tonnes are measured, the rupee conversion is not.",
+
         )
 
     with columns[3]:
@@ -1604,6 +1646,8 @@ def headline_kpis(summary: IdleSummary, filters: Filters) -> None:
 
             tone="good",
 
+            tooltip="<strong>What:</strong> Idle hours that can be reduced via scheduling changes (staggering breaks, shift changeover, queue management). <strong>Calculation:</strong> Sum of delay hours where <code>Addressable = True</code> in the reason taxonomy. Excludes <code>Down</code> (mechanical breakdowns) and non-addressable reasons. <strong>Not all addressable hours are recoverable</strong> — see the Realistic Recoverable Savings banner for the lever-based estimate.",
+
         )
 
     with columns[4]:
@@ -1615,6 +1659,8 @@ def headline_kpis(summary: IdleSummary, filters: Filters) -> None:
             f"{summary.fuel_litres_idle / summary.dumpers / summary.days:,.0f} L/dumper/day",
 
             f"{format_number(summary.fuel_litres_idle)} L total · " + format_inr(summary.fuel_cost_idle) + " · engine ON",
+
+            tooltip="<strong>What:</strong> Diesel consumed while the engine was running but the truck was idle. <strong>Calculation:</strong> <code>Idle_Hours × idle_fuel_burn_rate</code> (default 8 L/h, adjustable in sidebar) × <code>Engine_Running</code> share. <strong>Cost:</strong> Litres × diesel price (default ₹90/L). The FMS logs every idle event with engine status.",
 
         )
 

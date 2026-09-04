@@ -241,3 +241,54 @@
         opacity: 0 !important;
     }
 }
+
+/* --------------------------------------------------------------------------- */
+/* Info tooltip — appears after 2s hover on KPI cards and charts */
+/* --------------------------------------------------------------------------- */
+.hemm-tooltip {
+    position: fixed;
+    z-index: 99999;
+    max-width: 340px;
+    padding: 14px 16px;
+    background: rgba(18, 20, 24, 0.97);
+    border: 1px solid var(--accent, #C8E600);
+    border-radius: 10px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6), 0 0 12px var(--accent-glow, rgba(200,230,0,0.15));
+    color: #e0e0e0;
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-size: 12.5px;
+    line-height: 1.55;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+.hemm-tooltip.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+.hemm-tooltip-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--accent, #C8E600);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.hemm-tooltip-body {
+    color: #c8c8c8;
+    white-space: normal;
+}
+.hemm-tooltip-body strong {
+    color: #f0f0f0;
+}
+.hemm-tooltip-body code {
+    background: rgba(200, 230, 0, 0.12);
+    color: var(--accent-light, #d4f000);
+    padding: 1px 5px;
+    border-radius: 3px;
+    font-size: 11.5px;
+    font-family: 'SF Mono', 'Fira Code', monospace;
+}

@@ -207,9 +207,11 @@ def main() -> None:
 
     left, right = st.columns([3, 2], gap="large")
     with left:
+        ui.chart_tooltip("Cycle time breakdown", "<strong>Chart:</strong> Stacked bar showing how each dumper-shift's cycle time is decomposed. <strong>Legends:</strong> Loading, Travel (loaded + empty), Queue (at shovel/dump), Stopped (mid-trip), Spotting. <strong>Calculation:</strong> Each segment is the mean minutes per cycle from the FMS cycle report. <strong>Use:</strong> Identify which time components dominate the haul cycle.")
         st.plotly_chart(charts.cycle_breakdown_bar(shifts), theme=None)
     with right:
         if not reasons.empty:
+            ui.chart_tooltip("Reason class donut", "<strong>Chart:</strong> Donut chart showing the share of delay hours by reason class. <strong>Legends:</strong> Organisational (scheduling, breaks, queue), Mechanical (breakdowns, maintenance), Operational (dispatch, routing). <strong>Calculation:</strong> <code>sum(Hours)</code> grouped by <code>Reason_Class</code>, shown as percentage of total.")
             st.plotly_chart(charts.reason_class_donut(reasons), theme=None)
 
     avg_km_per_cycle = float(shifts['Km_Per_Cycle'].mean()) if 'Km_Per_Cycle' in shifts.columns else 0

@@ -154,18 +154,22 @@ def main() -> None:
             cards = st.columns(4)
             with cards[0]:
                 ui.kpi_card("Idle events", format_number(len(idle_events)),
-                            "each one a logged stand-still")
+                            "each one a logged stand-still",
+                            tooltip="<strong>What:</strong> Count of individual idle events from the Dumper Idle Time report. <strong>Calculation:</strong> Each row is one continuous stand-still period logged by the FMS with start time, duration, and engine status.")
             with cards[1]:
                 ui.kpi_card("Mean event length",
-                            f"{idle_events['Idle_Min'].mean():.0f} min", "per event")
+                            f"{idle_events['Idle_Min'].mean():.0f} min", "per event",
+                            tooltip="<strong>What:</strong> Average duration of a single idle event. <strong>Calculation:</strong> <code>mean(Idle_Min)</code> across all idle events in the filtered period. <strong>Use:</strong> Short mean = frequent stop-start (congestion); long mean = extended downtime (breakdowns, shift change).")
             with cards[2]:
                 ui.kpi_card("Longest single event",
                             f"{idle_events['Idle_Min'].max() / 60:.1f} h", "in the period",
-                            tone="accent")
+                            tone="accent",
+                            tooltip="<strong>What:</strong> The longest continuous idle event recorded. <strong>Calculation:</strong> <code>max(Idle_Min) / 60</code> converted to hours. <strong>Use:</strong> An event lasting multiple hours likely indicates a breakdown or major incident, not normal queueing.")
             with cards[3]:
                 engine_on = float(idle_events["Engine_Running"].mean() * 100)
                 ui.kpi_card("Engine running", f"{engine_on:.0f}%",
-                            "of idle time burns diesel", tone="accent")
+                            "of idle time burns diesel", tone="accent",
+                            tooltip="<strong>What:</strong> Percentage of idle time where the engine was running (burning diesel). <strong>Calculation:</strong> <code>mean(Engine_Running) × 100</code> across all idle events. <strong>Impact:</strong> Engine-on idle burns ~8 L/h of diesel. Engine-off idle (rare) does not.")
 
             st.markdown("#### Distribution of idle event length")
             buckets = pd.cut(

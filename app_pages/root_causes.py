@@ -54,20 +54,24 @@ def main() -> None:
     cards = st.columns(4)
     with cards[0]:
         ui.kpi_card("Reason-coded delay", f"{format_number(total_hours)} h",
-                    f"{format_number(len(dumper_delays))} logged events")
+                    f"{format_number(len(dumper_delays))} logged events",
+                    tooltip="<strong>What:</strong> Total hours from reason-coded delay events (not cycle idle). <strong>Calculation:</strong> <code>sum(Delay_Min) / 60</code> from the delay events table. <strong>Each event</strong> has a reason (e.g. Shift Change, Breakdown), status code, and duration.")
     with cards[1]:
         share = float(organisational["Hours"].sum()) / total_hours * 100 if total_hours else 0
         ui.kpi_card("Organisational", f"{share:.0f}%",
                     f"{format_number(organisational['Hours'].sum())} h of scheduling and manning",
-                    tone="accent")
+                    tone="accent",
+                    tooltip="<strong>What:</strong> Share of delay hours caused by organisational/scheduling issues. <strong>Calculation:</strong> <code>sum(Hours)</code> where <code>Reason_Class = Organisational</code>, divided by total delay hours. <strong>Examples:</strong> Shift change, break, queue, no truck assignment.")
     with cards[2]:
         ui.kpi_card("Addressable total", f"{format_number(addressable['Hours'].sum())} h",
                     format_inr(float(addressable["Hours"].sum()) * filters.idle_cost_per_hour),
-                    tone="good")
+                    tone="good",
+                    tooltip="<strong>What:</strong> Delay hours that can be reduced via scheduling changes. <strong>Calculation:</strong> <code>sum(Hours)</code> where <code>Addressable = True</code> in the reason taxonomy. <strong>Cost:</strong> Hours × idle_cost_per_hour. <strong>Note:</strong> This is the total addressable pool, not the realistically recoverable amount.")
     with cards[3]:
         mechanical = reasons[reasons["Reason_Class"] == "Mechanical"]["Hours"].sum()
         ui.kpi_card("Mechanical", f"{format_number(mechanical)} h",
-                    "breakdown and planned maintenance")
+                    "breakdown and planned maintenance",
+                    tooltip="<strong>What:</strong> Delay hours from mechanical breakdowns and planned maintenance. <strong>Calculation:</strong> <code>sum(Hours)</code> where <code>Reason_Class = Mechanical</code>. <strong>Not addressable</strong> by scheduling — requires maintenance and fault-code history to predict.")
 
     st.markdown("")
 

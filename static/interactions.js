@@ -123,11 +123,106 @@
     }
 
     // ----------------------------------------------------------------------- //
+    // Info tooltips — appear after 2s hover on elements with data-tooltip
+    // ----------------------------------------------------------------------- //
+    var tooltipEl = null;
+    var tooltipTimer = null;
+
+    function getTooltipEl() {
+        if (!tooltipEl) {
+            tooltipEl = doc.createElement('div');
+            tooltipEl.className = 'hemm-tooltip';
+            tooltipEl.innerHTML = '<div class="hemm-tooltip-title"></div><div class="hemm-tooltip-body"></div>';
+            doc.body.appendChild(tooltipEl);
+        }
+        return tooltipEl;
+    }
+
+    function showTooltip(target) {
+        var html = target.getAttribute('data-tooltip');
+        if (!html) return;
+        var el = getTooltipEl();
+        var title = target.getAttribute('data-tooltip-title') || '';
+        el.querySelector('.hemm-tooltip-title').textContent = title;
+        el.querySelector('.hemm-tooltip-body').innerHTML = html;
+
+        var rect = target.getBoundingClientRect();
+        var elWidth = 340;
+        var elHeight = el.offsetHeight || 120;
+        var x = rect.left + rect.width / 2 - elWidth / 2;
+        var y = rect.bottom + 8;
+
+        // Keep within viewport
+        if (x < 8) x = 8;
+        if (x + elWidth > topWin.innerWidth - 8) x = topWin.innerWidth - elWidth - 8;
+        if (y + elHeight > topWin.innerHeight - 8) y = rect.top - elHeight - 8;
+
+        el.style.left = x + 'px';
+        el.style.top = y + 'px';
+        el.style.maxWidth = elWidth + 'px';
+        el.classList.add('visible');
+    }
+
+    function hideTooltip() {
+        if (tooltipEl) tooltipEl.classList.remove('visible');
+    }
+
+    function bindTooltips() {
+        // Handle chart tooltip anchors: transfer data-tooltip to the next sibling
+        // Plotly chart or dataframe container.
+        doc.querySelectorAll('.hemm-chart-tooltip-anchor').forEach(function (anchor) {
+            if (anchor.dataset.tooltipBound === 'true') return;
+            anchor.dataset.tooltipBound = 'true';
+            // Find the next sibling that is a chart/dataframe container
+            var sibling = anchor.nextElementSibling;
+            var attempts = 0;
+            while (sibling && attempts < 5) {
+                var chartEl = sibling.querySelector('[data-testid="stPlotlyChart"], .stDataFrame, .stDataFrame-container');
+                if (chartEl) {
+                    var tooltip = anchor.getAttribute('data-tooltip');
+                    var title = anchor.getAttribute('data-tooltip-title');
+                    if (tooltip) {
+                        chartEl.setAttribute('data-tooltip', tooltip);
+                        chartEl.setAttribute('data-tooltip-title', title || '');
+                    }
+                    break;
+                }
+                sibling = sibling.nextElementSibling;
+                attempts++;
+            }
+        });
+
+        var targets = doc.querySelectorAll('[data-tooltip]');
+        targets.forEach(function (el) {
+            if (el.dataset.tooltipBound === 'true') return;
+            el.dataset.tooltipBound = 'true';
+
+            el.addEventListener('mouseenter', function () {
+                topWin.clearTimeout(tooltipTimer);
+                tooltipTimer = topWin.setTimeout(function () {
+                    showTooltip(el);
+                }, 2000);
+            });
+            el.addEventListener('mouseleave', function () {
+                topWin.clearTimeout(tooltipTimer);
+                hideTooltip();
+            });
+            el.addEventListener('mousemove', function () {
+                topWin.clearTimeout(tooltipTimer);
+                tooltipTimer = topWin.setTimeout(function () {
+                    showTooltip(el);
+                }, 2000);
+            });
+        });
+    }
+
+    // ----------------------------------------------------------------------- //
     // Boot
     // ----------------------------------------------------------------------- //
     function boot() {
         doc.body.classList.add('js-reveal-active');
         bindScrollReveals();
+        bindTooltips();
         playPageEntrance();
     }
 
@@ -156,6 +251,7 @@
                 topWin.clearTimeout(watchForNewContent._t);
                 watchForNewContent._t = topWin.setTimeout(function () {
                     bindScrollReveals();
+                    bindTooltips();
                 }, 200);
             }
         });

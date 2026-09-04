@@ -165,16 +165,19 @@ def main() -> None:
         ui.kpi_card(
             "Scenario-specific opportunity", f"{format_number(total_addressable_h)} h",
             "hours currently lost to the reasons covered below",
+            tooltip="<strong>What:</strong> Total addressable idle hours for the reasons shown on this page. <strong>Calculation:</strong> <code>sum(Hours)</code> where <code>Addressable = True</code> for reasons in the current filter. <strong>Scope:</strong> Only scheduling-addressable reasons — excludes mechanical breakdowns.",
         )
     with cards[1]:
         ui.kpi_card(
             "Recoverable with these levers", f"{format_number(total_recoverable_h)} h",
             "sum of each lever's realistic reduction", tone="good",
+            tooltip="<strong>What:</strong> Realistically recoverable hours using known levers. <strong>Calculation:</strong> For each reason: <code>Hours × realistic_reduction%</code> from <code>IDLE_LEVERS</code> config. <strong>Not the full addressable pool</strong> — only what known interventions can plausibly recover.",
         )
     with cards[2]:
         ui.kpi_card(
             "Annualised value", format_inr(total_value * 365 / max(int(shifts["Shift_Date"].nunique()), 1)),
             f"{format_inr(total_value)} in the selected period", tone="good",
+            tooltip="<strong>What:</strong> Annualised rupee value of recoverable savings. <strong>Calculation:</strong> <code>total_value × 365 / days</code> where days = unique shift dates in the period. <strong>Assumption:</strong> The period is representative of the full year. Monsoon or seasonal variation may differ.",
         )
 
     st.markdown("")
@@ -204,6 +207,7 @@ def main() -> None:
             ui.kpi_card(
                 "Mechanical hours lost", f"{format_number(mech_hours)} h",
                 format_inr(mech_hours * filters.idle_cost_per_hour), tone="accent",
+                tooltip="<strong>What:</strong> Total hours lost to mechanical delays (breakdowns, planned maintenance). <strong>Calculation:</strong> <code>sum(Hours)</code> where <code>Reason_Class = Mechanical</code>. <strong>Cost:</strong> Hours × idle_cost_per_hour. <strong>Not addressable</strong> by scheduling.",
             )
         with m2:
             dumper_dt = delay_events[
@@ -211,7 +215,8 @@ def main() -> None:
                 & (delay_events["Reason_Class"] == "Mechanical")
             ]
             n_dumpers = dumper_dt["Equipment_ID"].nunique() if not dumper_dt.empty else 0
-            ui.kpi_card("Dumpers affected", f"{n_dumpers}", "with at least one mechanical event")
+            ui.kpi_card("Dumpers affected", f"{n_dumpers}", "with at least one mechanical event",
+                        tooltip="<strong>What:</strong> Number of unique dumpers with at least one mechanical delay event. <strong>Calculation:</strong> <code>nunique(Equipment_ID)</code> in filtered mechanical delay events. <strong>Use:</strong> Shows how widespread mechanical issues are across the fleet.")
 
         if not dumper_dt.empty:
             worst = (

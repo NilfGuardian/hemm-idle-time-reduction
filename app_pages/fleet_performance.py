@@ -115,12 +115,14 @@ def main() -> None:
 
             dc1, dc2, dc3, dc4 = st.columns(4)
             with dc1:
-                ui.kpi_card("Shifts", str(len(d_shifts)), "in this period")
+                ui.kpi_card("Shifts", str(len(d_shifts)), "in this period",
+                            tooltip="<strong>What:</strong> Number of dumper-shifts for this specific dumper in the filtered period. <strong>Calculation:</strong> Count of rows in the shift master for this <code>Equipment_ID</code> after sidebar filters are applied.")
             with dc2:
                 ui.kpi_card(
                     "Avg idle / shift",
                     f"{d_shifts['Total_Idle_Min'].mean() / 60:.1f} h",
                     f"fleet avg: {shifts['Total_Idle_Min'].mean() / 60:.1f} h",
+                    tooltip="<strong>What:</strong> Mean idle hours per shift for this dumper vs the fleet average. <strong>Calculation:</strong> <code>mean(Total_Idle_Min) / 60</code> for this dumper's shifts. Fleet avg is the same metric across all dumpers. <strong>Use:</strong> Identifies dumpers consistently above fleet idle.",
                 )
             with dc3:
                 worst_idx = d_shifts["Total_Idle_Min"].idxmax()
@@ -128,12 +130,14 @@ def main() -> None:
                     "Worst shift",
                     f"{d_shifts.loc[worst_idx, 'Total_Idle_Min'] / 60:.1f} h",
                     str(d_shifts.loc[worst_idx, "Shift_Date"].date()),
+                    tooltip="<strong>What:</strong> The single shift with the highest idle time for this dumper. <strong>Calculation:</strong> <code>max(Total_Idle_Min) / 60</code> converted to hours, with the corresponding shift date. <strong>Use:</strong> Investigate what happened on this date — breakdown, congestion, or scheduling issue.",
                 )
             with dc4:
                 ui.kpi_card(
                     "Delay events",
                     str(len(d_delays)),
                     f"{d_delays['Delay_Min'].sum() / 60:.0f} h total" if not d_delays.empty else "none",
+                    tooltip="<strong>What:</strong> Count of reason-coded delay events logged against this dumper. <strong>Calculation:</strong> Rows in the <code>delay_events</code> table for this <code>Equipment_ID</code>. Each event has a reason, status code, and duration. <strong>Total hours:</strong> <code>sum(Delay_Min) / 60</code>.",
                 )
 
             st.plotly_chart(charts.dumper_timeline(shifts, selected_dumper), use_container_width=True, theme=None)
@@ -215,20 +219,24 @@ def main() -> None:
                     "Risk-flag AUC", f"{bundle.risk_metrics['auc']:.3f}" if bundle.risk_metrics else "-",
                     f"{bundle.risk_model_name}: will this shift be in the worst third?",
                     tone="good",
+                    tooltip="<strong>What:</strong> Area Under the ROC Curve for the high-idle-risk classifier. <strong>Calculation:</strong> Measures the model's ability to rank truly high-idle shifts above normal ones. <strong>Scale:</strong> 0.5 = random guessing, 1.0 = perfect. <strong>Validation:</strong> Held-out final portion of the data period (chronological split, no shuffling).",
                 )
             with cards[1]:
                 ui.kpi_card(
                     "Risk-flag accuracy",
                     f"{bundle.risk_metrics['accuracy']:.0%}" if bundle.risk_metrics else "-",
                     "on shifts the model never trained on",
+                    tooltip="<strong>What:</strong> Classification accuracy on the held-out test set. <strong>Calculation:</strong> Fraction of shifts correctly classified as high-risk or not. <strong>Target:</strong> The model predicts whether a shift will be in the worst percentile for idle time. <strong>Validation:</strong> Chronological split — trained on earlier shifts, tested on later ones.",
                 )
             with cards[2]:
                 ui.kpi_card("Minutes regressor R²", f"{bundle.metrics['r2']:.2f}",
-                            "exact-minute estimate — deliberately modest, see note below")
+                            "exact-minute estimate — deliberately modest, see note below",
+                            tooltip="<strong>What:</strong> R-squared for the idle-minutes regression model on the test set. <strong>Calculation:</strong> Proportion of variance in <code>Total_Idle_Min</code> explained by the model. <strong>Why modest:</strong> With leaky features (Cycles) removed, most remaining variance is stochastic breakdowns. The classifier is more trustworthy than this regressor.")
             with cards[3]:
                 threshold_h = bundle.risk_threshold / 60
                 ui.kpi_card("High-risk threshold", f"{threshold_h:.1f} h",
-                            f"idle in a single {config.SHIFT_LENGTH_HOURS:.0f}-hour shift")
+                            f"idle in a single {config.SHIFT_LENGTH_HOURS:.0f}-hour shift",
+                            tooltip="<strong>What:</strong> The idle-hours threshold above which a shift is flagged 'high-risk'. <strong>Calculation:</strong> The <code>HIGH_IDLE_PERCENTILE</code> of training-period <code>Total_Idle_Min</code>, converted to hours. <strong>Use:</strong> Shifts above this threshold are the ones a supervisor should investigate first.")
 
             st.markdown("")
             cycles_corr = float(shifts["Cycles"].corr(shifts["Delay_Min"])) if "Cycles" in shifts.columns and "Delay_Min" in shifts.columns else 0
@@ -513,16 +521,20 @@ def main() -> None:
                 cards = st.columns(4)
                 with cards[0]:
                     ui.kpi_card("Breakdown hours", f"{total_bd_hours:,.0f}",
-                                f"{len(per_dumper)} dumpers with downtime")
+                                f"{len(per_dumper)} dumpers with downtime",
+                                tooltip="<strong>What:</strong> Total hours lost to breakdown/down events across the fleet. <strong>Calculation:</strong> <code>sum(Delay_Min)</code> for all delay events matching 'down' or 'breakdown' in the reason text, converted to hours. <strong>Scope:</strong> Mechanical failures only — not scheduling or congestion.")
                 with cards[1]:
                     ui.kpi_card("Worst dumper", per_dumper.iloc[0]["Equipment_ID"],
-                                f"{per_dumper.iloc[0]['Breakdown_Hours']:,.0f} h down")
+                                f"{per_dumper.iloc[0]['Breakdown_Hours']:,.0f} h down",
+                                tooltip="<strong>What:</strong> The dumper with the highest total breakdown hours. <strong>Calculation:</strong> <code>sum(Delay_Min)</code> grouped by <code>Equipment_ID</code> for down/breakdown events, sorted descending. <strong>Use:</strong> Prioritise maintenance review for this machine.")
                 with cards[2]:
                     ui.kpi_card("Fleet median", f"{median_hours:,.0f} h",
-                                "per dumper over the period")
+                                "per dumper over the period",
+                                tooltip="<strong>What:</strong> Median breakdown hours per dumper. <strong>Calculation:</strong> <code>median(Breakdown_Hours)</code> across all dumpers with at least one down event. <strong>Why median:</strong> Less sensitive to one or two catastrophic failures than the mean.")
                 with cards[3]:
                     ui.kpi_card("Cost of lost availability", format_inr(total_bd_cost),
-                                f"@ ₹{filters.idle_cost_per_hour:,.0f}/h (assumption)")
+                                f"@ ₹{filters.idle_cost_per_hour:,.0f}/h (assumption)",
+                                tooltip="<strong>What:</strong> Rupee value of breakdown hours. <strong>Calculation:</strong> <code>total_bd_hours × idle_cost_per_hour</code>. <strong>Assumption:</strong> Same cost rate as idle time — in reality, breakdowns may cost more (towing, parts, lost production). This is a lower bound.")
 
                 st.markdown("#### Dumpers ranked by breakdown / down hours")
                 st.plotly_chart(

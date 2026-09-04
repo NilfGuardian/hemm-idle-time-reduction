@@ -112,19 +112,24 @@ def main() -> None:
     with cards[0]:
         ui.kpi_card("Idle recovered", f"{format_number(hours_saved)} h",
                     f"{hours_saved / summary.total_idle_hours * 100:.1f}% of current idle",
-                    tone="good")
+                    tone="good",
+                    tooltip="<strong>What:</strong> Hours of idle time recovered by the selected reduction levers. <strong>Calculation:</strong> For each reason: <code>Hours × reduction%</code> set by the sliders above. <strong>Percentage:</strong> Recovered hours divided by total idle hours.")
     with cards[1]:
         ui.kpi_card("Value in period", format_inr(value),
-                    f"{format_inr(value / days)} per day", tone="good")
+                    f"{format_inr(value / days)} per day", tone="good",
+                    tooltip="<strong>What:</strong> Rupee value of recovered idle hours in the selected period. <strong>Calculation:</strong> <code>hours_saved × idle_cost_per_hour</code>. <strong>Per day:</strong> Value divided by number of unique shift dates.")
     with cards[2]:
         ui.kpi_card("Annualised", format_inr(value * 365 / days),
-                    "extrapolated from this period", tone="good")
+                    "extrapolated from this period", tone="good",
+                    tooltip="<strong>What:</strong> Annualised projection of the recovered value. <strong>Calculation:</strong> <code>value × 365 / days</code>. <strong>Assumption:</strong> The selected period is representative of the full year. Seasonal effects (monsoon) may cause variation.")
     with cards[3]:
         ui.kpi_card("Diesel saved", f"{format_number(fuel_saved)} L",
-                    f"{format_inr(fuel_value)} of fuel")
+                    f"{format_inr(fuel_value)} of fuel",
+                    tooltip="<strong>What:</strong> Diesel litres saved from recovered idle hours. <strong>Calculation:</strong> <code>hours_saved × idle_fuel_burn_rate</code> (default 8 L/h). <strong>Value:</strong> Litres × diesel price (default ₹90/L).")
     with cards[4]:
         ui.kpi_card("Extra material", f"{format_number(extra_tonnes)} t",
-                    f"at {summary.tonnes_per_operating_hour:,.0f} t per operating hour")
+                    f"at {summary.tonnes_per_operating_hour:,.0f} t per operating hour",
+                    tooltip="<strong>What:</strong> Additional material that could be moved with recovered hours. <strong>Calculation:</strong> <code>hours_saved × tonnes_per_operating_hour</code>. <strong>Assumption:</strong> Recovered hours are used productively at the current rate.")
 
     st.markdown("")
     st.plotly_chart(

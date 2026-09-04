@@ -324,16 +324,20 @@ def main() -> None:
                 cards = st.columns(4)
                 with cards[0]:
                     ui.kpi_card("Model", bundle.risk_model_name, "best of two candidates",
-                                tone="good")
+                                tone="good",
+                                tooltip="<strong>What:</strong> The chosen classification algorithm. <strong>Selection:</strong> Two candidates compared on AUC; the best is saved. <strong>Target:</strong> Predicts whether a shift will be in the worst percentile for idle time.")
                 with cards[1]:
                     ui.kpi_card("Test AUC", f"{bundle.risk_metrics['auc']:.3f}",
-                                f"held-out final {config.TEST_SIZE:.0%} of the period", tone="good")
+                                f"held-out final {config.TEST_SIZE:.0%} of the period", tone="good",
+                                tooltip="<strong>What:</strong> Area Under the ROC Curve. <strong>Scale:</strong> 0.5 = random, 1.0 = perfect. <strong>Validation:</strong> Chronological split — trained on earlier data, tested on later data.")
                 with cards[2]:
                     ui.kpi_card("Test accuracy", f"{bundle.risk_metrics['accuracy']:.0%}",
-                                f"worst-{config.HIGH_IDLE_PERCENTILE:.0%} flag")
+                                f"worst-{config.HIGH_IDLE_PERCENTILE:.0%} flag",
+                                tooltip="<strong>What:</strong> Fraction of shifts correctly classified as high-risk or not. <strong>Validation:</strong> Held-out test set, chronological split.")
                 with cards[3]:
                     ui.kpi_card("F1 score", f"{bundle.risk_metrics['f1']:.2f}",
-                                "balances precision and recall")
+                                "balances precision and recall",
+                                tooltip="<strong>What:</strong> Harmonic mean of precision and recall. <strong>Scale:</strong> 0–1, higher is better. <strong>Use:</strong> A single number that balances false positives and false negatives.")
 
                 st.dataframe(
                     bundle.risk_leaderboard[["Model", "AUC", "Accuracy", "F1"]],
@@ -362,20 +366,24 @@ def main() -> None:
             st.markdown("#### 2. Idle-minutes regressor — a rough estimate, honestly scored")
             cards = st.columns(4)
             with cards[0]:
-                ui.kpi_card("Chosen model", bundle.model_name, "best of three candidates")
+                ui.kpi_card("Chosen model", bundle.model_name, "best of three candidates",
+                            tooltip="<strong>What:</strong> The chosen regression algorithm. <strong>Selection:</strong> Three candidates compared on R² and MAE; the best is saved. <strong>Target:</strong> Predicts exact idle minutes for a dumper-shift.")
             with cards[1]:
                 # The pooled R2 is flattered by the bimodal split between working and fully
                 # down shifts; the honest number is the working-shifts R2.
                 pooled_r2 = bundle.metrics['r2']
                 working_r2 = bundle.segment_metrics.get("working_shifts", {}).get("r2") if bundle.segment_metrics else None
                 display_r2 = f"{working_r2:.3f}" if working_r2 is not None else f"{pooled_r2:.3f}"
-                ui.kpi_card("Test R²", display_r2, f"held-out final {config.TEST_SIZE:.0%} of the period")
+                ui.kpi_card("Test R²", display_r2, f"held-out final {config.TEST_SIZE:.0%} of the period",
+                            tooltip="<strong>What:</strong> R-squared on the test set. Shows the working-shifts R² when available (the honest number). <strong>Scale:</strong> 0 = no predictive power, 1 = perfect. <strong>Why modest:</strong> Leaky features removed; most variance is stochastic breakdowns.")
             with cards[2]:
                 ui.kpi_card("MAE", f"{bundle.metrics['mae']:.1f} min",
-                            f"on a mean of {shifts['Total_Idle_Min'].mean():.0f} min")
+                            f"on a mean of {shifts['Total_Idle_Min'].mean():.0f} min",
+                            tooltip="<strong>What:</strong> Mean Absolute Error in minutes. <strong>Calculation:</strong> Average absolute difference between predicted and actual idle minutes. <strong>Context:</strong> Compare against the mean to judge if the error is large or small relative to typical idle.")
             with cards[3]:
                 ui.kpi_card("Training rows", format_number(bundle.n_train),
-                            f"{bundle.n_test:,} held out")
+                            f"{bundle.n_test:,} held out",
+                            tooltip="<strong>What:</strong> Number of dumper-shift rows used for training and testing. <strong>Split:</strong> Chronological — earlier rows for training, later rows for testing. No random shuffling.")
 
             st.dataframe(
                 bundle.leaderboard[["Model", "R2", "MAE"]], hide_index=True,
