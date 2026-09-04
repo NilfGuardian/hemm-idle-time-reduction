@@ -456,27 +456,33 @@ def main() -> None:
             )
 
             st.markdown("#### Impact of the shift-spine fix")
+            working = shifts[~shifts["Zero_Cycle_Shift"]] if "Zero_Cycle_Shift" in shifts.columns else shifts
+            n_hidden = len(shifts) - len(working)
+            hidden_idle_h = float(shifts["Total_Idle_Min"].sum() - working["Total_Idle_Min"].sum()) / 60.0
             st.markdown(
-                """
+                f"""
                 The shift master was rebuilt to include dumper-shifts that logged delay
                 events but completed zero cycles (fully-down shifts). This corrected a
-                survivorship bias that had hidden 1,412 shifts and ~10,458 h of downtime.
+                survivorship bias that had hidden {n_hidden:,} shifts and ~{hidden_idle_h:,.0f} h of downtime.
                 """
             )
+            before_idle_h = float(working["Total_Idle_Min"].sum()) / 60.0
+            before_cost = before_idle_h * config.DEFAULT_IDLE_COST_PER_HOUR
+            before_addr_h = float(working.get("Addressable_Delay_Min", pd.Series(dtype=float)).sum()) / 60.0
             kpi_before_after = pd.DataFrame(
                 [
-                    {"Metric": "Dumper-shifts", "Before": "4,960", "After": f"{len(shifts):,}"},
-                    {"Metric": "Total idle hours", "Before": "19,632", "After": f"{summary.total_idle_hours:,.0f}"},
-                    {"Metric": "Idle cost @ ₹5,000/h", "Before": "₹9.82 Cr",
+                    {"Metric": "Dumper-shifts", "Before": f"{len(working):,}", "After": f"{len(shifts):,}"},
+                    {"Metric": "Total idle hours", "Before": f"{before_idle_h:,.0f}", "After": f"{summary.total_idle_hours:,.0f}"},
+                    {"Metric": f"Idle cost @ ₹{config.DEFAULT_IDLE_COST_PER_HOUR:,.0f}/h", "Before": format_inr(before_cost),
                      "After": format_inr(summary.cost)},
-                    {"Metric": "Addressable hours", "Before": "9,362",
+                    {"Metric": "Addressable hours", "Before": f"{before_addr_h:,.0f}",
                      "After": f"{float(reasons[reasons['Addressable']]['Hours'].sum()):,.0f}"},
-                    {"Metric": "Fleet size", "Before": "69", "After": f"{shifts['Equipment_ID'].nunique()}"},
+                    {"Metric": "Fleet size", "Before": f"{working['Equipment_ID'].nunique()}", "After": f"{shifts['Equipment_ID'].nunique()}"},
                 ]
             )
             st.dataframe(kpi_before_after, hide_index=True)
             ui.note(
-                "The opportunity does <b>not</b> grow much — the extra 10,458 h is nearly all "
+                f"The opportunity does <b>not</b> grow much — the extra {hidden_idle_h:,.0f} h is nearly all "
                 "unaddressable <code>Down</code> time. What changes is that the mine can no "
                 "longer under-report how much capacity it never had."
             )

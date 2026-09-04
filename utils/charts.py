@@ -354,8 +354,9 @@ def shovel_starvation_scatter(frame: pd.DataFrame) -> go.Figure:
 
     ``frame`` must have columns ``trucks``, ``shovel_idle_h``, ``Loading_Unit``,
     and ``Run_Hours``.  Each point is one shovel-shift; colour is by shovel.
-    A weak correlation (typically r ≈ −0.08) demonstrates that adding trucks
-    alone does not linearly reduce shovel idle — the chart shows this honestly.
+    The correlation is computed dynamically and shown in the chart title;
+    it is typically weak, demonstrating that adding trucks alone does not
+    linearly reduce shovel idle.
     """
     if frame.empty:
         fig = go.Figure()

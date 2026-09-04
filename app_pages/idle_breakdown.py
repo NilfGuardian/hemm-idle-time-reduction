@@ -322,11 +322,16 @@ def main() -> None:
             measured_mean = idle_events["Idle_Min"].mean()
             cycle_idle = float(shifts["Cycle_Idle_Min"].sum()) / 60.0
             cycle_mean = float(shifts["Cycle_Idle_Min"].sum()) / max(len(shifts), 1)
+            if "Measured_Idle_Min" in shifts.columns:
+                corr = shifts["Measured_Idle_Min"].corr(shifts["Cycle_Idle_Min"])
+                corr_text = f"r={corr:+.2f}"
+            else:
+                corr_text = "weakly"
             st.warning(
                 "**The two idle measures disagree.** Logged stand-still events average "
                 f"{measured_mean:.0f} min per event ({measured:,.0f} h total), while the "
                 f"cycle buckets record {cycle_mean:.0f} min of in-cycle idle per shift "
-                f"({cycle_idle:,.0f} h total). In the shift master they correlate at r=-0.25, "
+                f"({cycle_idle:,.0f} h total). In the shift master they correlate at {corr_text}, "
                 "so they are not two noisy reads of the same physical quantity; treat them "
                 "as independent reports with different definitions."
             )

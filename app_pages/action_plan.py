@@ -96,7 +96,7 @@ def _reason_table(delay_events: pd.DataFrame) -> pd.DataFrame:
     return du.build_reason_master(delay_events)
 
 
-def _lever_card(row: pd.Series, cost_per_hour: float) -> None:
+def _lever_card(row: pd.Series, cost_per_hour: float, days: int = 31) -> None:
     """Render one scenario-specific action card with live numbers."""
     lever = config.IDLE_LEVERS.get(str(row["Reason"]))
     if lever is None:
@@ -119,7 +119,7 @@ def _lever_card(row: pd.Series, cost_per_hour: float) -> None:
                 f"{lever['realistic_reduction']} assumed", delta_color="off",
             )
         st.write(lever["detail"])
-        st.caption(f"Annualised value if sustained: **{format_inr(value * 12)}**")
+        st.caption(f"Annualised value if sustained: **{format_inr(value * 365 / max(days, 1))}**")
         checklist = CHECKLISTS.get(str(row["Reason"]))
         if checklist:
             with st.expander("Implementation checklist"):
@@ -173,7 +173,7 @@ def main() -> None:
         )
     with cards[2]:
         ui.kpi_card(
-            "Annualised value", format_inr(total_value * 12),
+            "Annualised value", format_inr(total_value * 365 / max(int(shifts["Shift_Date"].nunique()), 1)),
             f"{format_inr(total_value)} in the selected period", tone="good",
         )
 
@@ -190,7 +190,7 @@ def main() -> None:
         if addressable.empty:
             st.info("No scheduling-addressable reasons in the current selection.")
         for _, row in addressable.iterrows():
-            _lever_card(row, filters.idle_cost_per_hour)
+            _lever_card(row, filters.idle_cost_per_hour, int(shifts["Shift_Date"].nunique()))
 
     with tab_reliability:
         st.markdown(

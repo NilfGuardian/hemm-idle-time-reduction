@@ -6,6 +6,7 @@ how much time are we losing, what is it costing, and what do we do on Monday.
 from __future__ import annotations
 
 import pandas as pd
+import numpy as np
 import streamlit as st
 
 import config
@@ -105,10 +106,11 @@ def _auto_insights(
             )
 
     if summary.idle_share_of_cycle > 0:
+        mean_cycle = shifts["Cycle_Min"].sum() / shifts["Cycles"].replace(0, np.nan).sum()
         insights.append(
             f"Inside the haul cycle, **{summary.idle_share_of_cycle:.1f}% of cycle time is idle** "
-            f"— dumpers stand still for {summary.idle_share_of_cycle / 100 * 24:.1f} minutes "
-            f"of every 24-minute cycle"
+            f"— dumpers stand still for {summary.idle_share_of_cycle / 100 * mean_cycle:.1f} minutes "
+            f"of every {mean_cycle:.0f}-minute cycle"
         )
 
     if summary.fuel_litres_idle > 0:
@@ -155,22 +157,23 @@ def main() -> None:
     summary = ui.summarise_idle(shifts, filters)
     reasons = _reason_table(reasons_scope)
 
-    if summary.addressable_hours > 0:
-        hero_value = summary.addressable_cost
-        st.markdown(
-            f'<div style="text-align:center; padding:8px 0; margin:4px 0 10px 0;">'
-            f'<div style="font-size:14px; color:{config.TEXT_MUTED}; letter-spacing:2px; '
-            f'text-transform:uppercase;">Addressable savings in this period</div>'
-            f'<div style="font-size:42px; font-weight:700; color:{config.LIME}; '
-            f'font-family:Inter, sans-serif; margin:8px 0;">'
-            f'<span class="counter" data-target="{hero_value:,.0f}" data-decimals="0" '
-            f'data-prefix="&#8377;" data-sign="" data-suffix="">&#8377;0</span></div>'
-            f'<div style="font-size:13px; color:{config.TEXT_MUTED};">'
-            f'{summary.addressable_hours:,.0f} hours recoverable by scheduling changes · '
-            f'annualised: {format_inr(hero_value * 365 / max(summary.days, 1))}'
-            f'</div></div>',
-            unsafe_allow_html=True,
-        )
+    # Debug: show what addressable values are computed
+    st.caption(f"DEBUG: addressable_hours={summary.addressable_hours:.1f}, addressable_cost={summary.addressable_cost:.0f}, Addressable_Delay_Min_sum={shifts.get('Addressable_Delay_Min', pd.Series(dtype=float)).sum():.0f}")
+
+    hero_value = summary.addressable_cost
+    st.markdown(
+        f'<div style="text-align:center; padding:8px 0; margin:4px 0 10px 0;">'
+        f'<div style="font-size:14px; color:{config.TEXT_MUTED}; letter-spacing:2px; '
+        f'text-transform:uppercase;">Addressable savings in this period</div>'
+        f'<div style="font-size:42px; font-weight:700; color:{config.LIME}; '
+        f'font-family:Inter, sans-serif; margin:8px 0;">'
+        f'{format_inr(hero_value)}</div>'
+        f'<div style="font-size:13px; color:{config.TEXT_MUTED};">'
+        f'{summary.addressable_hours:,.0f} hours recoverable by scheduling changes · '
+        f'annualised: {format_inr(hero_value * 365 / max(summary.days, 1))}'
+        f'</div></div>',
+        unsafe_allow_html=True,
+    )
 
     ui.headline_kpis(summary, filters)
 
@@ -219,7 +222,7 @@ def main() -> None:
         recovered = float(actions["Hours recovered"].sum())
         value = float(actions["Value"].sum())
         st.markdown(
-            f"#### Recommended actions — {format_inr(value * 12)} annualised value"
+            f"#### Recommended actions — {format_inr(value * 365 / max(summary.days, 1))} annualised value"
         )
         st.caption(f"{format_number(recovered)} hours recoverable from {len(actions)} scheduling changes")
 

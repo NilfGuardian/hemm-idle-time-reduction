@@ -405,12 +405,13 @@ def main() -> None:
                     )
                     merged["shovel_idle_h"] = merged["Available_Hours"] - merged["Run_Hours"]
                     merged = merged[merged["shovel_idle_h"] >= 0]
+                    corr = merged["trucks"].corr(merged["shovel_idle_h"])
                     st.plotly_chart(
                         charts.shovel_starvation_scatter(merged),
                         use_container_width=True,
             theme=None)
                     ui.note(
-                        "The weak correlation (r ≈ −0.08) shows that <b>adding trucks alone does "
+                        f"The weak correlation (r = {corr:+.2f}) shows that <b>adding trucks alone does "
                         "not linearly reduce shovel idle time</b>. Shovel idle is driven by "
                         "blasting, marching, face preparation and maintenance — not just truck "
                         "availability."
