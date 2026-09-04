@@ -71,6 +71,7 @@ def main() -> None:
     with tab_cycle:
         left, right = st.columns([3, 2], gap="large")
         with left:
+            ui.chart_tooltip("Cycle time breakdown", "<strong>Chart:</strong> Stacked bar showing how each dumper-shift's cycle time is decomposed. <strong>Legends:</strong> Loading, Travel (loaded + empty), Queue (at shovel/dump), Stopped (mid-trip), Spotting. <strong>Calculation:</strong> Each segment is the mean minutes per cycle from the FMS cycle report. <strong>Use:</strong> Identify which time components dominate the haul cycle.")
             st.plotly_chart(charts.cycle_breakdown_bar(shifts), theme=None)
         with right:
             frame = bucket_table(shifts)
@@ -110,14 +111,18 @@ def main() -> None:
     with tab_when:
         top = st.columns(2, gap="large")
         with top[0]:
+            ui.chart_tooltip("Idle by shift number", "<strong>Chart:</strong> Bar chart comparing idle hours across shift numbers (Shift 1, 2, 3). <strong>Calculation:</strong> <code>sum(Total_Idle_Min) / 60</code> grouped by <code>Shift</code> number. <strong>Use:</strong> Shows whether certain shifts consistently have more idle time (e.g. night shift changeover).")
             st.plotly_chart(charts.idle_by_shift(shifts), theme=None)
         with top[1]:
+            ui.chart_tooltip("Idle trend over time", "<strong>Chart:</strong> Line chart of daily idle hours over the selected period. <strong>X-axis:</strong> Date. <strong>Y-axis:</strong> Total idle hours across the fleet. <strong>Use:</strong> Spot trends, spikes (breakdown days), or improvement over time.")
             st.plotly_chart(charts.idle_trend(shifts), theme=None)
 
+        ui.chart_tooltip("Idle heatmap", "<strong>Chart:</strong> Heatmap of idle hours by day × shift number. <strong>X-axis:</strong> Shift number. <strong>Y-axis:</strong> Date. <strong>Colour:</strong> Idle hours (darker = more idle). <strong>Use:</strong> Identify patterns — are certain days or shifts consistently worse?")
         st.plotly_chart(charts.idle_heatmap(shifts), theme=None)
 
         with st.expander("Hour-of-day profile & weekday breakdown"):
             if not hourly.empty:
+                ui.chart_tooltip("Hour-of-day profile", "<strong>Chart:</strong> Bar chart of idle hours by hour of day (0–23). <strong>Calculation:</strong> <code>sum(Idle_Min) / 60</code> grouped by hour from the idle events table. <strong>Use:</strong> Identifies peak idle hours — shift changeovers (06:00, 14:00, 22:00) often stand out.")
                 st.plotly_chart(charts.hour_of_day_profile(hourly), theme=None)
                 peak = (
                     hourly.groupby("Hour")["Idle_Min"].sum().div(60).sort_values(ascending=False)

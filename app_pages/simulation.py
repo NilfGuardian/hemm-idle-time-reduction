@@ -132,6 +132,7 @@ def main() -> None:
                     tooltip="<strong>What:</strong> Additional material that could be moved with recovered hours. <strong>Calculation:</strong> <code>hours_saved × tonnes_per_operating_hour</code>. <strong>Assumption:</strong> Recovered hours are used productively at the current rate.")
 
     st.markdown("")
+    ui.chart_tooltip("Savings waterfall", "<strong>Chart:</strong> Waterfall chart showing how each lever contributes to total savings. <strong>Bars:</strong> Each bar is one reason's recoverable hours. <strong>Calculation:</strong> <code>Hours × reduction%</code> per reason, cascading to a total. <strong>Use:</strong> See which levers give the biggest bang for the buck.")
     st.plotly_chart(
         charts.savings_waterfall(plan.to_dict("records"), summary.total_idle_hours),
         use_container_width=True,

@@ -266,9 +266,11 @@ def main() -> None:
     with st.expander("Trends & hourly profile"):
         trend, profile = st.columns(2, gap="large")
         with trend:
+            ui.chart_tooltip("Idle trend over time", "<strong>Chart:</strong> Line chart of daily idle hours over the selected period. <strong>X-axis:</strong> Date. <strong>Y-axis:</strong> Total idle hours across the fleet. <strong>Use:</strong> Spot trends, spikes (breakdown days), or improvement over time.")
             st.plotly_chart(charts.idle_trend(shifts), theme=None)
         with profile:
             if not hourly.empty:
+                ui.chart_tooltip("Hour-of-day profile", "<strong>Chart:</strong> Bar chart of idle hours by hour of day (0–23). <strong>Calculation:</strong> <code>sum(Idle_Min) / 60</code> grouped by hour from the idle events table. <strong>Use:</strong> Identifies peak idle hours — shift changeovers (06:00, 14:00, 22:00) often stand out.")
                 st.plotly_chart(charts.hour_of_day_profile(hourly), theme=None)
             else:
                 st.info("No hourly idle data in the current selection.")

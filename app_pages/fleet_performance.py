@@ -77,6 +77,7 @@ def main() -> None:
         )
         chart, table = st.columns([2, 3], gap="large")
         with chart:
+            ui.chart_tooltip("Equipment ranking", "<strong>Chart:</strong> Horizontal bar ranking dumpers by the selected idle metric. <strong>Calculation:</strong> <code>sum(Total_Idle_Min) / 60</code> per <code>Equipment_ID</code>, sorted descending. <strong>Use:</strong> Identify which dumpers contribute most to fleet idle time.")
             st.plotly_chart(
                 charts.equipment_ranking(
                     dumpers.rename(columns={metric: "value"}), "value", metric, top=18
@@ -140,6 +141,7 @@ def main() -> None:
                     tooltip="<strong>What:</strong> Count of reason-coded delay events logged against this dumper. <strong>Calculation:</strong> Rows in the <code>delay_events</code> table for this <code>Equipment_ID</code>. Each event has a reason, status code, and duration. <strong>Total hours:</strong> <code>sum(Delay_Min) / 60</code>.",
                 )
 
+            ui.chart_tooltip("Dumper timeline", "<strong>Chart:</strong> Time-series of idle hours per shift for the selected dumper. <strong>X-axis:</strong> Shift date. <strong>Y-axis:</strong> Idle hours (<code>Total_Idle_Min / 60</code>). <strong>Use:</strong> Spot trends, spikes, or recurring bad shifts for this specific machine.")
             st.plotly_chart(charts.dumper_timeline(shifts, selected_dumper), use_container_width=True, theme=None)
 
             fleet_idle = shifts.groupby("Equipment_ID")["Total_Idle_Min"].sum() / 60
@@ -197,6 +199,7 @@ def main() -> None:
                 st.dataframe(detail[show_cols], hide_index=True, column_config=col_cfg)
             with drill_right:
                 if not d_delays.empty:
+                    ui.chart_tooltip("Dumper delay reasons", "<strong>Chart:</strong> Bar chart of delay reasons for the selected dumper. <strong>Calculation:</strong> <code>sum(Delay_Min) / 60</code> grouped by reason for this <code>Equipment_ID</code>. <strong>Use:</strong> See what specific causes drive this dumper's idle time.")
                     st.plotly_chart(
                         charts.dumper_reason_bar(d_delays, selected_dumper),
                         use_container_width=True,
@@ -256,6 +259,7 @@ def main() -> None:
 
             left, right = st.columns([3, 2], gap="large")
             with left:
+                ui.chart_tooltip("Predicted vs actual scatter", "<strong>Chart:</strong> Scatter of model-predicted idle minutes vs actual idle minutes per shift. <strong>X-axis:</strong> Predicted minutes. <strong>Y-axis:</strong> Actual minutes. <strong>Diagonal:</strong> Perfect prediction line. <strong>Use:</strong> Shows where the model over- or under-predicts. Clusters away from the diagonal reveal systematic biases.")
                 st.plotly_chart(charts.residual_scatter(shifts), theme=None)
                 st.caption(
                     "Exact-minute estimate vs actual. Useful for ranking, not for reading off "
@@ -266,6 +270,7 @@ def main() -> None:
                     bundle.risk_importances if bundle.risk_importances is not None
                     else bundle.importances
                 )
+                ui.chart_tooltip("Feature importance", "<strong>Chart:</strong> Bar chart of model feature importances. <strong>Calculation:</strong> How much each feature contributes to the model's predictions (e.g. Gini importance for tree-based models). <strong>Use:</strong> Identifies which variables (haul geometry, congestion, history) drive idle risk predictions.")
                 st.plotly_chart(charts.importance_bar(importances), theme=None)
                 st.caption("What the risk classifier leans on.")
 
@@ -415,6 +420,7 @@ def main() -> None:
                     merged["shovel_idle_h"] = merged["Available_Hours"] - merged["Run_Hours"]
                     merged = merged[merged["shovel_idle_h"] >= 0]
                     corr = merged["trucks"].corr(merged["shovel_idle_h"])
+                    ui.chart_tooltip("Shovel starvation scatter", "<strong>Chart:</strong> Scatter of trucks assigned vs shovel idle hours. <strong>X-axis:</strong> Number of trucks assigned to a shovel. <strong>Y-axis:</strong> Shovel idle hours (available - running). <strong>Correlation:</strong> Negative correlation means more trucks = less shovel idle. <strong>Use:</strong> Find shovels that are under-resourced.")
                     st.plotly_chart(
                         charts.shovel_starvation_scatter(merged),
                         use_container_width=True,
@@ -537,6 +543,7 @@ def main() -> None:
                                 tooltip="<strong>What:</strong> Rupee value of breakdown hours. <strong>Calculation:</strong> <code>total_bd_hours × idle_cost_per_hour</code>. <strong>Assumption:</strong> Same cost rate as idle time — in reality, breakdowns may cost more (towing, parts, lost production). This is a lower bound.")
 
                 st.markdown("#### Dumpers ranked by breakdown / down hours")
+                ui.chart_tooltip("Breakdown ranking", "<strong>Chart:</strong> Horizontal bar ranking dumpers by total breakdown hours. <strong>Calculation:</strong> <code>sum(Delay_Min) / 60</code> for down/breakdown events per <code>Equipment_ID</code>. <strong>Line:</strong> Fleet median for context. <strong>Use:</strong> Prioritise maintenance for dumpers above the median.")
                 st.plotly_chart(
                     charts.breakdown_ranking(per_dumper, median_hours),
                     use_container_width=True,

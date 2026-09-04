@@ -82,8 +82,10 @@ def main() -> None:
     with tab_pareto:
         left, right = st.columns([3, 2], gap="large")
         with left:
+            ui.chart_tooltip("Reason Pareto", "<strong>Chart:</strong> Pareto chart of delay reasons ranked by hours. <strong>Bars:</strong> Hours per reason (descending). <strong>Line:</strong> Cumulative percentage. <strong>Calculation:</strong> <code>sum(Delay_Min) / 60</code> grouped by reason. <strong>Use:</strong> The first 2–3 reasons typically account for 80% of delay — focus interventions there.")
             st.plotly_chart(charts.reason_pareto(reasons), theme=None)
         with right:
+            ui.chart_tooltip("Reason class donut", "<strong>Chart:</strong> Donut chart showing the share of delay hours by reason class. <strong>Legends:</strong> Organisational (scheduling, breaks, queue), Mechanical (breakdowns, maintenance), Operational (dispatch, routing). <strong>Calculation:</strong> <code>sum(Hours)</code> grouped by <code>Reason_Class</code>, shown as percentage of total.")
             st.plotly_chart(charts.reason_class_donut(reasons), theme=None)
 
         st.markdown("#### Full reason table")
@@ -137,6 +139,7 @@ def main() -> None:
                 default=[r for r in choices[:5]],
             )
             if selected:
+                ui.chart_tooltip("Reason hour heatmap", "<strong>Chart:</strong> Heatmap of delay hours by reason × hour of day. <strong>X-axis:</strong> Hour of day. <strong>Y-axis:</strong> Reason. <strong>Colour:</strong> Hours (darker = more). <strong>Use:</strong> Shows when specific reasons peak (e.g. shift change at 14:00, breakdowns in early morning).")
                 st.plotly_chart(
                     charts.reason_hour_heatmap(dumper_delays, selected)
                 )
