@@ -141,22 +141,25 @@
 /* --------------------------------------------------------------------------- */
 /* Reveal / scroll animations (Layer 1)                                       */
 /* --------------------------------------------------------------------------- */
-.reveal {
+/* Only hide elements when JS has signalled it will animate them.             */
+/* This prevents cards from being invisible if boot() doesn't re-run on       */
+/* Streamlit page navigation.                                                 */
+.js-reveal-active .reveal {
     opacity: 0;
     will-change: opacity;
     transition:
         opacity 0.5s ease;
 }
 
-.reveal.visible {
+.js-reveal-active .reveal.visible {
     opacity: 1;
 }
 
 /* reveal-left and reveal-right kept as class names for JS compatibility */
 
-/* reveal-scale kept as class name for JS compatibility */
+/* reveal-scale kept as class names for JS compatibility */
 
-.reveal.reveal-scale.visible {
+.js-reveal-active .reveal.reveal-scale.visible {
     opacity: 1;
     box-shadow: 0 0 20px rgba(200, 230, 0, 0.05);
 }

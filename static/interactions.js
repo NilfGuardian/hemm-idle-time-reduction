@@ -120,6 +120,7 @@
     // Boot
     // ----------------------------------------------------------------------- //
     function boot() {
+        doc.body.classList.add('js-reveal-active');
         bindScrollReveals();
         playPageEntrance();
     }
@@ -129,4 +130,9 @@
     } else {
         topWin.setTimeout(boot, 300);
     }
+
+    // Re-run on Streamlit page navigation (multipage app doesn't reload the iframe)
+    topWin.addEventListener('streamlit:hashChanged', function () {
+        topWin.setTimeout(boot, 300);
+    });
 })();
