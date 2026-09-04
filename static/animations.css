@@ -141,17 +141,15 @@
 /* --------------------------------------------------------------------------- */
 /* Reveal / scroll animations (Layer 1)                                       */
 /* --------------------------------------------------------------------------- */
-/* Only hide elements when JS has signalled it will animate them.             */
-/* This prevents cards from being invisible if boot() doesn't re-run on       */
-/* Streamlit page navigation.                                                 */
-.js-reveal-active .reveal {
-    opacity: 0;
-    will-change: opacity;
-    transition:
-        opacity 0.5s ease;
+/* Cards are always visible. The reveal animation is a subtle transition      */
+/* only — we never hide content because Streamlit's dynamic DOM doesn't       */
+/* reliably re-trigger the JS observer on page navigation.                    */
+.reveal {
+    opacity: 1;
+    transition: opacity 0.5s ease;
 }
 
-.js-reveal-active .reveal.visible {
+.reveal.visible {
     opacity: 1;
 }
 
@@ -159,14 +157,14 @@
 
 /* reveal-scale kept as class names for JS compatibility */
 
-.js-reveal-active .reveal.reveal-scale.visible {
+.reveal.reveal-scale.visible {
     opacity: 1;
     box-shadow: 0 0 20px rgba(200, 230, 0, 0.05);
 }
 
 /* Legacy class kept for compatibility */
 .animate-on-scroll {
-    opacity: 0;
+    opacity: 1;
     will-change: transform, opacity;
     transition:
         opacity 0.75s cubic-bezier(0.23, 1, 0.32, 1),
