@@ -168,30 +168,41 @@
     }
 
     function bindTooltips() {
-        // Handle chart tooltip anchors: transfer data-tooltip to the next sibling
-        // Plotly chart or dataframe container.
-        doc.querySelectorAll('.hemm-chart-tooltip-anchor').forEach(function (anchor) {
+        // Handle chart tooltip anchors: transfer data-tooltip to the nearest
+        // chart/dataframe element that follows the anchor in document order.
+        // Streamlit wraps st.markdown and st.plotly_chart in separate block
+        // containers, so they are NOT direct siblings — we must search broadly.
+        var anchors = doc.querySelectorAll('.hemm-chart-tooltip-anchor');
+        var allCharts = doc.querySelectorAll('[data-testid="stPlotlyChart"], .stDataFrame, [data-testid="stDataFrame"]');
+
+        anchors.forEach(function (anchor) {
             if (anchor.dataset.tooltipBound === 'true') return;
             anchor.dataset.tooltipBound = 'true';
-            // Find the next sibling that is a chart/dataframe container
-            var sibling = anchor.nextElementSibling;
-            var attempts = 0;
-            while (sibling && attempts < 5) {
-                var chartEl = sibling.querySelector('[data-testid="stPlotlyChart"], .stDataFrame, .stDataFrame-container');
-                if (chartEl) {
-                    var tooltip = anchor.getAttribute('data-tooltip');
-                    var title = anchor.getAttribute('data-tooltip-title');
-                    if (tooltip) {
-                        chartEl.setAttribute('data-tooltip', tooltip);
-                        chartEl.setAttribute('data-tooltip-title', title || '');
+
+            var tooltip = anchor.getAttribute('data-tooltip');
+            var title = anchor.getAttribute('data-tooltip-title');
+            if (!tooltip) return;
+
+            // Find the first chart element whose position in the DOM comes
+            // after this anchor (using compareDocumentPosition).
+            for (var i = 0; i < allCharts.length; i++) {
+                var chart = allCharts[i];
+                if (anchor.compareDocumentPosition(chart) & Node.DOCUMENT_POSITION_FOLLOWING) {
+                    chart.setAttribute('data-tooltip', tooltip);
+                    chart.setAttribute('data-tooltip-title', title || '');
+                    // Also set on the chart's closest Streamlit block container
+                    // so hover works even if the inner chart captures events.
+                    var block = chart.closest('[data-testid="stVerticalBlock"], [data-testid="stHorizontalBlock"], .stBlock, .element-container');
+                    if (block && !block.getAttribute('data-tooltip')) {
+                        block.setAttribute('data-tooltip', tooltip);
+                        block.setAttribute('data-tooltip-title', title || '');
                     }
                     break;
                 }
-                sibling = sibling.nextElementSibling;
-                attempts++;
             }
         });
 
+        // Bind hover events to all elements with data-tooltip (cards + charts)
         var targets = doc.querySelectorAll('[data-tooltip]');
         targets.forEach(function (el) {
             if (el.dataset.tooltipBound === 'true') return;
@@ -224,6 +235,9 @@
         bindScrollReveals();
         bindTooltips();
         playPageEntrance();
+        // Re-bind tooltips after 1.5s — Plotly charts render asynchronously
+        // and may not exist in the DOM when boot() runs.
+        topWin.setTimeout(bindTooltips, 1500);
     }
 
     if (doc.readyState === 'loading') {
@@ -252,7 +266,10 @@
                 watchForNewContent._t = topWin.setTimeout(function () {
                     bindScrollReveals();
                     bindTooltips();
-                }, 200);
+                    // Re-bind tooltips again after 1s — Plotly charts render
+                    // asynchronously and may not be in the DOM at 400ms.
+                    topWin.setTimeout(bindTooltips, 1000);
+                }, 400);
             }
         });
         mo.observe(main, { childList: true, subtree: true });
